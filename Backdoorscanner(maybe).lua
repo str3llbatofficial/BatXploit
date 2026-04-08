@@ -2,7 +2,7 @@
 --██▄▄██ ██▀██  ██    ████  ██▄█▀ ██    ██▀██ ██   ██     ██     ██▀██ ██▀██ ██▀██ ██▄▄  ██▀██  ██   ██▄▄   ███▄██   ██ ██▀██ ▀███▀ ▀  ██ 
 --██▄▄█▀ ██▀██  ██   ██  ██ ██    ██▄▄▄ ▀███▀ ██   ██     ██████ ▀███▀ ██▀██ ████▀ ██▄▄▄ ████▀  ▄▄   ██▄▄▄▄ ██ ▀██ ▄▄█▀ ▀███▀   █   ▄ ▄█▀ 
 
-print("BatXploit AGGRESSIVE Backdoor Scanner v4.0 - FIXED")
+print("BatXploit AGGRESSIVE Backdoor Scanner v5.0 - FORCED PANEL")
 
 -- Создаём GUI
 local screenGui = Instance.new("ScreenGui")
@@ -75,7 +75,6 @@ resultLayout.Padding = UDim.new(0, 5)
 resultLayout.Parent = resultFrame
 
 local foundBackdoors = {}
-local totalTests = 0
 
 local function addResult(text, color, bold)
     local label = Instance.new("TextLabel")
@@ -121,10 +120,7 @@ local function aggressiveRemoteTest(remote, remotePath)
                 remote:InvokeServer(payload)
             end
         end)
-
-        if success then
-            successCount = successCount + 1
-        end
+        if success then successCount = successCount + 1 end
         task.wait()
     end
 
@@ -144,32 +140,23 @@ local function aggressiveScriptAnalysis(script, scriptPath)
     local dangerousPatterns = {
         "loadstring", "getfenv", "setfenv", "getrenv", "shared", "_G",
         "pcall", "spawn", "delay", "task.spawn", "coroutine.wrap",
-        "require", "getgenv", "getsenv", "getfenv", "setfenv",
-        "getnil", "getrawmetatable", "setrawmetatable", "getgc",
-        "getconnections", "fireclickdetector", "queue_on_teleport"
+        "require", "getgenv", "getsenv", "getnil", "getrawmetatable", 
+        "setrawmetatable", "getgc", "getconnections", "fireclickdetector"
     }
-
     local source = ""
-    local success = pcall(function()
-        if getscriptbytecode then
-            source = getscriptbytecode(script)
-        elseif getscriptclosure then
-            source = tostring(getscriptclosure(script))
-        end
+    pcall(function()
+        if getscriptbytecode then source = getscriptbytecode(script)
+        elseif getscriptclosure then source = tostring(getscriptclosure(script)) end
     end)
-
-    if not success then return false end
-
-    local found = false
+    if source == "" then return false end
     source = tostring(source):lower()
-
+    local found = false
     for _, pattern in ipairs(dangerousPatterns) do
         if source:find(pattern:lower()) then
             addResult("🔴 DANGEROUS PATTERN FOUND: '" .. pattern .. "' in " .. scriptPath, Color3.fromRGB(255, 50, 50), false)
             found = true
         end
     end
-
     return found
 end
 
@@ -179,7 +166,6 @@ local function createControlPanel()
         return
     end
     
-    -- Удаляем старую панель, если есть
     local oldPanel = mainFrame:FindFirstChild("ControlPanel")
     if oldPanel then oldPanel:Destroy() end
     
@@ -240,7 +226,6 @@ end
 
 local function scanAllRemotes()
     foundBackdoors = {}
-    totalTests = 0
     addResult("🔥🔥🔥 STARTING AGGRESSIVE BACKDOOR SCAN 🔥🔥🔥", Color3.fromRGB(255, 0, 0), true)
 
     local allRemotes = {}
@@ -253,11 +238,9 @@ local function scanAllRemotes()
     addResult("📡 Found " .. #allRemotes .. " remotes to scan", Color3.fromRGB(255, 255, 0), false)
 
     for i, remote in ipairs(allRemotes) do
-        totalTests = totalTests + 1
         statusLabel.Text = "🔥 SCANNING REMOTE " .. i .. "/" .. #allRemotes .. " 🔥"
         local remotePath = remote:GetFullName()
 
-        -- Анализируем связанные скрипты
         local parent = remote.Parent
         if parent then
             for _, script in ipairs(parent:GetDescendants()) do
@@ -267,16 +250,14 @@ local function scanAllRemotes()
             end
         end
 
-        -- Агрессивный тест
         aggressiveRemoteTest(remote, remotePath)
-
         task.wait()
     end
 
     statusLabel.Text = "🔥 SCAN COMPLETE! Found " .. #foundBackdoors .. " BACKDOORS 🔥"
     addResult("🔥🔥🔥 SCAN COMPLETED! Found " .. #foundBackdoors .. " BACKDOORS 🔥🔥🔥", Color3.fromRGB(0, 255, 0), true)
     
-    -- СОЗДАЁМ ПАНЕЛЬ УПРАВЛЕНИЯ АВТОМАТИЧЕСКИ
+    -- ПРИНУДИТЕЛЬНОЕ СОЗДАНИЕ ПАНЕЛИ (даже если foundBackdoors пустой, покажет сообщение)
     createControlPanel()
 end
 
@@ -292,6 +273,6 @@ end)
 
 game:GetService("StarterGui"):SetCore("SendNotification", {
     Title = "BatXploit",
-    Text = "🔥 AGGRESSIVE SCANNER v4.0 LOADED 🔥",
+    Text = "🔥 SCANNER v5.0 LOADED - PANEL WILL APPEAR AFTER SCAN 🔥",
     Duration = 4
 })
