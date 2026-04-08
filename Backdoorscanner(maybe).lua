@@ -93,16 +93,13 @@ end
 
 -- Мягкий тест (просто проверяем, можно ли отправить хоть что-то)
 local function gentleRemoteTest(remote, remotePath)
+    task.wait(0.2)
     local safePayloads = {
         "ping",
         "test",
         "BatXploit",
         "hello",
         "check",
-        "1",
-        "true",
-        "{}",
-        "nil"
     }
     
     local successCount = 0
