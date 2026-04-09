@@ -1,192 +1,311 @@
---[[ NYX BACKDOOR SCANNER - ULTRA STABLE FIX ]]
+--[=[
+ d888b  db    db d888888b      .d888b.      db      db    db  .d8b.  
+88' Y8b 88    88   `88'        VP  `8D      88      88    88 d8' `8b 
+88      88    88    88            odD'      88      88    88 88ooo88 
+88  ooo 88    88    88          .88'        88      88    88 88~~~88 
+88. ~8~ 88b  d88   .88.        j88.         88booo. 88b  d88 88   88 
+ Y888P  ~Y8888P' Y888888P      888888D      Y88888P ~Y8888P' YP   YP  SCANNER
+]=]
 
+-- Can be unstable, Be careful!
+-- Instances
+local G2L = {}
 local player = game.Players.LocalPlayer
-local gui = Instance.new("ScreenGui")
-gui.Name = "NyxScanner"
-gui.Parent = player.PlayerGui
-gui.ResetOnSpawn = false  -- <-- ВОТ ЭТО ВАЖНО
 
--- Простое окно
-local main = Instance.new("Frame")
-main.Size = UDim2.new(0, 500, 0, 350)
-main.Position = UDim2.new(0.5, -250, 0.5, -175)
-main.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-main.BorderSizePixel = 0
-main.Parent = gui
+-- ScreenGui
+G2L["1"] = Instance.new("ScreenGui", player:WaitForChild("PlayerGui"))
+G2L["1"]["Name"] = "NYX Scanner"
+G2L["1"]["ZIndexBehavior"] = Enum.ZIndexBehavior.Sibling
+G2L["1"]["ResetOnSpawn"] = false
 
--- Заголовок
-local titleBar = Instance.new("Frame")
-titleBar.Size = UDim2.new(1, 0, 0, 30)
-titleBar.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-titleBar.BorderSizePixel = 0
-titleBar.Parent = main
+-- Frame
+G2L["2"] = Instance.new("Frame", G2L["1"])
+G2L["2"]["BackgroundColor3"] = Color3.fromRGB(0, 0, 0)
+G2L["2"]["Size"] = UDim2.new(0, 482, 0, 276)
+G2L["2"]["Position"] = UDim2.new(0.273, 0, 0.302, 0)
 
-local title = Instance.new("TextLabel")
-title.Size = UDim2.new(1, -60, 1, 0)
-title.Position = UDim2.new(0, 10, 0, 0)
-title.BackgroundTransparency = 1
-title.Text = "NYX BACKDOOR SCANNER FE BypAssER"
-title.TextColor3 = Color3.fromRGB(255, 255, 255)
-title.Font = Enum.Font.Code
-title.TextSize = 14
-title.TextXAlignment = Enum.TextXAlignment.Left
-title.Parent = titleBar
+-- UIStroke
+G2L["3"] = Instance.new("UIStroke", G2L["2"])
+G2L["3"]["Color"] = Color3.fromRGB(255, 255, 255)
+G2L["3"]["Thickness"] = 2
 
-local close = Instance.new("TextButton")
-close.Size = UDim2.new(0, 30, 0, 30)
-close.Position = UDim2.new(1, -30, 0, 0)
-close.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
-close.BorderSizePixel = 0
-close.Text = "X"
-close.TextColor3 = Color3.fromRGB(255, 255, 255)
-close.Font = Enum.Font.Code
-close.TextSize = 16
-close.Parent = titleBar
-close.MouseButton1Click:Connect(function() gui:Destroy() end)
+-- UIGradient для Stroke
+G2L["4"] = Instance.new("UIGradient", G2L["3"])
+G2L["4"]["Rotation"] = 50
+G2L["4"]["Color"] = ColorSequence.new{
+    ColorSequenceKeypoint.new(0.000, Color3.fromRGB(0, 255, 0)),
+    ColorSequenceKeypoint.new(1.000, Color3.fromRGB(0, 255, 200))
+}
 
--- Поле ввода
-local box = Instance.new("TextBox")
-box.Size = UDim2.new(1, -20, 0, 200)
-box.Position = UDim2.new(0, 10, 0, 40)
-box.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-box.BorderColor3 = Color3.fromRGB(0, 255, 0)
-box.BorderSizePixel = 1
-box.Text = "-- Paste ur script here"
-box.TextColor3 = Color3.fromRGB(200, 200, 200)
-box.Font = Enum.Font.Code
-box.TextSize = 14
-box.TextXAlignment = Enum.TextXAlignment.Left
-box.TextYAlignment = Enum.TextYAlignment.Top
-box.ClearTextOnFocus = true
-box.MultiLine = true
-box.Parent = main
+-- UICorner
+G2L["5"] = Instance.new("UICorner", G2L["2"])
+G2L["5"]["CornerRadius"] = UDim.new(0, 8)
 
--- Кнопки
-local scan = Instance.new("TextButton")
-scan.Size = UDim2.new(0, 100, 0, 30)
-scan.Position = UDim2.new(0, 10, 0, 250)
-scan.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-scan.BorderColor3 = Color3.fromRGB(0, 255, 0)
-scan.BorderSizePixel = 1
-scan.Text = "Scan"
-scan.TextColor3 = Color3.fromRGB(0, 255, 0)
-scan.Font = Enum.Font.Code
-scan.TextSize = 14
-scan.Parent = main
+-- Executor Folder
+G2L["6"] = Instance.new("Folder", G2L["2"])
+G2L["6"]["Name"] = "Executor"
 
-local exec = Instance.new("TextButton")
-exec.Size = UDim2.new(0, 100, 0, 30)
-exec.Position = UDim2.new(0, 120, 0, 250)
-exec.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-exec.BorderColor3 = Color3.fromRGB(0, 255, 0)
-exec.BorderSizePixel = 1
-exec.Text = "Execute"
-exec.TextColor3 = Color3.fromRGB(0, 255, 0)
-exec.Font = Enum.Font.Code
-exec.TextSize = 14
-exec.Parent = main
+-- Execute Frame
+G2L["7"] = Instance.new("Frame", G2L["6"])
+G2L["7"]["BackgroundColor3"] = Color3.fromRGB(0, 0, 0)
+G2L["7"]["BackgroundTransparency"] = 1
+G2L["7"]["Size"] = UDim2.new(0, 290, 0, 28)
+G2L["7"]["Position"] = UDim2.new(0.022, 0, 0.871, 0)
+G2L["7"]["Name"] = "Execute"
 
-local clear = Instance.new("TextButton")
-clear.Size = UDim2.new(0, 100, 0, 30)
-clear.Position = UDim2.new(0, 230, 0, 250)
-clear.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-clear.BorderColor3 = Color3.fromRGB(0, 255, 0)
-clear.BorderSizePixel = 1
-clear.Text = "Clear"
-clear.TextColor3 = Color3.fromRGB(0, 255, 0)
-clear.Font = Enum.Font.Code
-clear.TextSize = 14
-clear.Parent = main
+-- Execute Button
+G2L["8"] = Instance.new("TextButton", G2L["7"])
+G2L["8"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255)
+G2L["8"]["TextSize"] = 22
+G2L["8"]["FontFace"] = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Bold, Enum.FontStyle.Normal)
+G2L["8"]["TextColor3"] = Color3.fromRGB(0, 255, 0)
+G2L["8"]["Size"] = UDim2.new(1, 0, 1, 0)
+G2L["8"]["Name"] = "Button"
+G2L["8"]["Text"] = "Execute"
+G2L["8"]["BackgroundTransparency"] = 1
 
-local result = Instance.new("TextLabel")
-result.Size = UDim2.new(1, -20, 0, 30)
-result.Position = UDim2.new(0, 10, 0, 290)
-result.BackgroundTransparency = 1
-result.Text = ""
-result.TextColor3 = Color3.fromRGB(0, 255, 0)
-result.Font = Enum.Font.Code
-result.TextSize = 12
-result.TextXAlignment = Enum.TextXAlignment.Left
-result.Parent = main
+-- Execute UICorner
+G2L["9"] = Instance.new("UICorner", G2L["7"])
+G2L["9"]["CornerRadius"] = UDim.new(0, 6)
 
--- Сканнер
-local function scanBackdoors()
-    local found = {}
-    local kw = {"admin", "backdoor", "exploit", "bypass", "remote", "fire", "exec", "cmd", "c00l", "nyx", "fe", "skid", "hd", "rage", "kill", "ban", "kick", "tp", "teleport", "god", "esp"}
+-- Execute UIStroke
+G2L["a"] = Instance.new("UIStroke", G2L["7"])
+G2L["a"]["Color"] = Color3.fromRGB(0, 255, 0)
+G2L["a"]["Thickness"] = 1.5
+
+-- Clear Frame
+G2L["b"] = Instance.new("Frame", G2L["6"])
+G2L["b"]["BackgroundColor3"] = Color3.fromRGB(0, 0, 0)
+G2L["b"]["BackgroundTransparency"] = 1
+G2L["b"]["Size"] = UDim2.new(0, 162, 0, 28)
+G2L["b"]["Position"] = UDim2.new(0.64, 0, 0.871, 0)
+G2L["b"]["Name"] = "Clear"
+
+-- Clear Button
+G2L["c"] = Instance.new("TextButton", G2L["b"])
+G2L["c"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255)
+G2L["c"]["TextSize"] = 22
+G2L["c"]["FontFace"] = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Bold, Enum.FontStyle.Normal)
+G2L["c"]["TextColor3"] = Color3.fromRGB(255, 100, 100)
+G2L["c"]["Size"] = UDim2.new(1, 0, 1, 0)
+G2L["c"]["Name"] = "Button"
+G2L["c"]["Text"] = "Clear"
+G2L["c"]["BackgroundTransparency"] = 1
+
+-- Clear UICorner
+G2L["d"] = Instance.new("UICorner", G2L["b"])
+G2L["d"]["CornerRadius"] = UDim.new(0, 6)
+
+-- Clear UIStroke
+G2L["e"] = Instance.new("UIStroke", G2L["b"])
+G2L["e"]["Color"] = Color3.fromRGB(255, 100, 100)
+G2L["e"]["Thickness"] = 1.5
+
+-- ExecutorBox Frame
+G2L["f"] = Instance.new("Frame", G2L["6"])
+G2L["f"]["BackgroundColor3"] = Color3.fromRGB(22, 22, 22)
+G2L["f"]["Size"] = UDim2.new(0, 462, 0, 163)
+G2L["f"]["Position"] = UDim2.new(0.02, 0, 0.243, 0)
+G2L["f"]["Name"] = "ExecutorBox"
+
+-- ExecutorBox UICorner
+G2L["10"] = Instance.new("UICorner", G2L["f"])
+G2L["10"]["CornerRadius"] = UDim.new(0, 6)
+
+-- TextBox
+G2L["11"] = Instance.new("TextBox", G2L["f"])
+G2L["11"]["TextSize"] = 14
+G2L["11"]["TextXAlignment"] = Enum.TextXAlignment.Left
+G2L["11"]["TextWrapped"] = true
+G2L["11"]["TextYAlignment"] = Enum.TextYAlignment.Top
+G2L["11"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255)
+G2L["11"]["TextColor3"] = Color3.fromRGB(198, 119, 88)
+G2L["11"]["FontFace"] = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Bold, Enum.FontStyle.Normal)
+G2L["11"]["MultiLine"] = true
+G2L["11"]["BackgroundTransparency"] = 1
+G2L["11"]["PlaceholderText"] = "-- Paste ur script here"
+G2L["11"]["Size"] = UDim2.new(0, 448, 0, 150)
+G2L["11"]["Text"] = ""
+G2L["11"]["Position"] = UDim2.new(0.016, 0, 0.042, 0)
+G2L["11"]["ClearTextOnFocus"] = false
+
+-- Scanner Frame (показывается до сканирования)
+G2L["16"] = Instance.new("Frame", G2L["2"])
+G2L["16"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255)
+G2L["16"]["BackgroundTransparency"] = 1
+G2L["16"]["Size"] = UDim2.new(0, 370, 0, 107)
+G2L["16"]["Position"] = UDim2.new(0.117, 0, 0.305, 0)
+G2L["16"]["Visible"] = true
+G2L["16"]["Name"] = "Scanner"
+
+-- Scanner UIStroke
+G2L["17"] = Instance.new("UIStroke", G2L["16"])
+G2L["17"]["Color"] = Color3.fromRGB(255, 255, 255)
+G2L["17"]["Thickness"] = 2
+
+-- Scanner UIGradient
+G2L["18"] = Instance.new("UIGradient", G2L["17"])
+G2L["18"]["Rotation"] = 50
+G2L["18"]["Color"] = ColorSequence.new{
+    ColorSequenceKeypoint.new(0.000, Color3.fromRGB(0, 255, 0)),
+    ColorSequenceKeypoint.new(1.000, Color3.fromRGB(0, 255, 200))
+}
+
+-- Scanner UICorner
+G2L["19"] = Instance.new("UICorner", G2L["16"])
+G2L["19"]["CornerRadius"] = UDim.new(0, 8)
+
+-- Scanner Button
+G2L["1a"] = Instance.new("TextButton", G2L["16"])
+G2L["1a"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255)
+G2L["1a"]["TextSize"] = 43
+G2L["1a"]["FontFace"] = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Bold, Enum.FontStyle.Normal)
+G2L["1a"]["TextColor3"] = Color3.fromRGB(0, 255, 0)
+G2L["1a"]["Size"] = UDim2.new(1, 0, 1, 0)
+G2L["1a"]["Name"] = "Button"
+G2L["1a"]["Text"] = "Start Scanning"
+G2L["1a"]["BackgroundTransparency"] = 1
+
+-- Scanner Button UIGradient
+G2L["1b"] = Instance.new("UIGradient", G2L["1a"])
+G2L["1b"]["Rotation"] = 50
+G2L["1b"]["Color"] = ColorSequence.new{
+    ColorSequenceKeypoint.new(0.000, Color3.fromRGB(0, 255, 0)),
+    ColorSequenceKeypoint.new(1.000, Color3.fromRGB(0, 255, 200))
+}
+
+-- Scanner Button UIStroke
+G2L["1c"] = Instance.new("UIStroke", G2L["1a"])
+G2L["1c"]["Color"] = Color3.fromRGB(0, 255, 0)
+G2L["1c"]["Thickness"] = 1.5
+
+-- Title Label
+G2L["1d"] = Instance.new("TextLabel", G2L["2"])
+G2L["1d"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255)
+G2L["1d"]["FontFace"] = Font.new("rbxassetid://12187365977", Enum.FontWeight.Bold, Enum.FontStyle.Normal)
+G2L["1d"]["TextSize"] = 49
+G2L["1d"]["TextColor3"] = Color3.fromRGB(0, 255, 0)
+G2L["1d"]["Size"] = UDim2.new(0, 460, 0, 50)
+G2L["1d"]["Text"] = "NYX BACKDOOR SCANNER"
+G2L["1d"]["BackgroundTransparency"] = 1
+G2L["1d"]["Position"] = UDim2.new(0.022, 0, 0.025, 0)
+
+-- Title UIStroke
+G2L["1e"] = Instance.new("UIStroke", G2L["1d"])
+G2L["1e"]["Color"] = Color3.fromRGB(255, 255, 255)
+
+-- Title UIGradient
+G2L["1f"] = Instance.new("UIGradient", G2L["1e"])
+G2L["1f"]["Rotation"] = 50
+G2L["1f"]["Color"] = ColorSequence.new{
+    ColorSequenceKeypoint.new(0.000, Color3.fromRGB(0, 255, 0)),
+    ColorSequenceKeypoint.new(1.000, Color3.fromRGB(0, 255, 200))
+}
+
+-- Result Label (под кнопками)
+local ResultLabel = Instance.new("TextLabel", G2L["2"])
+ResultLabel["BackgroundTransparency"] = 1
+ResultLabel["FontFace"] = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Bold, Enum.FontStyle.Normal)
+ResultLabel["TextSize"] = 14
+ResultLabel["TextColor3"] = Color3.fromRGB(0, 255, 0)
+ResultLabel["Size"] = UDim2.new(0, 460, 0, 20)
+ResultLabel["Position"] = UDim2.new(0.022, 0, 0.92, 0)
+ResultLabel["Text"] = ""
+ResultLabel["TextXAlignment"] = Enum.TextXAlignment.Center
+
+-- Переменные
+local GUI = G2L["2"]
+local backdoor = nil
+local searching = false
+
+-- Функция для уведомления
+local function notify(text)
+    pcall(function()
+        game:GetService("StarterGui"):SetCore("SendNotification", {
+            Title = "NYX Scanner",
+            Duration = 4,
+            Text = text
+        })
+    end)
+end
+
+-- Функция для чёрной полосы сверху
+local function createTopNotification(text)
+    local NotifyGui = Instance.new("ScreenGui")
+    NotifyGui.Name = "NyxTopNotify"
+    NotifyGui.Parent = player:WaitForChild("PlayerGui")
+    NotifyGui.ResetOnSpawn = false
     
-    for _, v in ipairs(game:GetDescendants()) do
-        if v:IsA("RemoteEvent") or v:IsA("RemoteFunction") then
-            local n = v.Name:lower()
-            local pn = v.Parent and v.Parent.Name:lower() or ""
-            for _, k in ipairs(kw) do
-                if n:find(k) or pn:find(k) then
-                    table.insert(found, {Name = v.Name, Path = v:GetFullName(), Type = v.ClassName})
+    local Bar = Instance.new("Frame")
+    Bar.Size = UDim2.new(1, 0, 0, 25)
+    Bar.Position = UDim2.new(0, 0, 0, 0)
+    Bar.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+    Bar.BorderSizePixel = 0
+    Bar.Parent = NotifyGui
+    
+    local Label = Instance.new("TextLabel")
+    Label.Size = UDim2.new(1, 0, 1, 0)
+    Label.BackgroundTransparency = 1
+    Label.Text = text
+    Label.TextColor3 = Color3.fromRGB(0, 255, 0)
+    Label.Font = Enum.Font.Code
+    Label.TextSize = 16
+    Label.Parent = Bar
+    
+    task.wait(4)
+    NotifyGui:Destroy()
+end
+
+-- Функция сканирования бэкдоров
+local function scanForBackdoors()
+    local found = {}
+    local keywords = {
+        "admin", "backdoor", "exploit", "bypass", "remote", 
+        "fire", "exec", "cmd", "console", "script", "inject",
+        "c00l", "nyx", "fe", "skid", "sploit", "hd", "rage",
+        "kill", "ban", "kick", "tp", "teleport", "god", "esp"
+    }
+    
+    for _, obj in ipairs(game:GetDescendants()) do
+        if obj:IsA("RemoteEvent") or obj:IsA("RemoteFunction") then
+            local objName = obj.Name:lower()
+            local parentName = obj.Parent and obj.Parent.Name:lower() or ""
+            
+            for _, kw in ipairs(keywords) do
+                if objName:find(kw) or parentName:find(kw) then
+                    table.insert(found, {
+                        Name = obj.Name,
+                        Path = obj:GetFullName(),
+                        Type = obj.ClassName
+                    })
                     break
                 end
             end
-        elseif v:IsA("ModuleScript") then
-            local n = v.Name:lower()
-            if n:find("backdoor") or n:find("admin") or n:find("exploit") then
-                table.insert(found, {Name = v.Name, Path = v:GetFullName(), Type = "ModuleScript"})
+        elseif obj:IsA("ModuleScript") then
+            local name = obj.Name:lower()
+            if name:find("backdoor") or name:find("admin") or name:find("exploit") then
+                table.insert(found, {
+                    Name = obj.Name,
+                    Path = obj:GetFullName(),
+                    Type = "ModuleScript"
+                })
             end
         end
     end
+    
     return found
 end
 
-scan.MouseButton1Click:Connect(function()
-    local bd = scanBackdoors()
-    if #bd > 0 then
-        result.Text = "Found " .. #bd .. " backdoor(s)! Check F9."
-        result.TextColor3 = Color3.fromRGB(0, 255, 0)
-        print("========== NYX SCANNER RESULTS ==========")
-        for i, v in ipairs(bd) do
-            print(i .. ". [" .. v.Type .. "] " .. v.Name .. "\n   Path: " .. v.Path)
-        end
-        print("=========================================")
-    else
-        result.Text = "No backdoors found."
-        result.TextColor3 = Color3.fromRGB(255, 100, 100)
-    end
-end)
-
-exec.MouseButton1Click:Connect(function()
-    local code = box.Text
+-- Функция выполнения скрипта
+local function executeScript(code)
     if code and code ~= "" and code ~= "-- Paste ur script here" then
-        local ok, err = pcall(loadstring(code))
-        if ok then
-            result.Text = "Executed successfully!"
-            result.TextColor3 = Color3.fromRGB(0, 255, 0)
+        local success, err = pcall(loadstring(code))
+        if success then
+            ResultLabel.Text = "Executed successfully!"
+            ResultLabel.TextColor3 = Color3.fromRGB(0, 255, 0)
         else
-            result.Text = "Error: " .. tostring(err)
-            result.TextColor3 = Color3.fromRGB(255, 100, 100)
+            ResultLabel.Text = "Error: " .. tostring(err)
+            ResultLabel.TextColor3 = Color3.fromRGB(255, 100, 100)
         end
     else
-        result.Text = "No script to execute!"
-        result.TextColor3 = Color3.fromRGB(255, 255, 0)
-    end
-end)
-
-clear.MouseButton1Click:Connect(function()
-    box.Text = ""
-    result.Text = ""
-end)
-
--- Перетаскивание (без лишних заморочек)
-local drag, startPos, startMouse
-titleBar.InputBegan:Connect(function(i)
-    if i.UserInputType == Enum.UserInputType.MouseButton1 then
-        drag = true
-        startPos = main.Position
-        startMouse = i.Position
-    end
-end)
-titleBar.InputEnded:Connect(function(i)
-    if i.UserInputType == Enum.UserInputType.MouseButton1 then drag = false end
-end)
-game:GetService("UserInputService").InputChanged:Connect(function(i)
-    if drag and i.UserInputType == Enum.UserInputType.MouseMovement then
-        local d = i.Position - startMouse
-        main.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + d.X, startPos.Y.Scale, startPos.Y.Offset + d.Y)
-    end
-end)
+        ResultLabel.Text = "
