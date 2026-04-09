@@ -67,19 +67,17 @@ result.TextSize = 12
 
 -- Сканер
 scanBtn.MouseButton1Click:Connect(function()
-    local found = 0
+    local found = {}
     for _, v in ipairs(game:GetDescendants()) do
         if v:IsA("RemoteEvent") or v:IsA("RemoteFunction") then
-            local n = v.Name:lower()
-            if n:find("admin") or n:find("backdoor") or n:find("exploit") then
-                found = found + 1
-            end
+            table.insert(found, v:GetFullName())
         end
     end
-    if found > 0 then
-        result.Text = "Found " .. found .. " backdoor(s)! THIS IS ADMIN EVENT, ENJOY!"
+    if #found > 0 then
+        result.Text = "Found " .. #found .. " remotes! Check F9."
+        for i, v in ipairs(found) do print(i .. ". " .. v) end
     else
-        result.Text = "No backdoors found."
+        result.Text = "No remotes found."
     end
 end)
 
