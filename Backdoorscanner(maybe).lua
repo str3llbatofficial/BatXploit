@@ -59,7 +59,7 @@ G2L["8"]["FontFace"] = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum
 G2L["8"]["TextColor3"] = Color3.fromRGB(0, 255, 0)
 G2L["8"]["Size"] = UDim2.new(1, 0, 1, 0)
 G2L["8"]["Name"] = "Button"
-G2L["8"]["Text"] = "Execute"
+G2L["8"]["Text"] = "COPY"
 G2L["8"]["BackgroundTransparency"] = 1
 
 -- Execute UICorner
@@ -87,7 +87,7 @@ G2L["c"]["FontFace"] = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum
 G2L["c"]["TextColor3"] = Color3.fromRGB(255, 100, 100)
 G2L["c"]["Size"] = UDim2.new(1, 0, 1, 0)
 G2L["c"]["Name"] = "Button"
-G2L["c"]["Text"] = "Clear"
+G2L["c"]["Text"] = "CLEAR"
 G2L["c"]["BackgroundTransparency"] = 1
 
 -- Clear UICorner
@@ -114,7 +114,6 @@ G2L["10"]["CornerRadius"] = UDim.new(0, 6)
 G2L["11"] = Instance.new("TextBox", G2L["f"])
 G2L["11"]["TextSize"] = 14
 G2L["11"]["TextXAlignment"] = Enum.TextXAlignment.Left
-G2L["11"]["TextWrapped"] = true
 G2L["11"]["TextYAlignment"] = Enum.TextYAlignment.Top
 G2L["11"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255)
 G2L["11"]["TextColor3"] = Color3.fromRGB(0, 255, 0)
@@ -161,45 +160,19 @@ G2L["1a"]["FontFace"] = Font.new("rbxasset://fonts/families/GothamSSm.json", Enu
 G2L["1a"]["TextColor3"] = Color3.fromRGB(0, 255, 0)
 G2L["1a"]["Size"] = UDim2.new(1, 0, 1, 0)
 G2L["1a"]["Name"] = "Button"
-G2L["1a"]["Text"] = "Start Scanning"
+G2L["1a"]["Text"] = "START SCANNING"
 G2L["1a"]["BackgroundTransparency"] = 1
-
--- Scanner Button UIGradient
-G2L["1b"] = Instance.new("UIGradient", G2L["1a"])
-G2L["1b"]["Rotation"] = 50
-G2L["1b"]["Color"] = ColorSequence.new{
-    ColorSequenceKeypoint.new(0.000, Color3.fromRGB(0, 255, 0)),
-    ColorSequenceKeypoint.new(1.000, Color3.fromRGB(0, 255, 200))
-}
-
--- Scanner Button UIStroke
-G2L["1c"] = Instance.new("UIStroke", G2L["1a"])
-G2L["1c"]["Color"] = Color3.fromRGB(0, 255, 0)
-G2L["1c"]["Thickness"] = 1.5
 
 -- Title Label
 G2L["1d"] = Instance.new("TextLabel", G2L["2"])
 G2L["1d"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255)
 G2L["1d"]["FontFace"] = Font.new("rbxassetid://12187365977", Enum.FontWeight.Bold, Enum.FontStyle.Normal)
-G2L["1d"]["TextSize"] = 36
+G2L["1d"]["TextSize"] = 30
 G2L["1d"]["TextColor3"] = Color3.fromRGB(0, 255, 0)
 G2L["1d"]["Size"] = UDim2.new(0, 460, 0, 50)
 G2L["1d"]["Text"] = "NYX BACKDOOR SCANNER"
 G2L["1d"]["BackgroundTransparency"] = 1
 G2L["1d"]["Position"] = UDim2.new(0.022, 0, 0.025, 0)
-
--- Title UIStroke
-G2L["1e"] = Instance.new("UIStroke", G2L["1d"])
-G2L["1e"]["Color"] = Color3.fromRGB(255, 255, 255)
-G2L["1e"]["Thickness"] = 2
-
--- Title UIGradient
-G2L["1f"] = Instance.new("UIGradient", G2L["1e"])
-G2L["1f"]["Rotation"] = 50
-G2L["1f"]["Color"] = ColorSequence.new{
-    ColorSequenceKeypoint.new(0.000, Color3.fromRGB(0, 255, 0)),
-    ColorSequenceKeypoint.new(1.000, Color3.fromRGB(0, 255, 200))
-}
 
 -- Result Label
 G2L["20"] = Instance.new("TextLabel", G2L["2"])
@@ -212,83 +185,62 @@ G2L["20"]["Position"] = UDim2.new(0.022, 0, 0.92, 0)
 G2L["20"]["Text"] = ""
 G2L["20"]["TextXAlignment"] = Enum.TextXAlignment.Center
 
--- Dragify
-G2L["21"] = Instance.new("LocalScript", G2L["1"])
-G2L["21"]["Name"] = "Dragify"
-
--- Логика
-local GUI = G2L["2"]
-local backdoor = nil
-local searching = false
-
-local function notify(text)
-    pcall(function()
-        game:GetService("StarterGui"):SetCore("SendNotification", {
-            Title = "NYX Scanner",
-            Duration = 4,
-            Text = text
-        })
-    end)
+-- Скрываем Executor при старте
+for _, v in ipairs(G2L["6"]:GetDescendants()) do
+    if v:IsA("Frame") then v.Visible = false end
 end
+
+-- Логика сканера
+local searching = false
 
 local function scanBackdoors()
     local found = {}
-    local kw = {"admin", "backdoor", "exploit", "bypass", "remote", "fire", "exec", "cmd", "c00l", "nyx", "fe", "skid", "hd", "rage", "kill", "ban", "kick", "tp", "teleport", "god", "esp"}
-    
+    local kw = {"admin", "backdoor", "exploit", "bypass", "remote", "fire", "exec", "cmd", "c00l", "nyx", "fe", "skid", "hd"}
     for _, v in ipairs(game:GetDescendants()) do
         if v:IsA("RemoteEvent") or v:IsA("RemoteFunction") then
             local n = v.Name:lower()
-            local pn = v.Parent and v.Parent.Name:lower() or ""
             for _, k in ipairs(kw) do
-                if n:find(k) or pn:find(k) then
-                    table.insert(found, v:GetFullName())
-                    break
-                end
-            end
-        elseif v:IsA("ModuleScript") then
-            local n = v.Name:lower()
-            if n:find("backdoor") or n:find("admin") or n:find("exploit") then
-                table.insert(found, v:GetFullName())
+                if n:find(k) then table.insert(found, v:GetFullName()) break end
             end
         end
     end
     return found
 end
 
-G2L["16"]["Button"].MouseButton1Click:Connect(function()
-    if not searching then
-        searching = true
-        G2L["16"]["Button"].Text = "Scanning..."
-        local bd = scanBackdoors()
-        if #bd > 0 then
-            notify("This is admin event, Enjoy!")
-            G2L["20"].Text = "Found " .. #bd .. " backdoor(s)! Check F9."
-            print("========== THIS IS ADMIN EVENT, ENJOY! ==========")
-            for i, v in ipairs(bd) do print(i .. ". " .. v) end
-            print("=================================================")
-            G2L["16"]["Visible"] = false
-            for _, v in ipairs(G2L["6"]:GetDescendants()) do if v:IsA("Frame") then v.Visible = true end end
-        else
-            G2L["16"]["Button"].Text = "No backdoor :("
-            G2L["20"].Text = "No backdoors found."
+G2L["1a"].MouseButton1Click:Connect(function()
+    if searching then return end
+    searching = true
+    G2L["1a"].Text = "SCANNING..."
+    local bd = scanBackdoors()
+    if #bd > 0 then
+        G2L["20"].Text = "Found " .. #bd .. " backdoor(s)! Check F9."
+        print("========== THIS IS ADMIN EVENT, ENJOY! ==========")
+        for i, v in ipairs(bd) do print(i .. ". " .. v) end
+        print("=================================================")
+        G2L["16"].Visible = false
+        for _, v in ipairs(G2L["6"]:GetDescendants()) do
+            if v:IsA("Frame") then v.Visible = true end
         end
-        searching = false
+    else
+        G2L["1a"].Text = "NO BACKDOOR :("
+        G2L["20"].Text = "No backdoors found."
     end
+    searching = false
 end)
 
-G2L["8"]["MouseButton1Click"]:Connect(function()
+G2L["8"].MouseButton1Click:Connect(function()
     local code = G2L["11"].Text
     if code ~= "" then
         print("========== COPY THIS TO EXECUTOR ==========")
         print(code)
         print("===========================================")
-        G2L["20"].Text = "Copied to console (F9)! Paste manually."
+        G2L["20"].Text = "Copied to console (F9)!"
     else
         G2L["20"].Text = "No script!"
     end
 end)
 
-G2L["c"]["MouseButton1Click"]:Connect(function()
+G2L["c"].MouseButton1Click:Connect(function()
     G2L["11"].Text = ""
     G2L["20"].Text = ""
 end)
@@ -296,6 +248,25 @@ end)
 -- Dragify
 local UIS = game:GetService("UserInputService")
 local dragToggle, dragInput, dragStart, startPos
-local function updateInput(input)
-    local Delta = input.Position - dragStart
-    local Position = UDim2.new(startPos
+local main = G2L["2"]
+
+main.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragToggle = true
+        dragStart = input.Position
+        startPos = main.Position
+    end
+end)
+
+main.InputEnded:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragToggle = false
+    end
+end)
+
+UIS.InputChanged:Connect(function(input)
+    if dragToggle and input.UserInputType == Enum.UserInputType.MouseMovement then
+        local delta = input.Position - dragStart
+        main.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+    end
+end)
