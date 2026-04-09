@@ -247,28 +247,39 @@ G2L["close"]["Font"] = Enum.Font.Code;
 G2L["close"]["TextSize"] = 16;
 G2L["close"]["MouseButton1Click"]:Connect(function() G2L["1"]:Destroy() end);
 
--- Dragify
+-- Dragify (ИСПРАВЛЕНО)
 local UIS = game:GetService("UserInputService")
-local dragToggle, dragStart, startPos
+local dragToggle = false
+local dragStart = nil
+local startPos = nil
 local main = G2L["2"]
-local titleBar = G2L["tabFrame"]
 
-titleBar.InputBegan:Connect(function(input)
+-- Создаём прозрачную панель для перетаскивания поверх вкладок
+local dragBar = Instance.new("Frame", main)
+dragBar.Size = UDim2.new(1, 0, 0, 30)
+dragBar.Position = UDim2.new(0, 0, 0, 0)
+dragBar.BackgroundTransparency = 1
+dragBar.Name = "DragBar"
+dragBar.ZIndex = 10 -- Поверх остальных элементов
+
+dragBar.InputBegan:Connect(function(input)
     if input.UserInputType == Enum.UserInputType.MouseButton1 then
         dragToggle = true
         dragStart = input.Position
         startPos = main.Position
     end
 end)
-titleBar.InputEnded:Connect(function(input)
+
+dragBar.InputEnded:Connect(function(input)
     if input.UserInputType == Enum.UserInputType.MouseButton1 then
         dragToggle = false
     end
 end)
+
 UIS.InputChanged:Connect(function(input)
     if dragToggle and input.UserInputType == Enum.UserInputType.MouseMovement then
-        local d = input.Position - dragStart
-        main.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + d.X, startPos.Y.Scale, startPos.Y.Offset + d.Y)
+        local delta = input.Position - dragStart
+        main.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
     end
 end)
 
