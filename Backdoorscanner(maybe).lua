@@ -1,12 +1,12 @@
 --[[
-    NYX BACKDOOR SCANNER FE BypAssER
-    Полная реплика UI + функционал сканирования
+    NYX BACKDOOR SCANNER FE BypAssER (FIXED)
+    UI теперь в PlayerGui, а не в CoreGui
 ]]
 
--- Создание GUI
+local player = game.Players.LocalPlayer
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Name = "NyxScanner"
-ScreenGui.Parent = game.CoreGui
+ScreenGui.Parent = player:WaitForChild("PlayerGui") -- <-- ИСПРАВЛЕНО ЗДЕСЬ
 
 -- Основное окно
 local MainFrame = Instance.new("Frame")
@@ -50,7 +50,7 @@ CloseButton.MouseButton1Click:Connect(function()
     ScreenGui:Destroy()
 end)
 
--- Поле для ввода скрипта (большое текстовое поле)
+-- Поле для ввода скрипта
 local ScriptBox = Instance.new("TextBox")
 ScriptBox.Size = UDim2.new(1, -20, 0, 200)
 ScriptBox.Position = UDim2.new(0, 10, 0, 40)
@@ -106,7 +106,7 @@ ClearButton.Font = Enum.Font.Code
 ClearButton.TextSize = 14
 ClearButton.Parent = MainFrame
 
--- Текстовая метка для результатов
+-- Метка результатов
 local ResultLabel = Instance.new("TextLabel")
 ResultLabel.Size = UDim2.new(1, -20, 0, 30)
 ResultLabel.Position = UDim2.new(0, 10, 0, 290)
@@ -118,11 +118,11 @@ ResultLabel.TextSize = 12
 ResultLabel.TextXAlignment = Enum.TextXAlignment.Left
 ResultLabel.Parent = MainFrame
 
--- Функция создания чёрной полосы сверху
+-- Чёрная полоса сверху
 local function createTopNotification(text)
     local NotifyGui = Instance.new("ScreenGui")
     NotifyGui.Name = "NyxTopNotify"
-    NotifyGui.Parent = game.CoreGui
+    NotifyGui.Parent = player:WaitForChild("PlayerGui") -- <-- ИСПРАВЛЕНО ЗДЕСЬ
     
     local Bar = Instance.new("Frame")
     Bar.Size = UDim2.new(1, 0, 0, 25)
@@ -144,7 +144,7 @@ local function createTopNotification(text)
     NotifyGui:Destroy()
 end
 
--- Функция сканирования бэкдоров
+-- Сканирование бэкдоров
 local function scanForBackdoors()
     local found = {}
     local keywords = {
@@ -184,7 +184,7 @@ local function scanForBackdoors()
     return found
 end
 
--- Функция для выполнения скрипта из поля ввода
+-- Выполнение скрипта
 local function executeScript()
     local scriptText = ScriptBox.Text
     if scriptText and scriptText ~= "" and scriptText ~= "-- Paste ur script here" then
@@ -204,7 +204,7 @@ local function executeScript()
     end
 end
 
--- Обработчик кнопки Scan
+-- Привязка кнопок
 ScanButton.MouseButton1Click:Connect(function()
     local backdoors = scanForBackdoors()
     
@@ -213,7 +213,6 @@ ScanButton.MouseButton1Click:Connect(function()
         ResultLabel.Text = "Found " .. #backdoors .. " backdoor(s)! Check console (F9)."
         ResultLabel.TextColor3 = Color3.fromRGB(0, 255, 0)
         
-        -- Вывод в консоль
         print("========== NYX SCANNER: BACKDOORS FOUND ==========")
         for i, bd in ipairs(backdoors) do
             print(i .. ". [" .. bd.Type .. "] " .. bd.Name)
@@ -226,16 +225,14 @@ ScanButton.MouseButton1Click:Connect(function()
     end
 end)
 
--- Обработчик кнопки Execute
 ExecuteButton.MouseButton1Click:Connect(executeScript)
 
--- Обработчик кнопки Clear
 ClearButton.MouseButton1Click:Connect(function()
     ScriptBox.Text = ""
     ResultLabel.Text = ""
 end)
 
--- Возможность перетаскивать окно
+-- Перетаскивание окна
 local UserInputService = game:GetService("UserInputService")
 local dragging = false
 local dragStart = nil
