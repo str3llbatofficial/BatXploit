@@ -1,260 +1,192 @@
---[[
-    NYX BACKDOOR SCANNER FE BypAssER (FIXED)
-    UI теперь в PlayerGui, а не в CoreGui
-]]
+--[[ NYX BACKDOOR SCANNER - ULTRA STABLE FIX ]]
 
 local player = game.Players.LocalPlayer
-local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Name = "NyxScanner"
-ScreenGui.Parent = player:WaitForChild("PlayerGui") -- <-- ИСПРАВЛЕНО ЗДЕСЬ
+local gui = Instance.new("ScreenGui")
+gui.Name = "NyxScanner"
+gui.Parent = player.PlayerGui
+gui.ResetOnSpawn = false  -- <-- ВОТ ЭТО ВАЖНО
 
--- Основное окно
-local MainFrame = Instance.new("Frame")
-MainFrame.Size = UDim2.new(0, 500, 0, 350)
-MainFrame.Position = UDim2.new(0.5, -250, 0.5, -175)
-MainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-MainFrame.BorderSizePixel = 0
-MainFrame.Parent = ScreenGui
+-- Простое окно
+local main = Instance.new("Frame")
+main.Size = UDim2.new(0, 500, 0, 350)
+main.Position = UDim2.new(0.5, -250, 0.5, -175)
+main.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+main.BorderSizePixel = 0
+main.Parent = gui
 
--- Заголовок окна
-local TitleBar = Instance.new("Frame")
-TitleBar.Size = UDim2.new(1, 0, 0, 30)
-TitleBar.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-TitleBar.BorderSizePixel = 0
-TitleBar.Parent = MainFrame
+-- Заголовок
+local titleBar = Instance.new("Frame")
+titleBar.Size = UDim2.new(1, 0, 0, 30)
+titleBar.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+titleBar.BorderSizePixel = 0
+titleBar.Parent = main
 
-local Title = Instance.new("TextLabel")
-Title.Size = UDim2.new(1, -60, 1, 0)
-Title.Position = UDim2.new(0, 10, 0, 0)
-Title.BackgroundTransparency = 1
-Title.Text = "NYX BACKDOOR SCANNER FE BypAssER"
-Title.TextColor3 = Color3.fromRGB(255, 255, 255)
-Title.Font = Enum.Font.Code
-Title.TextSize = 14
-Title.TextXAlignment = Enum.TextXAlignment.Left
-Title.Parent = TitleBar
+local title = Instance.new("TextLabel")
+title.Size = UDim2.new(1, -60, 1, 0)
+title.Position = UDim2.new(0, 10, 0, 0)
+title.BackgroundTransparency = 1
+title.Text = "NYX BACKDOOR SCANNER FE BypAssER"
+title.TextColor3 = Color3.fromRGB(255, 255, 255)
+title.Font = Enum.Font.Code
+title.TextSize = 14
+title.TextXAlignment = Enum.TextXAlignment.Left
+title.Parent = titleBar
 
--- Кнопка закрытия
-local CloseButton = Instance.new("TextButton")
-CloseButton.Size = UDim2.new(0, 30, 0, 30)
-CloseButton.Position = UDim2.new(1, -30, 0, 0)
-CloseButton.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
-CloseButton.BorderSizePixel = 0
-CloseButton.Text = "X"
-CloseButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-CloseButton.Font = Enum.Font.Code
-CloseButton.TextSize = 16
-CloseButton.Parent = TitleBar
+local close = Instance.new("TextButton")
+close.Size = UDim2.new(0, 30, 0, 30)
+close.Position = UDim2.new(1, -30, 0, 0)
+close.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
+close.BorderSizePixel = 0
+close.Text = "X"
+close.TextColor3 = Color3.fromRGB(255, 255, 255)
+close.Font = Enum.Font.Code
+close.TextSize = 16
+close.Parent = titleBar
+close.MouseButton1Click:Connect(function() gui:Destroy() end)
 
-CloseButton.MouseButton1Click:Connect(function()
-    ScreenGui:Destroy()
-end)
+-- Поле ввода
+local box = Instance.new("TextBox")
+box.Size = UDim2.new(1, -20, 0, 200)
+box.Position = UDim2.new(0, 10, 0, 40)
+box.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+box.BorderColor3 = Color3.fromRGB(0, 255, 0)
+box.BorderSizePixel = 1
+box.Text = "-- Paste ur script here"
+box.TextColor3 = Color3.fromRGB(200, 200, 200)
+box.Font = Enum.Font.Code
+box.TextSize = 14
+box.TextXAlignment = Enum.TextXAlignment.Left
+box.TextYAlignment = Enum.TextYAlignment.Top
+box.ClearTextOnFocus = true
+box.MultiLine = true
+box.Parent = main
 
--- Поле для ввода скрипта
-local ScriptBox = Instance.new("TextBox")
-ScriptBox.Size = UDim2.new(1, -20, 0, 200)
-ScriptBox.Position = UDim2.new(0, 10, 0, 40)
-ScriptBox.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-ScriptBox.BorderColor3 = Color3.fromRGB(0, 255, 0)
-ScriptBox.BorderSizePixel = 1
-ScriptBox.Text = "-- Paste ur script here"
-ScriptBox.TextColor3 = Color3.fromRGB(200, 200, 200)
-ScriptBox.Font = Enum.Font.Code
-ScriptBox.TextSize = 14
-ScriptBox.TextXAlignment = Enum.TextXAlignment.Left
-ScriptBox.TextYAlignment = Enum.TextYAlignment.Top
-ScriptBox.ClearTextOnFocus = true
-ScriptBox.MultiLine = true
-ScriptBox.Parent = MainFrame
+-- Кнопки
+local scan = Instance.new("TextButton")
+scan.Size = UDim2.new(0, 100, 0, 30)
+scan.Position = UDim2.new(0, 10, 0, 250)
+scan.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+scan.BorderColor3 = Color3.fromRGB(0, 255, 0)
+scan.BorderSizePixel = 1
+scan.Text = "Scan"
+scan.TextColor3 = Color3.fromRGB(0, 255, 0)
+scan.Font = Enum.Font.Code
+scan.TextSize = 14
+scan.Parent = main
 
--- Кнопка Scan
-local ScanButton = Instance.new("TextButton")
-ScanButton.Size = UDim2.new(0, 100, 0, 30)
-ScanButton.Position = UDim2.new(0, 10, 0, 250)
-ScanButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-ScanButton.BorderColor3 = Color3.fromRGB(0, 255, 0)
-ScanButton.BorderSizePixel = 1
-ScanButton.Text = "Scan"
-ScanButton.TextColor3 = Color3.fromRGB(0, 255, 0)
-ScanButton.Font = Enum.Font.Code
-ScanButton.TextSize = 14
-ScanButton.Parent = MainFrame
+local exec = Instance.new("TextButton")
+exec.Size = UDim2.new(0, 100, 0, 30)
+exec.Position = UDim2.new(0, 120, 0, 250)
+exec.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+exec.BorderColor3 = Color3.fromRGB(0, 255, 0)
+exec.BorderSizePixel = 1
+exec.Text = "Execute"
+exec.TextColor3 = Color3.fromRGB(0, 255, 0)
+exec.Font = Enum.Font.Code
+exec.TextSize = 14
+exec.Parent = main
 
--- Кнопка Execute
-local ExecuteButton = Instance.new("TextButton")
-ExecuteButton.Size = UDim2.new(0, 100, 0, 30)
-ExecuteButton.Position = UDim2.new(0, 120, 0, 250)
-ExecuteButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-ExecuteButton.BorderColor3 = Color3.fromRGB(0, 255, 0)
-ExecuteButton.BorderSizePixel = 1
-ExecuteButton.Text = "Execute"
-ExecuteButton.TextColor3 = Color3.fromRGB(0, 255, 0)
-ExecuteButton.Font = Enum.Font.Code
-ExecuteButton.TextSize = 14
-ExecuteButton.Parent = MainFrame
+local clear = Instance.new("TextButton")
+clear.Size = UDim2.new(0, 100, 0, 30)
+clear.Position = UDim2.new(0, 230, 0, 250)
+clear.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+clear.BorderColor3 = Color3.fromRGB(0, 255, 0)
+clear.BorderSizePixel = 1
+clear.Text = "Clear"
+clear.TextColor3 = Color3.fromRGB(0, 255, 0)
+clear.Font = Enum.Font.Code
+clear.TextSize = 14
+clear.Parent = main
 
--- Кнопка Clear
-local ClearButton = Instance.new("TextButton")
-ClearButton.Size = UDim2.new(0, 100, 0, 30)
-ClearButton.Position = UDim2.new(0, 230, 0, 250)
-ClearButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-ClearButton.BorderColor3 = Color3.fromRGB(0, 255, 0)
-ClearButton.BorderSizePixel = 1
-ClearButton.Text = "Clear"
-ClearButton.TextColor3 = Color3.fromRGB(0, 255, 0)
-ClearButton.Font = Enum.Font.Code
-ClearButton.TextSize = 14
-ClearButton.Parent = MainFrame
+local result = Instance.new("TextLabel")
+result.Size = UDim2.new(1, -20, 0, 30)
+result.Position = UDim2.new(0, 10, 0, 290)
+result.BackgroundTransparency = 1
+result.Text = ""
+result.TextColor3 = Color3.fromRGB(0, 255, 0)
+result.Font = Enum.Font.Code
+result.TextSize = 12
+result.TextXAlignment = Enum.TextXAlignment.Left
+result.Parent = main
 
--- Метка результатов
-local ResultLabel = Instance.new("TextLabel")
-ResultLabel.Size = UDim2.new(1, -20, 0, 30)
-ResultLabel.Position = UDim2.new(0, 10, 0, 290)
-ResultLabel.BackgroundTransparency = 1
-ResultLabel.Text = ""
-ResultLabel.TextColor3 = Color3.fromRGB(0, 255, 0)
-ResultLabel.Font = Enum.Font.Code
-ResultLabel.TextSize = 12
-ResultLabel.TextXAlignment = Enum.TextXAlignment.Left
-ResultLabel.Parent = MainFrame
-
--- Чёрная полоса сверху
-local function createTopNotification(text)
-    local NotifyGui = Instance.new("ScreenGui")
-    NotifyGui.Name = "NyxTopNotify"
-    NotifyGui.Parent = player:WaitForChild("PlayerGui") -- <-- ИСПРАВЛЕНО ЗДЕСЬ
-    
-    local Bar = Instance.new("Frame")
-    Bar.Size = UDim2.new(1, 0, 0, 25)
-    Bar.Position = UDim2.new(0, 0, 0, 0)
-    Bar.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-    Bar.BorderSizePixel = 0
-    Bar.Parent = NotifyGui
-    
-    local Label = Instance.new("TextLabel")
-    Label.Size = UDim2.new(1, 0, 1, 0)
-    Label.BackgroundTransparency = 1
-    Label.Text = text
-    Label.TextColor3 = Color3.fromRGB(0, 255, 0)
-    Label.Font = Enum.Font.Code
-    Label.TextSize = 14
-    Label.Parent = Bar
-    
-    task.wait(4)
-    NotifyGui:Destroy()
-end
-
--- Сканирование бэкдоров
-local function scanForBackdoors()
+-- Сканнер
+local function scanBackdoors()
     local found = {}
-    local keywords = {
-        "admin", "backdoor", "exploit", "bypass", "remote", 
-        "fire", "exec", "cmd", "console", "script", "inject",
-        "c00l", "nyx", "fe", "skid", "sploit", "hd", "rage",
-        "kill", "ban", "kick", "tp", "teleport", "god", "esp"
-    }
+    local kw = {"admin", "backdoor", "exploit", "bypass", "remote", "fire", "exec", "cmd", "c00l", "nyx", "fe", "skid", "hd", "rage", "kill", "ban", "kick", "tp", "teleport", "god", "esp"}
     
-    for _, obj in ipairs(game:GetDescendants()) do
-        if obj:IsA("RemoteEvent") or obj:IsA("RemoteFunction") then
-            local objName = obj.Name:lower()
-            local parentName = obj.Parent and obj.Parent.Name:lower() or ""
-            
-            for _, kw in ipairs(keywords) do
-                if objName:find(kw) or parentName:find(kw) then
-                    table.insert(found, {
-                        Name = obj.Name,
-                        Path = obj:GetFullName(),
-                        Type = obj.ClassName
-                    })
+    for _, v in ipairs(game:GetDescendants()) do
+        if v:IsA("RemoteEvent") or v:IsA("RemoteFunction") then
+            local n = v.Name:lower()
+            local pn = v.Parent and v.Parent.Name:lower() or ""
+            for _, k in ipairs(kw) do
+                if n:find(k) or pn:find(k) then
+                    table.insert(found, {Name = v.Name, Path = v:GetFullName(), Type = v.ClassName})
                     break
                 end
             end
-        elseif obj:IsA("ModuleScript") then
-            local name = obj.Name:lower()
-            if name:find("backdoor") or name:find("admin") or name:find("exploit") then
-                table.insert(found, {
-                    Name = obj.Name,
-                    Path = obj:GetFullName(),
-                    Type = "ModuleScript"
-                })
+        elseif v:IsA("ModuleScript") then
+            local n = v.Name:lower()
+            if n:find("backdoor") or n:find("admin") or n:find("exploit") then
+                table.insert(found, {Name = v.Name, Path = v:GetFullName(), Type = "ModuleScript"})
             end
         end
     end
-    
     return found
 end
 
--- Выполнение скрипта
-local function executeScript()
-    local scriptText = ScriptBox.Text
-    if scriptText and scriptText ~= "" and scriptText ~= "-- Paste ur script here" then
-        local success, err = pcall(function()
-            loadstring(scriptText)()
-        end)
-        if not success then
-            ResultLabel.Text = "Error: " .. tostring(err)
-            ResultLabel.TextColor3 = Color3.fromRGB(255, 100, 100)
+scan.MouseButton1Click:Connect(function()
+    local bd = scanBackdoors()
+    if #bd > 0 then
+        result.Text = "Found " .. #bd .. " backdoor(s)! Check F9."
+        result.TextColor3 = Color3.fromRGB(0, 255, 0)
+        print("========== NYX SCANNER RESULTS ==========")
+        for i, v in ipairs(bd) do
+            print(i .. ". [" .. v.Type .. "] " .. v.Name .. "\n   Path: " .. v.Path)
+        end
+        print("=========================================")
+    else
+        result.Text = "No backdoors found."
+        result.TextColor3 = Color3.fromRGB(255, 100, 100)
+    end
+end)
+
+exec.MouseButton1Click:Connect(function()
+    local code = box.Text
+    if code and code ~= "" and code ~= "-- Paste ur script here" then
+        local ok, err = pcall(loadstring(code))
+        if ok then
+            result.Text = "Executed successfully!"
+            result.TextColor3 = Color3.fromRGB(0, 255, 0)
         else
-            ResultLabel.Text = "Script executed successfully!"
-            ResultLabel.TextColor3 = Color3.fromRGB(0, 255, 0)
+            result.Text = "Error: " .. tostring(err)
+            result.TextColor3 = Color3.fromRGB(255, 100, 100)
         end
     else
-        ResultLabel.Text = "No script to execute!"
-        ResultLabel.TextColor3 = Color3.fromRGB(255, 255, 0)
-    end
-end
-
--- Привязка кнопок
-ScanButton.MouseButton1Click:Connect(function()
-    local backdoors = scanForBackdoors()
-    
-    if #backdoors > 0 then
-        createTopNotification("This is admin event, Enjoy!")
-        ResultLabel.Text = "Found " .. #backdoors .. " backdoor(s)! Check console (F9)."
-        ResultLabel.TextColor3 = Color3.fromRGB(0, 255, 0)
-        
-        print("========== NYX SCANNER: BACKDOORS FOUND ==========")
-        for i, bd in ipairs(backdoors) do
-            print(i .. ". [" .. bd.Type .. "] " .. bd.Name)
-            print("   Path: " .. bd.Path)
-        end
-        print("==================================================")
-    else
-        ResultLabel.Text = "No backdoors found in this game."
-        ResultLabel.TextColor3 = Color3.fromRGB(255, 100, 100)
+        result.Text = "No script to execute!"
+        result.TextColor3 = Color3.fromRGB(255, 255, 0)
     end
 end)
 
-ExecuteButton.MouseButton1Click:Connect(executeScript)
-
-ClearButton.MouseButton1Click:Connect(function()
-    ScriptBox.Text = ""
-    ResultLabel.Text = ""
+clear.MouseButton1Click:Connect(function()
+    box.Text = ""
+    result.Text = ""
 end)
 
--- Перетаскивание окна
-local UserInputService = game:GetService("UserInputService")
-local dragging = false
-local dragStart = nil
-local startPos = nil
-
-TitleBar.InputBegan:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseButton1 then
-        dragging = true
-        dragStart = input.Position
-        startPos = MainFrame.Position
+-- Перетаскивание (без лишних заморочек)
+local drag, startPos, startMouse
+titleBar.InputBegan:Connect(function(i)
+    if i.UserInputType == Enum.UserInputType.MouseButton1 then
+        drag = true
+        startPos = main.Position
+        startMouse = i.Position
     end
 end)
-
-TitleBar.InputEnded:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseButton1 then
-        dragging = false
-    end
+titleBar.InputEnded:Connect(function(i)
+    if i.UserInputType == Enum.UserInputType.MouseButton1 then drag = false end
 end)
-
-UserInputService.InputChanged:Connect(function(input)
-    if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
-        local delta = input.Position - dragStart
-        MainFrame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+game:GetService("UserInputService").InputChanged:Connect(function(i)
+    if drag and i.UserInputType == Enum.UserInputType.MouseMovement then
+        local d = i.Position - startMouse
+        main.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + d.X, startPos.Y.Scale, startPos.Y.Offset + d.Y)
     end
 end)
