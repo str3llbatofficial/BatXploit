@@ -1,5 +1,5 @@
 -- ============================================================================
--- NYX BACKDOOR SCANNER - ULTIMATE EDITION
+-- NYX BACKDOOR SCANNER - ULTIMATE EDITION (FIXED EXECUTE)
 -- Объединяет: LALOL Hub + NYX + анализ исходников + require(ID) + обфускация
 -- ============================================================================
 
@@ -99,7 +99,7 @@ logsTab.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
 logsTab.Text = "LOGS"
 logsTab.TextColor3 = Color3.fromRGB(150, 150, 150)
 logsTab.Font = Enum.Font.Code
-settingsTab.TextSize = 12
+logsTab.TextSize = 12
 
 -- Контент вкладок
 local contentFrame = Instance.new("Frame", main)
@@ -401,18 +401,12 @@ end
 -- ============================================================================
 
 local backdoorKeywords = {
-    -- Админские
     "admin", "administrator", "mod", "moderator", "owner", "staff", "dev",
-    -- Бэкдоры
     "backdoor", "exploit", "bypass", "inject", "exec", "execute", "c00l",
     "c00lkidd", "nyx", "lalol", "fe", "skid", "sploit", "scriptware",
-    -- Команды
     "cmd", "command", "console", "terminal", "run", "remote", "fire", "invoke",
-    -- Управление
     "kill", "ban", "kick", "crash", "tp", "teleport", "bring", "goto", "god",
-    -- Читы
     "esp", "aimbot", "wallhack", "fly", "speed", "noclip", "spin", "rage",
-    -- Админки
     "hd", "hdadmin", "adonis", "kohls", "infinite", "yield"
 }
 
@@ -541,24 +535,20 @@ local function sourceScanFunc()
             totalScripts = totalScripts + 1
             local source = v.Source
             
-            -- Поиск require(ID)
             for id in string.gmatch(source, "require%s*%(%s*(%d+)%s*%)") do
                 table.insert(found, v:GetFullName() .. " -> require(" .. id .. ")")
             end
             
-            -- Поиск опасных функций
             for _, func in ipairs(dangerousFuncs) do
                 if string.find(source, func) then
                     table.insert(found, v:GetFullName() .. " -> " .. func)
                 end
             end
             
-            -- Поиск вебхуков Discord
             if string.find(source, "discord%.com/api/webhooks") or string.find(source, "discordapp%.com/api/webhooks") then
                 table.insert(found, v:GetFullName() .. " -> DISCORD WEBHOOK")
             end
             
-            -- Поиск обфускации
             if string.find(source, "string%.char") or string.find(source, "\\1[0-9][0-9]") or string.find(source, "loadstring") then
                 if string.find(source, "%d+,%d+,%d+") then
                     table.insert(found, v:GetFullName() .. " -> OBFUSCATED")
@@ -587,7 +577,6 @@ local function fullScanFunc()
     
     addResult("=== FULL SCAN RESULTS ===", Color3.fromRGB(0, 255, 255))
     
-    -- Quick scan
     local quickFound = {}
     for _, v in ipairs(game:GetDescendants()) do
         if v:IsA("RemoteEvent") or v:IsA("RemoteFunction") then
@@ -607,7 +596,6 @@ local function fullScanFunc()
         addResult("  " .. v, Color3.fromRGB(255, 100, 100))
     end
     
-    -- Deep scan (modules)
     local moduleFound = {}
     for _, v in ipairs(game:GetDescendants()) do
         if v:IsA("ModuleScript") then
@@ -627,7 +615,6 @@ local function fullScanFunc()
         addResult("  " .. v, Color3.fromRGB(255, 255, 100))
     end
     
-    -- Source scan
     local sourceFound = {}
     for _, v in ipairs(game:GetDescendants()) do
         if v:IsA("LuaSourceContainer") then
@@ -674,19 +661,61 @@ deepScan.MouseButton1Click:Connect(deepScanFunc)
 sourceScan.MouseButton1Click:Connect(sourceScanFunc)
 fullScan.MouseButton1Click:Connect(fullScanFunc)
 
+-- ============================================================================
+-- ИСПРАВЛЕННАЯ ФУНКЦИЯ EXECUTE (ПОДДЕРЖКА require(ID))
+-- ============================================================================
+
 execBtn.MouseButton1Click:Connect(function()
     local code = scriptBox.Text
     if code ~= "" and code ~= "-- Paste your script here" then
-        print("========== EXECUTING SCRIPT ==========")
-        local success, err = pcall(loadstring(code))
-        if success then
-            execStatus.Text = "Executed successfully!"
-            addLog("Script executed")
+        
+        -- Проверяем, есть ли require(ID)
+        if string.find(code, "require%s*%(%s*%d+%s*%)") then
+            -- Извлекаем ID
+            local id = string.match(code, "require%s*%(%s*(%d+)%s*%)")
+            
+            -- Пытаемся загрузить через game:HttpGet (если доступно)
+            local success, httpGet = pcall(function()
+                return game:HttpGet
+            end)
+            
+            if success and httpGet then
+                -- Если HttpGet есть - загружаем модуль
+                local url = "https://raw.githubusercontent.com/rohanssrao/Roblox-Modules/main/" .. id .. ".lua"
+                pcall(function()
+                    local moduleCode = game:HttpGet(url)
+                    local func = loadstring(moduleCode)
+                    if func then
+                        func()
+                        execStatus.Text = "Module " .. id .. " loaded!"
+                        addLog("Module " .. id .. " loaded via HttpGet")
+                    else
+                        execStatus.Text = "Failed to load module!"
+                        addLog("Failed to load module " .. id)
+                    end
+                end)
+            else
+                -- Если HttpGet нет - выводим в консоль для ручного выполнения
+                print("========== REQUIRE DETECTED ==========")
+                print("Module ID: " .. id)
+                print("Your executor doesn't support game:HttpGet.")
+                print("Use this instead:")
+                print('loadstring(game:HttpGet("https://raw.githubusercontent.com/rohanssrao/Roblox-Modules/main/' .. id .. '.lua"))()')
+                print("======================================")
+                execStatus.Text = "Require detected! Check F9."
+                addLog("Require(" .. id .. ") detected - copied to console")
+            end
         else
-            execStatus.Text = "Error: " .. tostring(err)
-            addLog("Script error: " .. tostring(err))
+            -- Обычный код - выполняем через loadstring
+            local success, err = pcall(loadstring(code))
+            if success then
+                execStatus.Text = "Executed successfully!"
+                addLog("Script executed")
+            else
+                execStatus.Text = "Error: " .. tostring(err)
+                addLog("Script error: " .. tostring(err))
+            end
         end
-        print("======================================")
     else
         execStatus.Text = "No script to execute!"
     end
@@ -753,4 +782,6 @@ print("Quick Scan - RemoteEvents/Functions")
 print("Deep Scan - + Modules")
 print("Source Scan - Analyze source code")
 print("Full Scan - ALL methods combined")
+print("========================================")
+print("EXECUTOR: Supports require(ID) auto-convert!")
 print("========================================")
