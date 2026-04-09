@@ -1,8 +1,3 @@
---[[
-    NYX BACKDOOR SCANNER
-    Рабочая версия для WeAreDevs API
-]]
-
 local player = game.Players.LocalPlayer
 local gui = Instance.new("ScreenGui", player.PlayerGui)
 gui.Name = "NyxScanner"
@@ -59,7 +54,6 @@ box.Font = Enum.Font.Code
 box.TextSize = 14
 box.TextXAlignment = Enum.TextXAlignment.Left
 box.TextYAlignment = Enum.TextYAlignment.Top
-box.ClearTextOnFocus = false
 box.MultiLine = true
 
 local scanBtn = Instance.new("TextButton", main)
@@ -125,9 +119,9 @@ game:GetService("UserInputService").InputChanged:Connect(function(i)
 end)
 
 -- Сканер
-local function scanBackdoors()
+scanBtn.MouseButton1Click:Connect(function()
     local found = {}
-    local kw = {"admin", "backdoor", "exploit", "bypass", "remote", "fire", "exec", "cmd", "c00l", "nyx", "fe", "skid", "hd", "rage", "kill", "ban", "kick", "tp", "teleport", "god", "esp"}
+    local kw = {"admin", "backdoor", "exploit", "bypass", "remote", "fire", "exec", "cmd", "c00l", "nyx", "fe", "skid", "hd"}
     
     for _, v in ipairs(game:GetDescendants()) do
         if v:IsA("RemoteEvent") or v:IsA("RemoteFunction") then
@@ -146,38 +140,12 @@ local function scanBackdoors()
             end
         end
     end
-    return found
-end
-
--- Уведомление
-local function notify(text)
-    local gui = Instance.new("ScreenGui", player.PlayerGui)
-    gui.ResetOnSpawn = false
-    local bar = Instance.new("Frame", gui)
-    bar.Size = UDim2.new(1, 0, 0, 25)
-    bar.Position = UDim2.new(0, 0, 0, 0)
-    bar.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-    bar.BorderSizePixel = 0
-    local lbl = Instance.new("TextLabel", bar)
-    lbl.Size = UDim2.new(1, 0, 1, 0)
-    lbl.BackgroundTransparency = 1
-    lbl.Text = text
-    lbl.TextColor3 = Color3.fromRGB(0, 255, 0)
-    lbl.Font = Enum.Font.Code
-    lbl.TextSize = 16
-    task.wait(4)
-    gui:Destroy()
-end
-
--- Кнопки
-scanBtn.MouseButton1Click:Connect(function()
-    local bd = scanBackdoors()
-    if #bd > 0 then
-        notify("This is admin event, Enjoy!")
-        result.Text = "Found " .. #bd .. " backdoor(s)! Check console."
-        for i, v in ipairs(bd) do
-            print(i .. ". " .. v)
-        end
+    
+    if #found > 0 then
+        result.Text = "Found " .. #found .. " backdoor(s)! Check console (F9)."
+        print("========== THIS IS ADMIN EVENT, ENJOY! ==========")
+        for i, v in ipairs(found) do print(i .. ". " .. v) end
+        print("=================================================")
     else
         result.Text = "No backdoors found."
     end
@@ -201,5 +169,3 @@ clearBtn.MouseButton1Click:Connect(function()
     box.Text = ""
     result.Text = ""
 end)
-
-notify("NYX Scanner loaded!")
