@@ -1,124 +1,246 @@
--- █████▄  ▄▄▄ ▄▄▄▄▄▄ ██  ██ ▄▄▄▄  ▄▄     ▄▄▄  ▄▄ ▄▄▄▄▄▄   ██      ▄▄▄   ▄▄▄  ▄▄▄▄  ▄▄▄▄▄ ▄▄▄▄   ██   ██████ ▄▄  ▄▄   ▄▄  ▄▄▄  ▄▄ ▄▄   ▀█▄ 
--- ██▄▄██ ██▀██  ██    ████  ██▄█▀ ██    ██▀██ ██   ██     ██     ██▀██ ██▀██ ██▀██ ██▄▄  ██▀██  ██   ██▄▄   ███▄██   ██ ██▀██ ▀███▀ ▀  ██ 
--- ██▄▄█▀ ██▀██  ██   ██  ██ ██    ██▄▄▄ ▀███▀ ██   ██     ██████ ▀███▀ ██▀██ ████▀ ██▄▄▄ ████▀  ▄▄   ██▄▄▄▄ ██ ▀██ ▄▄█▀ ▀███▀   █   ▄ ▄█▀ 
+--[[
+    NYX GUI - Server Destruction & Misc
+    Стиль: минимализм, чёрный фон, зелёные акценты
+]]
 
-print("BatXploit GUI loading...")
--- Alpha build
-local gui = Instance.new("ScreenGui")
-gui.Name = "BatXploitGUI"
-gui.Parent = game:GetService("CoreGui")
+local player = game.Players.LocalPlayer
+local gui = Instance.new("ScreenGui", player:WaitForChild("PlayerGui"))
+gui.Name = "NyxGUI"
 gui.ResetOnSpawn = false
 
-local main = Instance.new("Frame")
-main.Size = UDim2.new(0, 350, 0, 420)
-main.Position = UDim2.new(0.5, -175, 0.5, -210)
-main.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-main.BackgroundTransparency = 0.2
-main.BorderSizePixel = 2
-main.BorderColor3 = Color3.fromRGB(255, 0, 0)
-main.Active = true
-main.Draggable = true
-main.Parent = gui
+-- Основное окно
+local main = Instance.new("Frame", gui)
+main.Size = UDim2.new(0, 400, 0, 350)
+main.Position = UDim2.new(0.5, -200, 0.5, -175)
+main.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+main.BorderSizePixel = 0
+main.Visible = true
 
+-- Заголовок
+local titleBar = Instance.new("Frame", main)
+titleBar.Size = UDim2.new(1, 0, 0, 30)
+titleBar.BackgroundColor3 = Color3.fromRGB(10, 10, 10)
+titleBar.BorderSizePixel = 0
 
-local title = Instance.new("TextLabel")
-title.Size = UDim2.new(1, 0, 0, 40)
-title.BackgroundColor3 = Color3.fromRGB(30, 0, 0)
-title.Text = "BATXPLOIT"
-title.TextColor3 = Color3.fromRGB(255, 0, 0)
-title.Font = Enum.Font.SourceSansBold
-title.TextSize = 24
-title.Parent = main
+local title = Instance.new("TextLabel", titleBar)
+title.Size = UDim2.new(1, -60, 1, 0)
+title.Position = UDim2.new(0, 10, 0, 0)
+title.BackgroundTransparency = 1
+title.Text = "NYX GUI"
+title.TextColor3 = Color3.fromRGB(0, 255, 0)
+title.Font = Enum.Font.Code
+title.TextSize = 14
+title.TextXAlignment = Enum.TextXAlignment.Left
 
+local close = Instance.new("TextButton", titleBar)
+close.Size = UDim2.new(0, 30, 0, 30)
+close.Position = UDim2.new(1, -30, 0, 0)
+close.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
+close.BorderSizePixel = 0
+close.Text = "X"
+close.TextColor3 = Color3.fromRGB(255, 255, 255)
+close.Font = Enum.Font.Code
+close.TextSize = 14
+close.MouseButton1Click:Connect(function() gui:Destroy() end)
 
-local buttons = {
-    {name = "Inf Yield", y = 60, action = function()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"))()
-    end},
-    {name = "Fly", y = 110, action = function()
-        local plr = game.Players.LocalPlayer
-        local char = plr.Character or plr.CharacterAdded:Wait()
-        local hrp = char:FindFirstChild("HumanoidRootPart")
-        local bv = Instance.new("BodyVelocity")
-        bv.MaxForce = Vector3.new(1,1,1) * 100000
-        bv.Parent = hrp
-        local flying = true
-        game:GetService("UserInputService").InputBegan:Connect(function(input)
-            if input.KeyCode == Enum.KeyCode.F then
-                flying = not flying
-                if flying then bv.Parent = hrp else bv.Parent = nil end
-            end
-        end)
-        game:GetService("RunService").RenderStepped:Connect(function()
-            if flying and hrp then
-                bv.Velocity = Vector3.new(0, 0, 0)
-                local move = Vector3.new()
-                if game:GetService("UserInputService"):IsKeyDown(Enum.KeyCode.W) then move = move + Vector3.new(0,0,-50) end
-                if game:GetService("UserInputService"):IsKeyDown(Enum.KeyCode.S) then move = move + Vector3.new(0,0,50) end
-                if game:GetService("UserInputService"):IsKeyDown(Enum.KeyCode.A) then move = move + Vector3.new(-50,0,0) end
-                if game:GetService("UserInputService"):IsKeyDown(Enum.KeyCode.D) then move = move + Vector3.new(50,0,0) end
-                if game:GetService("UserInputService"):IsKeyDown(Enum.KeyCode.Space) then move = move + Vector3.new(0,50,0) end
-                if game:GetService("UserInputService"):IsKeyDown(Enum.KeyCode.LeftControl) then move = move + Vector3.new(0,-50,0) end
-                bv.Velocity = move
-            end
-        end)
-    end},
-    {name = "Fling", y = 160, action = function()
-        local target = game.Players:FindFirstChild(game:GetService("Players").LocalPlayer.Name)
-    end},
-    {name = "Speed x2", y = 210, action = function()
-        local plr = game.Players.LocalPlayer
-        local char = plr.Character
-        if char and char:FindFirstChild("Humanoid") then
-            char.Humanoid.WalkSpeed = 32
-        end
-    end},
-    {name = "Jump x2", y = 260, action = function()
-        local plr = game.Players.LocalPlayer
-        local char = plr.Character
-        if char and char:FindFirstChild("Humanoid") then
-            char.Humanoid.JumpPower = 80
-        end
-    end},
-    {name = "NoClip", y = 310, action = function()
-        local plr = game.Players.LocalPlayer
-        local char = plr.Character
-        if char and char:FindFirstChild("HumanoidRootPart") then
-            char.HumanoidRootPart.CanCollide = false
-        end
-    end}
+-- Вкладки
+local tabFrame = Instance.new("Frame", main)
+tabFrame.Size = UDim2.new(1, 0, 0, 30)
+tabFrame.Position = UDim2.new(0, 0, 0, 30)
+tabFrame.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+tabFrame.BorderSizePixel = 0
+
+local destructionTab = Instance.new("TextButton", tabFrame)
+destructionTab.Size = UDim2.new(0, 195, 1, 0)
+destructionTab.Position = UDim2.new(0, 0, 0, 0)
+destructionTab.BackgroundColor3 = Color3.fromRGB(0, 100, 0)
+destructionTab.Text = "Server Destruction"
+destructionTab.TextColor3 = Color3.fromRGB(255, 255, 255)
+destructionTab.Font = Enum.Font.Code
+destructionTab.TextSize = 12
+
+local miscTab = Instance.new("TextButton", tabFrame)
+miscTab.Size = UDim2.new(0, 195, 1, 0)
+miscTab.Position = UDim2.new(0, 195, 0, 0)
+miscTab.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+miscTab.Text = "Misc"
+miscTab.TextColor3 = Color3.fromRGB(150, 150, 150)
+miscTab.Font = Enum.Font.Code
+miscTab.TextSize = 12
+
+-- Контент
+local contentFrame = Instance.new("Frame", main)
+contentFrame.Size = UDim2.new(1, -20, 0, 220)
+contentFrame.Position = UDim2.new(0, 10, 0, 70)
+contentFrame.BackgroundTransparency = 1
+
+-- ============================================================================
+-- ВКЛАДКА SERVER DESTRUCTION
+-- ============================================================================
+local destructionFrame = Instance.new("Frame", contentFrame)
+destructionFrame.Size = UDim2.new(1, 0, 1, 0)
+destructionFrame.BackgroundTransparency = 1
+
+-- Кнопки Server Destruction (сетка 3x2)
+local sdButtons = {
+    {text = "Kill All", pos = {0, 0}, color = Color3.fromRGB(150, 0, 0)},
+    {text = "Crash Server", pos = {0, 125}, color = Color3.fromRGB(150, 50, 0)},
+    {text = "Lag Server", pos = {0, 250}, color = Color3.fromRGB(150, 100, 0)},
+    {text = "Delete Map", pos = {1, 0}, color = Color3.fromRGB(100, 0, 100)},
+    {text = "Spam Sounds", pos = {1, 125}, color = Color3.fromRGB(0, 100, 100)},
+    {text = "Kick All", pos = {1, 250}, color = Color3.fromRGB(100, 0, 0)}
 }
 
-for _, btnData in ipairs(buttons) do
-    local btn = Instance.new("TextButton")
-    btn.Size = UDim2.new(0, 200, 0, 35)
-    btn.Position = UDim2.new(0.5, -100, 0, btnData.y)
-    btn.Text = btnData.name
-    btn.TextColor3 = Color3.fromRGB(255, 255, 255)
-    btn.BackgroundColor3 = Color3.fromRGB(50, 0, 0)
-    btn.BorderSizePixel = 1
-    btn.BorderColor3 = Color3.fromRGB(255, 0, 0)
-    btn.Font = Enum.Font.SourceSansBold
-    btn.TextSize = 16
-    btn.Parent = main
-    btn.MouseButton1Click:Connect(btnData.action)
+for i, btn in ipairs(sdButtons) do
+    local b = Instance.new("TextButton", destructionFrame)
+    b.Size = UDim2.new(0, 115, 0, 80)
+    b.Position = UDim2.new(0, btn.pos[2] + 5, 0, btn.pos[1] * 90 + 5)
+    b.BackgroundColor3 = btn.color
+    b.Text = btn.text
+    b.TextColor3 = Color3.fromRGB(255, 255, 255)
+    b.Font = Enum.Font.Code
+    b.TextSize = 13
+    b.BorderSizePixel = 0
+    
+    -- Функции для кнопок
+    b.MouseButton1Click:Connect(function()
+        if btn.text == "Kill All" then
+            for _, p in ipairs(game.Players:GetPlayers()) do
+                if p ~= player and p.Character and p.Character:FindFirstChild("Humanoid") then
+                    p.Character.Humanoid.Health = 0
+                end
+            end
+        elseif btn.text == "Crash Server" then
+            -- Спавним много объектов для краша
+            for i = 1, 1000 do
+                Instance.new("Part", workspace).Position = Vector3.new(math.random(-100,100), math.random(0,50), math.random(-100,100))
+            end
+        elseif btn.text == "Lag Server" then
+            -- Бесконечный цикл на клиенте (лаг)
+            while true do end
+        elseif btn.text == "Delete Map" then
+            for _, v in ipairs(workspace:GetDescendants()) do
+                if v:IsA("Part") and v.Name ~= "Baseplate" then
+                    pcall(function() v:Destroy() end)
+                end
+            end
+        elseif btn.text == "Spam Sounds" then
+            for i = 1, 50 do
+                local s = Instance.new("Sound", workspace)
+                s.SoundId = "rbxassetid://9120386436"
+                s.Volume = 10
+                s:Play()
+            end
+        elseif btn.text == "Kick All" then
+            for _, p in ipairs(game.Players:GetPlayers()) do
+                if p ~= player then
+                    pcall(function() p:Kick("NYX GUI") end)
+                end
+            end
+        end
+    end)
 end
 
+-- ============================================================================
+-- ВКЛАДКА MISC
+-- ============================================================================
+local miscFrame = Instance.new("Frame", contentFrame)
+miscFrame.Size = UDim2.new(1, 0, 1, 0)
+miscFrame.BackgroundTransparency = 1
+miscFrame.Visible = false
 
-local footer = Instance.new("TextLabel")
-footer.Size = UDim2.new(1, 0, 0, 55)
-footer.Position = UDim2.new(0, 0, 1, -55)
-footer.BackgroundColor3 = Color3.fromRGB(20, 0, 0)
-footer.Text = "⚠️ ALPHA BUILD\nI dont make remakes, so dont download remakes of ts gui! With love Str3llbat"
-footer.TextColor3 = Color3.fromRGB(255, 100, 0)
-footer.Font = Enum.Font.SourceSans
-footer.TextSize = 10
-footer.TextWrapped = true
-footer.Parent = main
+-- Кнопки Misc (сетка 3x2)
+local miscButtons = {
+    {text = "Infinite Yield", pos = {0, 0}, color = Color3.fromRGB(0, 80, 0)},
+    {text = "Dex Explorer", pos = {0, 125}, color = Color3.fromRGB(0, 0, 100)},
+    {text = "Fly", pos = {0, 250}, color = Color3.fromRGB(0, 100, 100)},
+    {text = "ESP", pos = {1, 0}, color = Color3.fromRGB(80, 0, 80)},
+    {text = "Aimbot", pos = {1, 125}, color = Color3.fromRGB(100, 50, 0)},
+    {text = "Teleport", pos = {1, 250}, color = Color3.fromRGB(50, 50, 50)}
+}
 
+for i, btn in ipairs(miscButtons) do
+    local b = Instance.new("TextButton", miscFrame)
+    b.Size = UDim2.new(0, 115, 0, 80)
+    b.Position = UDim2.new(0, btn.pos[2] + 5, 0, btn.pos[1] * 90 + 5)
+    b.BackgroundColor3 = btn.color
+    b.Text = btn.text
+    b.TextColor3 = Color3.fromRGB(255, 255, 255)
+    b.Font = Enum.Font.Code
+    b.TextSize = 13
+    b.BorderSizePixel = 0
+    
+    b.MouseButton1Click:Connect(function()
+        print("NYX GUI: " .. btn.text .. " clicked!")
+        -- Здесь можно добавить loadstring для каждого скрипта
+    end)
+end
 
-game:GetService("StarterGui"):SetCore("SendNotification", {
-    Title = "BatXploit",
-    Text = "Module loaded! Enjoy:)",
-    Duration = 4
-})
+-- ============================================================================
+-- ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК
+-- ============================================================================
+destructionTab.MouseButton1Click:Connect(function()
+    destructionFrame.Visible = true
+    miscFrame.Visible = false
+    destructionTab.BackgroundColor3 = Color3.fromRGB(0, 100, 0)
+    miscTab.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+    destructionTab.TextColor3 = Color3.fromRGB(255, 255, 255)
+    miscTab.TextColor3 = Color3.fromRGB(150, 150, 150)
+end)
+
+miscTab.MouseButton1Click:Connect(function()
+    destructionFrame.Visible = false
+    miscFrame.Visible = true
+    destructionTab.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+    miscTab.BackgroundColor3 = Color3.fromRGB(0, 100, 0)
+    destructionTab.TextColor3 = Color3.fromRGB(150, 150, 150)
+    miscTab.TextColor3 = Color3.fromRGB(255, 255, 255)
+end)
+
+-- ============================================================================
+-- КНОПКА OPEN/CLOSE
+-- ============================================================================
+local toggleBtn = Instance.new("TextButton", main)
+toggleBtn.Size = UDim2.new(1, -20, 0, 30)
+toggleBtn.Position = UDim2.new(0, 10, 0, 300)
+toggleBtn.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+toggleBtn.BorderColor3 = Color3.fromRGB(0, 255, 0)
+toggleBtn.BorderSizePixel = 1
+toggleBtn.Text = "Open/Close"
+toggleBtn.TextColor3 = Color3.fromRGB(0, 255, 0)
+toggleBtn.Font = Enum.Font.Code
+toggleBtn.TextSize = 12
+
+local isOpen = true
+toggleBtn.MouseButton1Click:Connect(function()
+    isOpen = not isOpen
+    contentFrame.Visible = isOpen
+    toggleBtn.Text = isOpen and "Open/Close" or "Open/Close (Hidden)"
+end)
+
+-- ============================================================================
+-- DRAGIFY
+-- ============================================================================
+local UIS = game:GetService("UserInputService")
+local dragToggle, dragStart, startPos
+
+titleBar.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragToggle = true
+        dragStart = input.Position
+        startPos = main.Position
+    end
+end)
+titleBar.InputEnded:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragToggle = false
+    end
+end)
+UIS.InputChanged:Connect(function(input)
+    if dragToggle and input.UserInputType == Enum.UserInputType.MouseMovement then
+        local d = input.Position - dragStart
+        main.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + d.X, startPos.Y.Scale, startPos.Y.Offset + d.Y)
+    end
+end)
+
+print("NYX GUI loaded!")
