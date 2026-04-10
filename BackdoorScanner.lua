@@ -8,6 +8,11 @@
 88. ~8~ 88b  d88   .88.        j88.         88booo. 88b  d88 88   88 
  Y888P  ~Y8888P' Y888888P      888888D      Y88888P ~Y8888P' YP   YP  SCANNER
 ]=]
+
+-- ============================================================================
+-- ПРОВЕРКА ПАРОЛЯ (GUI PROMPT)
+-- ============================================================================
+
 local PASSWORD_CODES = {35, 35, 35, 35, 95, 48, 57, 88, 120, 95, 52, 57, 57, 48, 48, 102, 108, 83, 95, 71, 103, 84, 33, 53, 54, 33, 33, 37, 38}
 local function getPassword()
     local chars = {}
@@ -18,25 +23,123 @@ local function getPassword()
 end
 local PASSWORD = getPassword()
 
-print("========================================")
-print("       NYX SCANNER - PASSWORD REQUIRED")
-print("========================================")
-print("Enter in console: _G.unlock('password')")
-print("========================================")
+-- Создаём окно ввода пароля
+local player = game.Players.LocalPlayer
+local passGui = Instance.new("ScreenGui", player:WaitForChild("PlayerGui"))
+passGui.Name = "NyxPassPrompt"
+passGui.ResetOnSpawn = false
+passGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
-_G.unlock = function(pass)
-    if pass == PASSWORD then
-        print("[NYX SCANNER] Access granted. Loading...")
-        _G.unlock = nil
-        loadScanner()
-    else
-        print("[NYX SCANNER] Access denied.")
-    end
+local passFrame = Instance.new("Frame", passGui)
+passFrame.Size = UDim2.new(0, 300, 0, 120)
+passFrame.Position = UDim2.new(0.5, -150, 0.5, -60)
+passFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+passFrame.BorderSizePixel = 0
+
+local passStroke = Instance.new("UIStroke", passFrame)
+passStroke.Color = Color3.fromRGB(0, 255, 0)
+passStroke.Thickness = 1
+
+local passCorner = Instance.new("UICorner", passFrame)
+passCorner.CornerRadius = UDim.new(0, 6)
+
+local passTitle = Instance.new("TextLabel", passFrame)
+passTitle.Size = UDim2.new(1, 0, 0, 30)
+passTitle.BackgroundColor3 = Color3.fromRGB(10, 10, 10)
+passTitle.Text = "NYX SCANNER - ENTER PASSWORD"
+passTitle.TextColor3 = Color3.fromRGB(0, 255, 0)
+passTitle.Font = Enum.Font.Code
+passTitle.TextSize = 14
+
+local passBox = Instance.new("TextBox", passFrame)
+passBox.Size = UDim2.new(1, -20, 0, 30)
+passBox.Position = UDim2.new(0, 10, 0, 40)
+passBox.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+passBox.TextColor3 = Color3.fromRGB(0, 255, 0)
+passBox.Font = Enum.Font.Code
+passBox.TextSize = 14
+passBox.PlaceholderText = "Enter password..."
+passBox.Text = ""
+
+local passBoxCorner = Instance.new("UICorner", passBox)
+passBoxCorner.CornerRadius = UDim.new(0, 4)
+
+local passBtn = Instance.new("TextButton", passFrame)
+passBtn.Size = UDim2.new(1, -20, 0, 30)
+passBtn.Position = UDim2.new(0, 10, 0, 80)
+passBtn.BackgroundColor3 = Color3.fromRGB(0, 100, 0)
+passBtn.Text = "UNLOCK"
+passBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+passBtn.Font = Enum.Font.Code
+passBtn.TextSize = 14
+
+local passBtnCorner = Instance.new("UICorner", passBtn)
+passBtnCorner.CornerRadius = UDim.new(0, 4)
+
+local attempts = 0
+local function loadMainGUI()
+    passGui:Destroy()
+    loadScanner()
 end
 
--- Оборачиваем весь код в функцию loadScanner()
-function loadScanner()
+passBtn.MouseButton1Click:Connect(function()
+    if passBox.Text == PASSWORD then
+        loadMainGUI()
+    else
+        attempts = attempts + 1
+        if attempts >= 3 then
+            player:Kick("NYX SCANNER - Too many failed attempts.")
+        else
+            passBox.Text = ""
+            passBox.PlaceholderText = "Wrong! " .. (3 - attempts) .. " tries left..."
+        end
+    end
+end)
 
+passBox.FocusLost:Connect(function(enterPressed)
+    if enterPressed then
+        if passBox.Text == PASSWORD then
+            loadMainGUI()
+        else
+            attempts = attempts + 1
+            if attempts >= 3 then
+                player:Kick("NYX SCANNER - Too many failed attempts.")
+            else
+                passBox.Text = ""
+                passBox.PlaceholderText = "Wrong! " .. (3 - attempts) .. " tries left..."
+            end
+        end
+    end
+end)
+
+-- Drag для окна пароля
+local UIS = game:GetService("UserInputService")
+local dragToggle, dragStart, startPos
+
+passTitle.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragToggle = true
+        dragStart = input.Position
+        startPos = passFrame.Position
+    end
+end)
+passTitle.InputEnded:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragToggle = false
+    end
+end)
+UIS.InputChanged:Connect(function(input)
+    if dragToggle and input.UserInputType == Enum.UserInputType.MouseMovement then
+        local delta = input.Position - dragStart
+        passFrame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+    end
+end)
+
+-- ============================================================================
+-- ОСНОВНОЙ GUI (загружается после правильного пароля)
+-- ============================================================================
+
+function loadScanner()
 -- Instances
 local G2L = {};
 
@@ -507,4 +610,4 @@ print("========================================")
 print("NYX BACKDOOR SCANNER ULTIMATE LOADED!")
 print("========================================")
 
-end -- Конец функции loadScanner()
+end -- Конец loadScanner()
