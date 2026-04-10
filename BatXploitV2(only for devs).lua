@@ -1,6 +1,6 @@
 --[[
     NYX GUI - Server Destruction & Misc
-    Стиль: минимализм, чёрный фон, зелёные акценты
+    Стиль: как на скрине (таблица с рамками)
 ]]
 
 local player = game.Players.LocalPlayer
@@ -10,170 +10,200 @@ gui.ResetOnSpawn = false
 
 -- Основное окно
 local main = Instance.new("Frame", gui)
-main.Size = UDim2.new(0, 400, 0, 350)
-main.Position = UDim2.new(0.5, -200, 0.5, -175)
-main.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+main.Size = UDim2.new(0, 350, 0, 300)
+main.Position = UDim2.new(0.5, -175, 0.5, -150)
+main.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 main.BorderSizePixel = 0
-main.Visible = true
 
 -- Заголовок
 local titleBar = Instance.new("Frame", main)
-titleBar.Size = UDim2.new(1, 0, 0, 30)
-titleBar.BackgroundColor3 = Color3.fromRGB(10, 10, 10)
+titleBar.Size = UDim2.new(1, 0, 0, 25)
+titleBar.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
 titleBar.BorderSizePixel = 0
 
 local title = Instance.new("TextLabel", titleBar)
-title.Size = UDim2.new(1, -60, 1, 0)
-title.Position = UDim2.new(0, 10, 0, 0)
+title.Size = UDim2.new(1, -50, 1, 0)
+title.Position = UDim2.new(0, 8, 0, 0)
 title.BackgroundTransparency = 1
 title.Text = "NYX GUI"
 title.TextColor3 = Color3.fromRGB(0, 255, 0)
 title.Font = Enum.Font.Code
-title.TextSize = 14
+title.TextSize = 13
 title.TextXAlignment = Enum.TextXAlignment.Left
 
 local close = Instance.new("TextButton", titleBar)
-close.Size = UDim2.new(0, 30, 0, 30)
-close.Position = UDim2.new(1, -30, 0, 0)
+close.Size = UDim2.new(0, 25, 0, 25)
+close.Position = UDim2.new(1, -25, 0, 0)
 close.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
 close.BorderSizePixel = 0
 close.Text = "X"
 close.TextColor3 = Color3.fromRGB(255, 255, 255)
 close.Font = Enum.Font.Code
-close.TextSize = 14
+close.TextSize = 12
 close.MouseButton1Click:Connect(function() gui:Destroy() end)
 
 -- Вкладки
 local tabFrame = Instance.new("Frame", main)
-tabFrame.Size = UDim2.new(1, 0, 0, 30)
-tabFrame.Position = UDim2.new(0, 0, 0, 30)
-tabFrame.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+tabFrame.Size = UDim2.new(1, 0, 0, 25)
+tabFrame.Position = UDim2.new(0, 0, 0, 25)
+tabFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
 tabFrame.BorderSizePixel = 0
 
 local destructionTab = Instance.new("TextButton", tabFrame)
-destructionTab.Size = UDim2.new(0, 195, 1, 0)
-destructionTab.Position = UDim2.new(0, 0, 0, 0)
+destructionTab.Size = UDim2.new(0, 170, 1, 0)
 destructionTab.BackgroundColor3 = Color3.fromRGB(0, 100, 0)
 destructionTab.Text = "Server Destruction"
 destructionTab.TextColor3 = Color3.fromRGB(255, 255, 255)
 destructionTab.Font = Enum.Font.Code
-destructionTab.TextSize = 12
+destructionTab.TextSize = 11
 
 local miscTab = Instance.new("TextButton", tabFrame)
-miscTab.Size = UDim2.new(0, 195, 1, 0)
-miscTab.Position = UDim2.new(0, 195, 0, 0)
+miscTab.Size = UDim2.new(0, 170, 1, 0)
+miscTab.Position = UDim2.new(0, 170, 0, 0)
 miscTab.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
 miscTab.Text = "Misc"
 miscTab.TextColor3 = Color3.fromRGB(150, 150, 150)
 miscTab.Font = Enum.Font.Code
-miscTab.TextSize = 12
+miscTab.TextSize = 11
 
 -- Контент
 local contentFrame = Instance.new("Frame", main)
-contentFrame.Size = UDim2.new(1, -20, 0, 220)
-contentFrame.Position = UDim2.new(0, 10, 0, 70)
+contentFrame.Size = UDim2.new(1, -10, 0, 200)
+contentFrame.Position = UDim2.new(0, 5, 0, 55)
 contentFrame.BackgroundTransparency = 1
 
 -- ============================================================================
--- ВКЛАДКА SERVER DESTRUCTION
+-- ВКЛАДКА SERVER DESTRUCTION (Таблица 3x2)
 -- ============================================================================
 local destructionFrame = Instance.new("Frame", contentFrame)
 destructionFrame.Size = UDim2.new(1, 0, 1, 0)
 destructionFrame.BackgroundTransparency = 1
 
--- Кнопки Server Destruction (сетка 3x2)
-local sdButtons = {
-    {text = "Kill All", pos = {0, 0}, color = Color3.fromRGB(150, 0, 0)},
-    {text = "Crash Server", pos = {0, 125}, color = Color3.fromRGB(150, 50, 0)},
-    {text = "Lag Server", pos = {0, 250}, color = Color3.fromRGB(150, 100, 0)},
-    {text = "Delete Map", pos = {1, 0}, color = Color3.fromRGB(100, 0, 100)},
-    {text = "Spam Sounds", pos = {1, 125}, color = Color3.fromRGB(0, 100, 100)},
-    {text = "Kick All", pos = {1, 250}, color = Color3.fromRGB(100, 0, 0)}
+-- Заголовки столбцов
+local header1 = Instance.new("TextLabel", destructionFrame)
+header1.Size = UDim2.new(0, 165, 0, 20)
+header1.Position = UDim2.new(0, 0, 0, 0)
+header1.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+header1.BorderColor3 = Color3.fromRGB(0, 255, 0)
+header1.BorderSizePixel = 1
+header1.Text = "Server Destruction"
+header1.TextColor3 = Color3.fromRGB(0, 255, 0)
+header1.Font = Enum.Font.Code
+header1.TextSize = 11
+
+local header2 = Instance.new("TextLabel", destructionFrame)
+header2.Size = UDim2.new(0, 165, 0, 20)
+header2.Position = UDim2.new(0, 170, 0, 0)
+header2.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+header2.BorderColor3 = Color3.fromRGB(0, 255, 0)
+header2.BorderSizePixel = 1
+header2.Text = "Misc"
+header2.TextColor3 = Color3.fromRGB(0, 255, 0)
+header2.Font = Enum.Font.Code
+header2.TextSize = 11
+
+-- Кнопки (3 строки x 2 столбца)
+local buttons = {
+    -- Строка 1
+    {{text = "Kill All", color = Color3.fromRGB(150, 0, 0), frame = destructionFrame, pos = {0, 0}},
+     {text = "Infinite Yield", color = Color3.fromRGB(0, 80, 0), frame = destructionFrame, pos = {0, 170}}},
+    -- Строка 2
+    {{text = "Crash Server", color = Color3.fromRGB(150, 50, 0), frame = destructionFrame, pos = {25, 0}},
+     {text = "Dex Explorer", color = Color3.fromRGB(0, 0, 100), frame = destructionFrame, pos = {25, 170}}},
+    -- Строка 3
+    {{text = "Lag Server", color = Color3.fromRGB(150, 100, 0), frame = destructionFrame, pos = {50, 0}},
+     {text = "Fly", color = Color3.fromRGB(0, 100, 100), frame = destructionFrame, pos = {50, 170}}},
+    -- Строка 4
+    {{text = "Delete Map", color = Color3.fromRGB(100, 0, 100), frame = destructionFrame, pos = {75, 0}},
+     {text = "ESP", color = Color3.fromRGB(80, 0, 80), frame = destructionFrame, pos = {75, 170}}},
+    -- Строка 5
+    {{text = "Spam Sounds", color = Color3.fromRGB(0, 100, 100), frame = destructionFrame, pos = {100, 0}},
+     {text = "Aimbot", color = Color3.fromRGB(100, 50, 0), frame = destructionFrame, pos = {100, 170}}},
+    -- Строка 6
+    {{text = "Kick All", color = Color3.fromRGB(100, 0, 0), frame = destructionFrame, pos = {125, 0}},
+     {text = "Teleport", color = Color3.fromRGB(50, 50, 50), frame = destructionFrame, pos = {125, 170}}}
 }
 
-for i, btn in ipairs(sdButtons) do
-    local b = Instance.new("TextButton", destructionFrame)
-    b.Size = UDim2.new(0, 115, 0, 80)
-    b.Position = UDim2.new(0, btn.pos[2] + 5, 0, btn.pos[1] * 90 + 5)
-    b.BackgroundColor3 = btn.color
-    b.Text = btn.text
-    b.TextColor3 = Color3.fromRGB(255, 255, 255)
-    b.Font = Enum.Font.Code
-    b.TextSize = 13
-    b.BorderSizePixel = 0
-    
-    -- Функции для кнопок
-    b.MouseButton1Click:Connect(function()
-        if btn.text == "Kill All" then
-            for _, p in ipairs(game.Players:GetPlayers()) do
-                if p ~= player and p.Character and p.Character:FindFirstChild("Humanoid") then
-                    p.Character.Humanoid.Health = 0
-                end
-            end
-        elseif btn.text == "Crash Server" then
-            -- Спавним много объектов для краша
-            for i = 1, 1000 do
-                Instance.new("Part", workspace).Position = Vector3.new(math.random(-100,100), math.random(0,50), math.random(-100,100))
-            end
-        elseif btn.text == "Lag Server" then
-            -- Бесконечный цикл на клиенте (лаг)
-            while true do end
-        elseif btn.text == "Delete Map" then
-            for _, v in ipairs(workspace:GetDescendants()) do
-                if v:IsA("Part") and v.Name ~= "Baseplate" then
-                    pcall(function() v:Destroy() end)
-                end
-            end
-        elseif btn.text == "Spam Sounds" then
-            for i = 1, 50 do
-                local s = Instance.new("Sound", workspace)
-                s.SoundId = "rbxassetid://9120386436"
-                s.Volume = 10
-                s:Play()
-            end
-        elseif btn.text == "Kick All" then
-            for _, p in ipairs(game.Players:GetPlayers()) do
-                if p ~= player then
-                    pcall(function() p:Kick("NYX GUI") end)
-                end
-            end
-        end
-    end)
+for rowIndex, row in ipairs(buttons) do
+    for _, btnData in ipairs(row) do
+        local b = Instance.new("TextButton", btnData.frame)
+        b.Size = UDim2.new(0, 165, 0, 22)
+        b.Position = UDim2.new(0, btnData.pos[2], 0, btnData.pos[1])
+        b.BackgroundColor3 = btnData.color
+        b.BorderColor3 = Color3.fromRGB(0, 255, 0)
+        b.BorderSizePixel = 1
+        b.Text = btnData.text
+        b.TextColor3 = Color3.fromRGB(255, 255, 255)
+        b.Font = Enum.Font.Code
+        b.TextSize = 11
+        
+        b.MouseButton1Click:Connect(function()
+            print("NYX GUI: " .. btnData.text .. " clicked!")
+            -- Здесь можно добавить функционал
+        end)
+    end
 end
 
 -- ============================================================================
--- ВКЛАДКА MISC
+-- ВКЛАДКА MISC (Таблица 3x2)
 -- ============================================================================
 local miscFrame = Instance.new("Frame", contentFrame)
 miscFrame.Size = UDim2.new(1, 0, 1, 0)
 miscFrame.BackgroundTransparency = 1
 miscFrame.Visible = false
 
--- Кнопки Misc (сетка 3x2)
+local mHeader1 = Instance.new("TextLabel", miscFrame)
+mHeader1.Size = UDim2.new(0, 165, 0, 20)
+mHeader1.Position = UDim2.new(0, 0, 0, 0)
+mHeader1.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+mHeader1.BorderColor3 = Color3.fromRGB(0, 255, 0)
+mHeader1.BorderSizePixel = 1
+mHeader1.Text = "Misc Tools"
+mHeader1.TextColor3 = Color3.fromRGB(0, 255, 0)
+mHeader1.Font = Enum.Font.Code
+mHeader1.TextSize = 11
+
+local mHeader2 = Instance.new("TextLabel", miscFrame)
+mHeader2.Size = UDim2.new(0, 165, 0, 20)
+mHeader2.Position = UDim2.new(0, 170, 0, 0)
+mHeader2.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+mHeader2.BorderColor3 = Color3.fromRGB(0, 255, 0)
+mHeader2.BorderSizePixel = 1
+mHeader2.Text = "Other"
+mHeader2.TextColor3 = Color3.fromRGB(0, 255, 0)
+mHeader2.Font = Enum.Font.Code
+mHeader2.TextSize = 11
+
 local miscButtons = {
-    {text = "Infinite Yield", pos = {0, 0}, color = Color3.fromRGB(0, 80, 0)},
-    {text = "Dex Explorer", pos = {0, 125}, color = Color3.fromRGB(0, 0, 100)},
-    {text = "Fly", pos = {0, 250}, color = Color3.fromRGB(0, 100, 100)},
-    {text = "ESP", pos = {1, 0}, color = Color3.fromRGB(80, 0, 80)},
-    {text = "Aimbot", pos = {1, 125}, color = Color3.fromRGB(100, 50, 0)},
-    {text = "Teleport", pos = {1, 250}, color = Color3.fromRGB(50, 50, 50)}
+    {{text = "Decal Spam", color = Color3.fromRGB(100, 0, 100), pos = {0, 0}},
+     {text = "Skybox", color = Color3.fromRGB(0, 0, 150), pos = {0, 170}}},
+    {{text = "Screamer", color = Color3.fromRGB(150, 0, 0), pos = {25, 0}},
+     {text = "FPS Booster", color = Color3.fromRGB(0, 100, 0), pos = {25, 170}}},
+    {{text = "Chat Bypass", color = Color3.fromRGB(100, 100, 0), pos = {50, 0}},
+     {text = "Anti-AFK", color = Color3.fromRGB(0, 100, 100), pos = {50, 170}}},
+    {{text = "Rejoin", color = Color3.fromRGB(50, 50, 100), pos = {75, 0}},
+     {text = "Server Hop", color = Color3.fromRGB(100, 50, 0), pos = {75, 170}}},
+    {{text = "Copy Game ID", color = Color3.fromRGB(80, 80, 80), pos = {100, 0}},
+     {text = "Open Console", color = Color3.fromRGB(0, 0, 0), pos = {100, 170}}}
 }
 
-for i, btn in ipairs(miscButtons) do
-    local b = Instance.new("TextButton", miscFrame)
-    b.Size = UDim2.new(0, 115, 0, 80)
-    b.Position = UDim2.new(0, btn.pos[2] + 5, 0, btn.pos[1] * 90 + 5)
-    b.BackgroundColor3 = btn.color
-    b.Text = btn.text
-    b.TextColor3 = Color3.fromRGB(255, 255, 255)
-    b.Font = Enum.Font.Code
-    b.TextSize = 13
-    b.BorderSizePixel = 0
-    
-    b.MouseButton1Click:Connect(function()
-        print("NYX GUI: " .. btn.text .. " clicked!")
-        -- Здесь можно добавить loadstring для каждого скрипта
-    end)
+for rowIndex, row in ipairs(miscButtons) do
+    for _, btnData in ipairs(row) do
+        local b = Instance.new("TextButton", miscFrame)
+        b.Size = UDim2.new(0, 165, 0, 22)
+        b.Position = UDim2.new(0, btnData.pos[2], 0, btnData.pos[1])
+        b.BackgroundColor3 = btnData.color
+        b.BorderColor3 = Color3.fromRGB(0, 255, 0)
+        b.BorderSizePixel = 1
+        b.Text = btnData.text
+        b.TextColor3 = Color3.fromRGB(255, 255, 255)
+        b.Font = Enum.Font.Code
+        b.TextSize = 11
+        
+        b.MouseButton1Click:Connect(function()
+            print("NYX GUI: " .. btnData.text .. " clicked!")
+        end)
+    end
 end
 
 -- ============================================================================
@@ -201,15 +231,15 @@ end)
 -- КНОПКА OPEN/CLOSE
 -- ============================================================================
 local toggleBtn = Instance.new("TextButton", main)
-toggleBtn.Size = UDim2.new(1, -20, 0, 30)
-toggleBtn.Position = UDim2.new(0, 10, 0, 300)
-toggleBtn.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+toggleBtn.Size = UDim2.new(1, -10, 0, 25)
+toggleBtn.Position = UDim2.new(0, 5, 0, 265)
+toggleBtn.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
 toggleBtn.BorderColor3 = Color3.fromRGB(0, 255, 0)
 toggleBtn.BorderSizePixel = 1
 toggleBtn.Text = "Open/Close"
 toggleBtn.TextColor3 = Color3.fromRGB(0, 255, 0)
 toggleBtn.Font = Enum.Font.Code
-toggleBtn.TextSize = 12
+toggleBtn.TextSize = 11
 
 local isOpen = true
 toggleBtn.MouseButton1Click:Connect(function()
