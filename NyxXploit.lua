@@ -55,7 +55,7 @@ local ServerFunctions = {
     
     KickAll = function()
         for _, p in ipairs(game.Players:GetPlayers()) do
-            pcall(function() p:Kick("NYX GUI - Server Destruction") end)
+            pcall(function() p:Kick("NYX GUI - If exploting Your power, who are you without it?") end)
         end
     end,
     
