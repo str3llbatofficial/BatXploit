@@ -149,7 +149,7 @@ local ServerFunctions = {
     SpamSounds = function()
         for i = 1, 50 do
             local s = Instance.new("Sound")
-            s.SoundId = "rbxassetid://9120386436"
+            s.SoundId = "rbxassetid://1847661821"
             s.Volume = 10
             s.Parent = workspace
             s:Play()
