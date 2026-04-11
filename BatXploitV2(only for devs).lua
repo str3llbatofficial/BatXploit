@@ -311,7 +311,7 @@ local function loadMainGUI()
          {text = "Fly", func = "Fly", pos = {90, 170}}},
         {{text = "Delete Map", func = "DeleteMap", pos = {120, 0}},
          {text = "ESP", func = "ESP", pos = {120, 170}}},
-        {{text = "Spam Sounds", func = "SpamSounds", pos = {150, 0}},
+        {{text = "Music", func = "SpamSounds", pos = {150, 0}},
          {text = "Aimbot", func = "Aimbot", pos = {150, 170}}},
         {{text = "Kick All", func = "KickAll", pos = {180, 0}},
          {text = "Teleport", func = "Teleport", pos = {180, 170}}}
