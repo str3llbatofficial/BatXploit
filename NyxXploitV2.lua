@@ -17,7 +17,7 @@ end
 local MASTER_PASSWORD = getPassword()
 
 -- ============================================================================
--- ОКНО ВВОДА ПАРОЛЯ
+-- Dont cut it, Skid
 -- ============================================================================
 local player = game.Players.LocalPlayer
 local passGui = Instance.new("ScreenGui", player:WaitForChild("PlayerGui"))
