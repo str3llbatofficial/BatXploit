@@ -221,7 +221,7 @@ G2L["content"] = Instance.new("Frame", G2L["2"]);
 G2L["content"]["Size"] = UDim2.new(1, -20, 0, 230);
 G2L["content"]["Position"] = UDim2.new(0, 10, 0, 40);
 G2L["content"]["BackgroundTransparency"] = 1;
-
+ 
 -- ============================================================================
 -- SCANNER FRAME
 -- ============================================================================
@@ -330,6 +330,9 @@ G2L["execStatus"]["TextColor3"] = Color3.fromRGB(0, 255, 0);
 G2L["execStatus"]["Font"] = Enum.Font.Code;
 G2L["execStatus"]["TextSize"] = 12;
 
+--Idk
+warn("This can be copy of original Nyx Scanner! Be Careful")
+ 
 -- ============================================================================
 -- LOGS FRAME
 -- ============================================================================
@@ -452,7 +455,7 @@ local function runRemote(remote, data)
     end
 end
 
--- Сканер бэкдоров (оригинальный метод LALOL)
+-- Сканер бэкдоров
 local function findRemote()
     local timee = os.clock()
     local remotes = {}
@@ -538,7 +541,10 @@ for _, tab in ipairs(tabs) do
         tab.btn.TextColor3 = Color3.fromRGB(255, 255, 255)
     end)
 end
-
+ 
+ --Idk
+warn("This can be copy of original Nyx Scanner! Be Careful")
+ 
 -- Кнопки
 G2L["scanBtn"].MouseButton1Click:Connect(function()
     if searching then return end
@@ -607,6 +613,7 @@ addLog("Player: " .. player.Name)
 notify("NYX Scanner Ultimate loaded!")
 
 print("========================================")
+warn("This can be copy of original Nyx Scanner! Be Careful")
 print("NYX BACKDOOR SCANNER ULTIMATE LOADED!")
 print("========================================")
 
