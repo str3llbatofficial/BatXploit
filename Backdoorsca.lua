@@ -143,7 +143,7 @@ function loadScanner()
 -- Instances
 local G2L = {};
 
--- StarterGui.NYX Scanner (ИСПРАВЛЕНО ДЛЯ ЭКЗЕКЬЮТОРА 2-3 УРОВНЯ)
+-- StarterGui.NYX Scanner (ИСПРАВЛЕНО: PlayerGui вместо CoreGui)
 local playerGui = player:WaitForChild('PlayerGui')
 G2L["1"] = Instance.new("ScreenGui", playerGui);
 G2L["1"]["Name"] = [[NYX Scanner]];
