@@ -549,25 +549,41 @@ local function runRemote(remote, data)
     end
 end
 
--- Сканер бэкдоров (НЕ ТРОНУТ)
-local function findRemote()
-    local timee = os.clock()
-    local remotes = {}
-    
-    for _, remote in ipairs(game:GetDescendants()) do
-        if remote:IsA('RemoteEvent') or remote:IsA('RemoteFunction') then
-            if string.split(remote:GetFullName(), '.')[1] == 'RobloxReplicatedStorage' then continue end
-            if remote:FindFirstChild('__FUNCTION') or remote.Name == '__FUNCTION' then continue end
-            if remote.Parent and remote.Parent.Parent and remote.Parent.Parent.Name == 'HDAdminClient' then continue end
-            if remote.Parent and remote.Parent.Name == 'DefaultChatSystemChatEvents' then continue end
-            
-            local code = generateName(math.random(12, 30))
-            while remotes[code] do code = generateName(math.random(12, 30)) end
-            
-            runRemote(remote, "a=Instance.new('Model',workspace)a.Name='" .. code .. "'")
-            remotes[code] = remote
-        end
+-- ============================================================================
+-- ЛОГИКА
+-- ============================================================================
+local player = game.Players.LocalPlayer
+local backdoor = nil
+local searching = false
+local alphabet = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'}
+
+local function addLog(text)
+    G2L["logsBox"].Text = G2L["logsBox"].Text .. "[" .. os.date("%H:%M:%S") .. "] " .. text .. "\n"
+end
+
+local function notify(text)
+    pcall(function()
+        game:GetService("StarterGui"):SetCore("SendNotification", {
+            Title = "NYX Scanner",
+            Duration = 4,
+            Text = text
+        })
+    end)
+end
+
+local function generateName(len)
+    local t = ''
+    for i = 1, len do t = t .. alphabet[math.random(1, #alphabet)] end
+    return t
+end
+
+local function runRemote(remote, data)
+    if remote:IsA('RemoteEvent') then
+        remote:FireServer(data)
+    elseif remote:IsA('RemoteFunction') then
+        spawn(function() remote:InvokeServer(data) end)
     end
+end
     
     for i = 1, 100 do
         for code, remote in pairs(remotes) do
